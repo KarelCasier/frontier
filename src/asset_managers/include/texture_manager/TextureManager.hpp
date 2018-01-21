@@ -11,7 +11,7 @@ class TextureRef {
 public:
     uint64_t id() { return _id; }
     const std::string& name() { return _name; }
-    const SDL_Texture* texture() { return _texture; }
+    SDL_Texture* texture() { return _texture; }
 
 private:
     TextureRef(uint64_t id, const std::string& name, SDL_Texture* texture)

@@ -7,15 +7,21 @@
 
 namespace {
 
+using namespace frontier;
+using namespace std::string_literals;
+
 #ifdef _WIN32
-constexpr char PATH_SEP = '\\';
+constexpr auto pathSep = '\\';
 #else
-constexpr char PATH_SEP = '/';
+constexpr auto pathSep = '/';
 #endif
+
+const auto binaryDir = "bin"s;
+const auto assetDir = "assets"s;
 
 /*
  * Get the resource path for resources located in assets/subDir
- * It's assumed the project directory is structured like:
+ * It's assumed the project directory is structured as:
  * bin/
  *  binary
  * assets/
@@ -32,16 +38,13 @@ std::string getResourcePath(const std::string& subDir = "")
             baseRes = basePath;
             SDL_free(basePath);
         } else {
-            //Logger(LOG_ERROR) << "Error getting resource path: " << SDL_GetError();
+            LOGE << "Error getting resource path: " << SDL_GetError();
             return "";
         }
-        // We replace the last bin/ with res/ to get the the resource path
-        size_t pos = baseRes.rfind("bin");
-        baseRes = baseRes.substr(0, pos) + "assets" + PATH_SEP;
+        size_t pos = baseRes.rfind(binaryDir);
+        baseRes = baseRes.substr(0, pos) + "assets" + pathSep;
     }
-    // If we want a specific subdirectory path in the resource directory
-    // append it to the base path. This would be something like Lessons/res/Lesson0
-    return subDir.empty() ? baseRes : baseRes + subDir + PATH_SEP;
+    return subDir.empty() ? baseRes : baseRes + subDir + pathSep;
 }
 
 } // namespace
@@ -67,10 +70,10 @@ TextureRef* TextureManager::loadTexture(const std::string& name)
 
     auto textureI = _textures.find(hashId);
     if (textureI == _textures.end()) {
-        auto assetLocation = std::string{getResourcePath() + PATH_SEP + name};
+        auto assetLocation = std::string{getResourcePath() + name};
         auto surface = IMG_Load(assetLocation.c_str());
         if (!surface) {
-            Logger(LOG_ERROR) << "Failed to load asset from: " << assetLocation;
+            LOGE << "Failed to load asset from: " << assetLocation;
         }
         auto texture = SDL_CreateTextureFromSurface(_renderer, surface);
 
@@ -83,8 +86,9 @@ TextureRef* TextureManager::loadTexture(const std::string& name)
 
 void TextureManager::purgeTextures()
 {
-    for (auto& texturePair : _textures) {
-        delete texturePair.second;
+    for (auto& [_, textureRef] : _textures) {
+        SDL_DestroyTexture(textureRef->_texture);
+        delete textureRef;
     }
     _textures.clear();
 }

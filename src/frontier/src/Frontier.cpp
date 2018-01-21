@@ -12,7 +12,12 @@ Frontier::Frontier()
 
 int Frontier::exec()
 {
-    _textureManager->loadTexture("Test.png");
+    auto textureRef = _textureManager->loadTexture("Test.png");
+    SDL_RenderClear(_renderer);
+    // Draw the texture
+    SDL_RenderCopy(_renderer, textureRef->texture(), NULL, NULL);
+    // Update the screen
+    SDL_RenderPresent(_renderer);
     SDL_Delay(10000);
     return 0;
 }

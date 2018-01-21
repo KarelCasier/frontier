@@ -20,12 +20,12 @@ enum Code {
     BG_DEFAULT = 49
 };
 
-std::ostream& operator<<(std::ostream& os, const Code& code)
+inline std::ostream& operator<<(std::ostream& os, const Code& code)
 {
     return os << "\033[" << static_cast<int>(code) << "m";
 }
 
-std::ostream& operator<<(std::ostream& os, const frontier::LogLevel& level)
+inline std::ostream& operator<<(std::ostream& os, const frontier::LogLevel& level)
 {
     switch (level) {
     case frontier::LOG_ERROR:
