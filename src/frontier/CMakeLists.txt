@@ -28,6 +28,7 @@ target_link_libraries(frontier_lib
     PUBLIC
     texture_manager
     PRIVATE
+    entityx
     log
     ${SDL2_LIBRARY}
     )
