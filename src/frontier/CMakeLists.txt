@@ -12,12 +12,15 @@ target_include_directories(frontier_lib
     include
     PRIVATE
     src
+    ${SDL2_INCLUDE_DIR}
     )
 
 target_link_libraries(frontier_lib
+    PUBLIC
+    texture_manager
     PRIVATE
     log
-    ${SDL2_LIBRARIES}
+    ${SDL2_LIBRARY}
     )
 
 add_executable(frontier
@@ -27,6 +30,5 @@ add_executable(frontier
 target_link_libraries(frontier
     PRIVATE
     frontier_lib
-    texture_manager
     )
 

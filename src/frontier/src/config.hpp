@@ -1,3 +1,5 @@
+#pragma once
+
 namespace frontier {
 
 static constexpr auto WINDOW_WIDTH{800};

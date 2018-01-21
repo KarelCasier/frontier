@@ -16,5 +16,5 @@ target_include_directories(texture_manager
 target_link_libraries(texture_manager
     PRIVATE
     log
-    ${SDL2_IMAGE_LIRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
     )

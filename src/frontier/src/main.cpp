@@ -1,11 +1,13 @@
 #include <memory>
 
 #include <frontier/Frontier.hpp>
+#include <texture_manager/TextureManager.hpp>
 
-using frontier::Frontier;
+using namespace frontier;
 
 int main(int /* argc */, char* /*argv*/ [])
 {
-    auto app = std::make_unique<Frontier>();
+    auto textureManager = std::make_unique<TextureManager>();
+    auto app = std::make_unique<Frontier>(std::move(textureManager));
     return app->exec();
 }

@@ -14,6 +14,5 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3" CACHE INTERNAL "" FORCE)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(frontier)
-add_subdirectory(navigation)
 add_subdirectory(texture_manager)
 add_subdirectory(utils)
