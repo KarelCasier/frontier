@@ -2,16 +2,25 @@ project(frontier LANGUAGES CXX)
 
 find_package(SDL2 REQUIRED)
 
-add_library(frontier_lib
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+
+set(HEADERSS
+    include/frontier/Frontier.hpp
+    include/frontier/SDLApplication.hpp
+    src/config.hpp
+    )
+
+set(SOURCES
     src/Frontier.cpp
     src/SDLApplication.cpp
     )
+
+add_library(frontier_lib STATIC ${SOURCES} ${HEADERS})
 
 target_include_directories(frontier_lib
     PUBLIC
     include
     PRIVATE
-    src
     ${SDL2_INCLUDE_DIR}
     )
 
@@ -23,12 +32,16 @@ target_link_libraries(frontier_lib
     ${SDL2_LIBRARY}
     )
 
-add_executable(frontier
+set (EXEC_HEADERS
+    )
+
+set (EXEC_SOURCES
     src/main.cpp
     )
 
+add_executable(frontier ${EXEC_SOURCES} ${EXEC_HEADERS})
+
 target_link_libraries(frontier
-    PRIVATE
     frontier_lib
     )
 

@@ -10,7 +10,7 @@ namespace frontier {
 
 class Frontier : public SDLApplication {
 public:
-    Frontier(std::unique_ptr<TextureManager> textureManager);
+    Frontier();
     ~Frontier() override = default;
 
     int exec() override;

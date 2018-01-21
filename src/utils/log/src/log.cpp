@@ -1,7 +1,7 @@
+#include <log/log.hpp>
+
 #include <iostream>
 #include <ostream>
-
-namespace frontier {
 
 namespace {
 
@@ -25,14 +25,14 @@ std::ostream& operator<<(std::ostream& os, const Code& code)
     return os << "\033[" << static_cast<int>(code) << "m";
 }
 
-std::ostream& operator<<(std::ostream& os, const LogLevel& level)
+std::ostream& operator<<(std::ostream& os, const frontier::LogLevel& level)
 {
     switch (level) {
-    case LOG_ERROR:
+    case frontier::LOG_ERROR:
         return os << BG_RED << "E:" << BG_DEFAULT << " ";
-    case LOG_INFO:
+    case frontier::LOG_INFO:
         return os << BG_YELLOW << "I:" << BG_DEFAULT << " ";
-    case LOG_DEBUG:
+    case frontier::LOG_DEBUG:
         return os << BG_BLUE << "D:" << BG_DEFAULT << " ";
     default:
         return os << "U: ";
@@ -40,6 +40,8 @@ std::ostream& operator<<(std::ostream& os, const LogLevel& level)
 }
 
 } // namespace
+
+namespace frontier {
 
 Logger::Logger(LogLevel level)
 {
@@ -49,13 +51,6 @@ Logger::Logger(LogLevel level)
 Logger::~Logger()
 {
     std::cout << std::endl << _outBuffer.str();
-}
-
-template <typename T>
-Logger& Logger::operator<<(const T& value)
-{
-    _outBuffer << value;
-    return *this;
 }
 
 } // namespace frontier

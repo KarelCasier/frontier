@@ -23,16 +23,14 @@ public:
     ~Logger();
 
     template <typename T>
-    Logger& operator<<(const T& value);
+    Logger& operator<<(const T& value)
+    {
+        _outBuffer << value;
+        return *this;
+    }
 
 private:
     std::ostringstream _outBuffer;
 };
 
-#define LOGE Logger(LOG_ERROR)
-#define LOGI Logger(LOG_INFO)
-#define LOGD Logger(LOG_DEBUG)
-
 } // namespace frontier
-
-#include "../../src/log_impl.hpp"
