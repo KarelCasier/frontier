@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 project(frontier VERSION 0.1 LANGUAGES CXX)
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake/")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
@@ -16,4 +15,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(frontier)
 add_subdirectory(navigation)
+add_subdirectory(texture_manager)
 add_subdirectory(utils)

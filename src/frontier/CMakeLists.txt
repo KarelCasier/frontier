@@ -1,6 +1,9 @@
 project(frontier LANGUAGES CXX)
 
+find_package(SDL2 REQUIRED)
+
 add_library(frontier_lib
+    src/Frontier.cpp
     src/SDLApplication.cpp
     )
 
@@ -24,5 +27,6 @@ add_executable(frontier
 target_link_libraries(frontier
     PRIVATE
     frontier_lib
+    texture_manager
     )
 

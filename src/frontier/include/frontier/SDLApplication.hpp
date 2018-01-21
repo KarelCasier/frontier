@@ -4,13 +4,14 @@ namespace frontier {
 
 class SDLApplication {
 public:
-    SDLApplication();
-    ~SDLApplication();
+    SDLApplication(const char* title, int x, int y, int w, int h, Uint32 flags);
+    virtual ~SDLApplication();
 
-    int init();
-    int exec();
+    virtual int exec() = 0;
 
-private:
+protected:
+    SDL_Window* _window{nullptr};
+    SDL_Renderer* _renderer{nullptr};
 };
 
 } // namespace frontier

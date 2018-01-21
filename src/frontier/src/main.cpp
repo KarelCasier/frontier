@@ -1,12 +1,11 @@
 #include <memory>
 
-#include <frontier/SDLApplication.hpp>
+#include <frontier/Frontier.hpp>
 
-using frontier::SDLApplication;
+using frontier::Frontier;
 
 int main(int /* argc */, char* /*argv*/ [])
 {
-    auto app = std::make_unique<SDLApplication>();
-    app->init();
+    auto app = std::make_unique<Frontier>();
     return app->exec();
 }
