@@ -10,7 +10,7 @@ using std::stringstream;
 
 SDLApplication::SDLApplication(const char* title, int x, int y, int w, int h, Uint32 flags)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         const auto err = stringstream{} << "SDL_Init Error: " << SDL_GetError();
         LOGE << err.str();
         throw std::runtime_error(err.str());
