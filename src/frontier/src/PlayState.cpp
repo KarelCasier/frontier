@@ -4,7 +4,12 @@
 
 namespace frontier {
 
-PlayState::PlayState() {}
+PlayState::PlayState(std::shared_ptr<TextureManager> textureManager)
+: _textureManager{std::move(textureManager)}
+, _world{_textureManager}
+{
+}
+
 PlayState::~PlayState()
 {
     LOGD << "Destroy";
@@ -18,8 +23,14 @@ void PlayState::onExit()
 {
     LOGD << "PlayState::onExit()";
 }
-void PlayState::update(std::chrono::milliseconds /* delta */) {}
-void PlayState::render() {}
+void PlayState::update(std::chrono::milliseconds delta)
+{
+    _world.update(delta);
+}
+void PlayState::render()
+{
+    _world.render();
+}
 void PlayState::handleEvent(const SDL_Event& /* event */) {}
 
 } // namespace frontier

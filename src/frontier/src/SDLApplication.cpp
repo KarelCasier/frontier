@@ -29,7 +29,7 @@ SDLApplication::SDLApplication(const char* title, int x, int y, int w, int h, Ui
         LOGE << err.str();
         throw std::runtime_error(err.str());
     }
-    _textureManager = std::make_unique<TextureManager>(_renderer);
+    _textureManager = std::make_shared<TextureManager>(_renderer);
 }
 
 SDLApplication::~SDLApplication()

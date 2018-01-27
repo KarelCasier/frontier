@@ -93,4 +93,11 @@ void TextureManager::purgeTextures()
     _textures.clear();
 }
 
+void TextureManager::render(TextureRef* texture, int x, int y, int width, int height)
+{
+    SDL_Rect src{0, 0, width, height};
+    SDL_Rect dest{x, y, width, height};
+    SDL_RenderCopyEx(_renderer, texture->_texture, &src, &dest, 0, 0, SDL_FLIP_NONE);
+}
+
 } // namespace frontier

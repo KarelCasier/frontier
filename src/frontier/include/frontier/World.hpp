@@ -2,13 +2,20 @@
 
 #include <chrono>
 #include <entityx/entityx.h>
+#include <texture_manager/TextureManager.hpp>
 
 namespace frontier {
 
-class World : public entityx::EntityX {
-    World();
+class World {
+public:
+    World(std::shared_ptr<TextureManager> textureManager);
 
     void update(std::chrono::milliseconds delta);
+    void render();
+
+private:
+    std::shared_ptr<TextureManager> _textureManager;
+    TextureRef* ref;
 };
 
 } // namespace frontier

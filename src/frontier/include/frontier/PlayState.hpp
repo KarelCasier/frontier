@@ -2,11 +2,13 @@
 
 #include "IState.hpp"
 
+#include "World.hpp"
+
 namespace frontier {
 
 class PlayState : public IState {
 public:
-    PlayState();
+    PlayState(std::shared_ptr<TextureManager> textureManager);
     ~PlayState() override;
 
     /// @name IState overrides
@@ -17,7 +19,9 @@ public:
     void render() override;
     void handleEvent(const SDL_Event& event) override;
     /// @}
-
+private:
+    std::shared_ptr<TextureManager> _textureManager;
+    World _world;
 };
 
 }

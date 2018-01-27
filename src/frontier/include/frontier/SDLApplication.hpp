@@ -17,7 +17,7 @@ public:
 protected:
     SDL_Window* _window{nullptr};
     SDL_Renderer* _renderer{nullptr};
-    std::unique_ptr<TextureManager> _textureManager;
+    std::shared_ptr<TextureManager> _textureManager;
 };
 
 } // namespace frontier

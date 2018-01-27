@@ -11,7 +11,7 @@ namespace frontier {
 
 class Frontier : public SDLApplication {
 public:
-    Frontier(std::unique_ptr<IStateMachine> stateMachine);
+    Frontier();
     ~Frontier() override = default;
 
     int exec() override;

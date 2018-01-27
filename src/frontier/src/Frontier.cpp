@@ -1,5 +1,6 @@
 #include <frontier/Frontier.hpp>
 
+#include <frontier/StateMachine.hpp>
 #include <frontier/PlayState.hpp>
 #include <log/log.hpp>
 
@@ -21,16 +22,16 @@ static constexpr auto resetTimeDeltaThreshhold{1s};
 
 namespace frontier {
 
-Frontier::Frontier(std::unique_ptr<IStateMachine> stateMachine)
+Frontier::Frontier()
 : SDLApplication(
       windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN)
-, _stateMachine{std::move(stateMachine)}
+, _stateMachine{std::make_unique<StateMachine>()}
 {
 }
 
 int Frontier::exec()
 {
-    _stateMachine->push(std::make_shared<PlayState>(), true);
+    _stateMachine->push(std::make_shared<PlayState>(_textureManager), true);
 
     SDL_Event event;
 
@@ -55,17 +56,19 @@ int Frontier::exec()
             _stateMachine->update(timeStep);
 
             lag -= timeStep;
-
             // Reset lag if game was externally paused for too long.
             if (lag > resetTimeDeltaThreshhold) {
-                LOGD << "Lag reset";
+                LOGD << "Detected external pause. Reseting lag.";
                 lag = 0s;
             }
         }
         last_update = now;
 
         if (now - last_frame > timePerFrame) {
+            SDL_RenderClear(_renderer);
             _stateMachine->render();
+            SDL_RenderPresent(_renderer);
+
             last_frame = now;
             frame++;
         }
@@ -76,7 +79,7 @@ int Frontier::exec()
 
 void Frontier::quit()
 {
-    LOGD << "Clearing state machine (exiting)";
+    LOGD << "Clearing state machine";
     _stateMachine->clear();
 }
 

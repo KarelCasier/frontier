@@ -35,6 +35,8 @@ public:
     TextureRef* loadTexture(const std::string& name);
     void purgeTextures();
 
+    void render(TextureRef* texture, int x, int y, int width, int height);
+
 private:
     std::unordered_map<uint64_t, TextureRef*> _textures;
     SDL_Renderer* _renderer;

@@ -7,7 +7,6 @@ using namespace frontier;
 
 int main(int /* argc */, char* /*argv*/ [])
 {
-    auto stateMachine = std::make_unique<StateMachine>();
-    auto app = std::make_unique<Frontier>(std::move(stateMachine));
+    auto app = std::make_unique<Frontier>();
     return app->exec();
 }
