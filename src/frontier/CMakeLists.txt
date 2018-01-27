@@ -5,6 +5,8 @@ find_package(SDL2 REQUIRED)
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 set(HEADERSS
+    include/frontier/components/Position.hpp
+    include/frontier/components/Sprite.hpp
     include/frontier/states/IState.hpp
     include/frontier/states/IStateMachine.hpp
     include/frontier/states/PlayState.hpp
@@ -39,6 +41,7 @@ target_link_libraries(frontier_lib
     texture_manager
     PRIVATE
     log
+    math
     ${SDL2_LIBRARY}
     entityx
     )
