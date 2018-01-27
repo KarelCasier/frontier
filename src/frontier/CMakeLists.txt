@@ -18,6 +18,7 @@ set(HEADERSS
 set(SOURCES
     src/states/PlayState.cpp
     src/states/StateMachine.cpp
+    src/systems/RenderSystem.cpp
     src/Frontier.cpp
     src/SDLApplication.cpp
     src/World.cpp
