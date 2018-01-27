@@ -16,6 +16,7 @@ public:
 private:
     std::shared_ptr<TextureManager> _textureManager;
     TextureRef* ref;
+    entityx::EntityX _entityX;
 };
 
 } // namespace frontier

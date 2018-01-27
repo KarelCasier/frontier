@@ -9,6 +9,7 @@ set(HEADERSS
     include/frontier/states/IStateMachine.hpp
     include/frontier/states/PlayState.hpp
     include/frontier/states/StateMachine.hpp
+    include/frontier/systems/RenderSystem.hpp
     include/frontier/Frontier.hpp
     include/frontier/SDLApplication.hpp
     include/frontier/World.hpp
@@ -29,7 +30,7 @@ target_include_directories(frontier_lib
     include
     PRIVATE
     ${SDL2_INCLUDE_DIR}
-    ${ENTITYX_INCLUDE_DIR}
+    ../ext/entityx
     )
 
 target_link_libraries(frontier_lib
@@ -38,7 +39,7 @@ target_link_libraries(frontier_lib
     PRIVATE
     log
     ${SDL2_LIBRARY}
-    ${ENTITYX_LIBRARY}
+    entityx
     )
 
 set (EXEC_HEADERS

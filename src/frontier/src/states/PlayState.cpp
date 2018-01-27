@@ -10,27 +10,22 @@ PlayState::PlayState(std::shared_ptr<TextureManager> textureManager)
 {
 }
 
-PlayState::~PlayState()
-{
-    LOGD << "Destroy";
-}
+PlayState::~PlayState() {}
 
-void PlayState::onEnter()
-{
-    LOGD << "PlayState::onEnter()";
-}
-void PlayState::onExit()
-{
-    LOGD << "PlayState::onExit()";
-}
+void PlayState::onEnter() {}
+
+void PlayState::onExit() {}
+
 void PlayState::update(std::chrono::milliseconds delta)
 {
     _world.update(delta);
 }
+
 void PlayState::render()
 {
     _world.render();
 }
+
 void PlayState::handleEvent(const SDL_Event& /* event */) {}
 
 } // namespace frontier

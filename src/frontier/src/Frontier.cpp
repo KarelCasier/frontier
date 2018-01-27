@@ -27,12 +27,11 @@ Frontier::Frontier()
       windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN)
 , _stateMachine{std::make_unique<StateMachine>()}
 {
+    _stateMachine->push(std::make_shared<PlayState>(_textureManager), true);
 }
 
 int Frontier::exec()
 {
-    _stateMachine->push(std::make_shared<PlayState>(_textureManager), true);
-
     SDL_Event event;
 
     auto now = steady_clock::now();
@@ -56,7 +55,7 @@ int Frontier::exec()
             _stateMachine->update(timeStep);
 
             lag -= timeStep;
-            // Reset lag if game was externally paused for too long.
+            // Reset lag if game was externally paused.
             if (lag > resetTimeDeltaThreshhold) {
                 LOGD << "Detected external pause. Reseting lag.";
                 lag = 0s;
