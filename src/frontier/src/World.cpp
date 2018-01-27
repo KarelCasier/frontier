@@ -9,7 +9,9 @@ World::World(std::shared_ptr<TextureManager> textureManager)
 }
 
 void World::update(std::chrono::milliseconds /* delta */) {}
-void World::render() {
+
+void World::render()
+{
     _textureManager->render(ref, 300, 300, 100, 100);
 }
 

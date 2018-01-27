@@ -15,7 +15,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+add_subdirectory(asset_managers)
 add_subdirectory(entityx)
 add_subdirectory(frontier)
-add_subdirectory(asset_managers)
+add_subdirectory(math)
 add_subdirectory(utils)
