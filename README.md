@@ -22,10 +22,11 @@ mkdir out/
 cd out/
 cmake ../src -G Ninja
 ninja
+ninja install
 ```
 
 ## run
 
 ```sh
-./frontier/frontier
+./bin/frontier
 ```

@@ -1,7 +1,7 @@
 #include <frontier/Frontier.hpp>
 
-#include <frontier/StateMachine.hpp>
-#include <frontier/PlayState.hpp>
+#include <frontier/states/StateMachine.hpp>
+#include <frontier/states/PlayState.hpp>
 #include <log/log.hpp>
 
 namespace {

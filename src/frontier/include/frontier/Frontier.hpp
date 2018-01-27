@@ -5,7 +5,7 @@
 #include <chrono>
 #include <memory>
 
-#include <frontier/IStateMachine.hpp>
+#include <frontier/states/IStateMachine.hpp>
 
 namespace frontier {
 

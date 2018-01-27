@@ -1,7 +1,7 @@
 #include <memory>
 
 #include <frontier/Frontier.hpp>
-#include <frontier/StateMachine.hpp>
+#include <frontier/states/StateMachine.hpp>
 
 using namespace frontier;
 

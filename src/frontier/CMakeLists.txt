@@ -5,20 +5,20 @@ find_package(SDL2 REQUIRED)
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 set(HEADERSS
+    include/frontier/states/IState.hpp
+    include/frontier/states/IStateMachine.hpp
+    include/frontier/states/PlayState.hpp
+    include/frontier/states/StateMachine.hpp
     include/frontier/Frontier.hpp
-    include/frontier/IState.hpp
-    include/frontier/IStateMachine.hpp
-    include/frontier/PlayState.hpp
     include/frontier/SDLApplication.hpp
-    include/frontier/StateMachine.hpp
     include/frontier/World.hpp
     )
 
 set(SOURCES
+    src/states/PlayState.cpp
+    src/states/StateMachine.cpp
     src/Frontier.cpp
-    src/PlayState.cpp
     src/SDLApplication.cpp
-    src/StateMachine.cpp
     src/World.cpp
     )
 

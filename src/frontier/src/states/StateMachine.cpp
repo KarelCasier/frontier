@@ -1,4 +1,4 @@
-#include <frontier/StateMachine.hpp>
+#include <frontier/states/StateMachine.hpp>
 
 #include <cassert>
 #include <stack>

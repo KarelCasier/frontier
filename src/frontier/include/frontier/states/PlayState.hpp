@@ -2,7 +2,7 @@
 
 #include "IState.hpp"
 
-#include "World.hpp"
+#include <frontier/World.hpp>
 
 namespace frontier {
 
