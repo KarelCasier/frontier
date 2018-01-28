@@ -30,7 +30,7 @@ public:
     }
 
 private:
-    std::ostringstream _outBuffer;
+    std::stringstream _outBuffer;
 };
 
 #define LOGE Logger(LOG_ERROR)

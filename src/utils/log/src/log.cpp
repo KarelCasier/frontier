@@ -1,9 +1,14 @@
 #include <log/log.hpp>
 
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <ostream>
 
 namespace {
+
+using namespace std::chrono;
 
 /// Modifer codes to alter output color to the console
 /// Modified from https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
@@ -45,12 +50,16 @@ namespace frontier {
 
 Logger::Logger(LogLevel level)
 {
+    auto now_time_t = system_clock::to_time_t(system_clock::now());
+    auto now_tm = *std::localtime(&now_time_t);
+    _outBuffer << std::put_time(&now_tm, "%H:%M:%S") << " ";
     _outBuffer << level;
 }
 
 Logger::~Logger()
 {
     std::cout << std::endl << _outBuffer.str();
+    _outBuffer.flush();
 }
 
 } // namespace frontier

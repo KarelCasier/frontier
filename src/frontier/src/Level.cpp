@@ -1,8 +1,7 @@
 #include <frontier/Level.hpp>
 
+#include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
-#include <frontier/components/Position.hpp>
-#include <frontier/components/Sprite.hpp>
 
 namespace frontier {
 
@@ -16,7 +15,10 @@ void Level::finishInit()
     _entityX.systems.configure();
 }
 
-void Level::update(std::chrono::milliseconds /* delta  */) {}
+void Level::update(std::chrono::milliseconds delta)
+{
+    _entityX.systems.update<PhysicsSystem>(delta.count());
+}
 
 void Level::render()
 {

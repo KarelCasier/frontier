@@ -1,20 +1,25 @@
 <level>
     <systems>
         <rendersystem></rendersystem>
+        <physicssystem></physicssystem>
     </systems>
     <entities>
         <entity>
-            <position>
+            <positioncomponent>
                 <x>100</x>
                 <y>100</y>
-            </position>
-            <sprite>
+            </positioncomponent>
+            <velocitycomponent>
+                <x>.1</x>
+                <y>.1</y>
+            </velocitycomponent>
+            <spritecomponent>
                 <asset>Test.png</asset>
                 <x>100</x>
                 <y>100</y>
                 <w>100</w>
                 <h>100</h>
-            </sprite>
+            </spritecomponent>
         </entity>
     </entities>
 </level>

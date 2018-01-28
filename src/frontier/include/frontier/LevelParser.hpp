@@ -3,8 +3,9 @@
 #include <tinyxml2.h>
 #include <string>
 #include <frontier/Level.hpp>
-#include <frontier/components/Position.hpp>
-#include <frontier/components/Sprite.hpp>
+#include <frontier/components/PositionComponent.hpp>
+#include <frontier/components/SpriteComponent.hpp>
+#include <frontier/components/VelocityComponent.hpp>
 
 namespace frontier {
 
@@ -16,8 +17,9 @@ public:
 
 private:
     entityx::Entity parseEntity(const tinyxml2::XMLElement* baseElement);
-    Sprite parseSprite(const tinyxml2::XMLElement* baseElement);
-    Position parsePosition(const tinyxml2::XMLElement* baseElement);
+    SpriteComponent parseSpriteComponent(const tinyxml2::XMLElement* baseElement);
+    PositionComponent parsePositionComponent(const tinyxml2::XMLElement* baseElement);
+    VelocityComponent parseVelocityComponent(const tinyxml2::XMLElement* baseElement);
 
     void parseSystem(const tinyxml2::XMLElement* baseElement);
 

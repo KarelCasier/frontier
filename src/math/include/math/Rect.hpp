@@ -2,12 +2,12 @@
 
 namespace frontier {
 
-class Recti {
+class Rectf {
 public:
-    int x;
-    int y;
-    int w;
-    int h;
+    float x;
+    float y;
+    float w;
+    float h;
 };
 
 } // namespace frontier

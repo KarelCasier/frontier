@@ -7,16 +7,16 @@
 
 namespace frontier {
 
-class Sprite : public entityx::Component<Sprite> {
+class SpriteComponent : public entityx::Component<SpriteComponent> {
 public:
-    Sprite(TextureRef* ref, Recti rect)
+    SpriteComponent(TextureRef* ref, Rectf rect)
     : _ref{ref}
     , _rect{std::move(rect)}
     {
     }
 
     TextureRef* _ref;
-    Recti _rect;
+    Rectf _rect;
 }; // namespace frontier
 
 } // namespace frontier

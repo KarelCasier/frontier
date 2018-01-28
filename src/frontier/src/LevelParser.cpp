@@ -1,5 +1,6 @@
 #include <frontier/LevelParser.hpp>
 
+#include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
 #include <log/log.hpp>
 #include <sstream>
@@ -76,10 +77,12 @@ Entity LevelParser::parseEntity(const XMLElement* baseElement)
     for (auto component = baseElement->FirstChildElement(); component != nullptr;
          component = component->NextSiblingElement()) {
         const auto name = component->Name();
-        if (isEqual(name, "position")) {
-            entity.assign<Position>(parsePosition(component));
-        } else if (isEqual(name, "sprite")) {
-            entity.assign<Sprite>(parseSprite(component));
+        if (isEqual(name, "positioncomponent")) {
+            entity.assign<PositionComponent>(parsePositionComponent(component));
+        } else if (isEqual(name, "velocitycomponent")) {
+            entity.assign<VelocityComponent>(parseVelocityComponent(component));
+        } else if (isEqual(name, "spritecomponent")) {
+            entity.assign<SpriteComponent>(parseSpriteComponent(component));
         } else {
             LOGE << "Unknown component: " << name;
         }
@@ -87,24 +90,39 @@ Entity LevelParser::parseEntity(const XMLElement* baseElement)
     return entity;
 }
 
-Position LevelParser::parsePosition(const XMLElement* baseElement)
+PositionComponent LevelParser::parsePositionComponent(const XMLElement* baseElement)
 {
-    assertName(baseElement, "position");
+    assertName(baseElement, "positioncomponent");
 
     auto element = baseElement->FirstChildElement();
     assertName(element, "x");
-    const auto x = element->IntText(0);
+    const auto x = element->FloatText(0);
 
     element = element->NextSiblingElement();
     assertName(element, "y");
-    const auto y = element->IntText(0);
+    const auto y = element->FloatText(0);
 
     return {{x, y}};
 }
 
-Sprite LevelParser::parseSprite(const XMLElement* baseElement)
+VelocityComponent LevelParser::parseVelocityComponent(const XMLElement* baseElement)
 {
-    assertName(baseElement, "sprite");
+    assertName(baseElement, "velocitycomponent");
+
+    auto element = baseElement->FirstChildElement();
+    assertName(element, "x");
+    const auto x = element->FloatText(0);
+
+    element = element->NextSiblingElement();
+    assertName(element, "y");
+    const auto y = element->FloatText(0);
+
+    return {{x, y}};
+}
+
+SpriteComponent LevelParser::parseSpriteComponent(const XMLElement* baseElement)
+{
+    assertName(baseElement, "spritecomponent");
 
     auto element = baseElement->FirstChildElement();
     assertName(element, "asset");
@@ -112,23 +130,23 @@ Sprite LevelParser::parseSprite(const XMLElement* baseElement)
 
     element = element->NextSiblingElement();
     assertName(element, "x");
-    const auto x = element->IntText(0);
+    const auto x = element->FloatText(0);
 
     element = element->NextSiblingElement();
     assertName(element, "y");
-    const auto y = element->IntText(0);
+    const auto y = element->FloatText(0);
 
     element = element->NextSiblingElement();
     assertName(element, "w");
-    const auto w = element->IntText(0);
+    const auto w = element->FloatText(0);
 
     element = element->NextSiblingElement();
     assertName(element, "h");
-    const auto h = element->IntText(0);
+    const auto h = element->FloatText(0);
 
     auto textureRef = _textureManager->loadTexture(asset);
 
-    return {textureRef, Recti{x, y, w, h}};
+    return {textureRef, Rectf{x, y, w, h}};
 }
 
 void LevelParser::parseSystem(const XMLElement* baseElement)
@@ -136,6 +154,8 @@ void LevelParser::parseSystem(const XMLElement* baseElement)
     const auto name = baseElement->Name();
     if (isEqual(name, "rendersystem")) {
         _level->_entityX.systems.add<RenderSystem>(_textureManager);
+    } else if (isEqual(name, "physicssystem")) {
+        _level->_entityX.systems.add<PhysicsSystem>();
     } else {
         LOGE << "Unknown system: " << name;
     }

@@ -2,12 +2,12 @@
 
 namespace frontier {
 
-bool intersects(const Point2i& point, const Recti& rect)
+bool intersects(const Vector2f& point, const Rectf& rect)
 {
     return (point.x > rect.x && point.x < rect.x + rect.w) || (point.y > rect.y && point.y < rect.y + rect.h);
 }
 
-bool intersects(const Recti& rect1, const Recti& rect2)
+bool intersects(const Rectf& rect1, const Rectf& rect2)
 {
     auto left1 = rect1.x;
     auto right1 = rect1.x + rect1.w;
