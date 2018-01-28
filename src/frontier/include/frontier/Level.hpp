@@ -1,21 +1,24 @@
 #pragma once
 
 #include <chrono>
+#include <entityx/entityx.h>
 #include <texture_manager/TextureManager.hpp>
-#include <frontier/Level.hpp>
 
 namespace frontier {
 
-class World {
+class Level {
 public:
-    World(std::shared_ptr<TextureManager> textureManager);
+    Level(std::shared_ptr<TextureManager> textureManager);
 
+    void finishInit();
     void update(std::chrono::milliseconds delta);
     void render();
 
 private:
+    friend class LevelParser;
+
     std::shared_ptr<TextureManager> _textureManager;
-    std::shared_ptr<Level> _level;
+    entityx::EntityX _entityX;
 };
 
 } // namespace frontier

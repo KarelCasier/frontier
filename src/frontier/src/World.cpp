@@ -1,28 +1,23 @@
 #include <frontier/World.hpp>
 
-#include <frontier/systems/RenderSystem.hpp>
-#include <frontier/components/Position.hpp>
-#include <frontier/components/Sprite.hpp>
+#include <frontier/LevelParser.hpp>
 
 namespace frontier {
 
 World::World(std::shared_ptr<TextureManager> textureManager)
 : _textureManager{std::move(textureManager)}
 {
-    _entityX.systems.add<RenderSystem>(_textureManager);
-    _entityX.systems.configure();
-
-    auto entity = _entityX.entities.create();
-    auto ref = _textureManager->loadTexture("Test.png");
-    entity.assign<Position>(Point2i{0,0});
-    entity.assign<Sprite>(ref, Recti{0, 0, 100,100});
+    _level = LevelParser{_textureManager}.parse("level1.xml");
 }
 
-void World::update(std::chrono::milliseconds /* delta  */) {}
+void World::update(std::chrono::milliseconds delta)
+{
+    _level->update(delta);
+}
 
 void World::render()
 {
-    _entityX.systems.update<RenderSystem>(0);
+    _level->render();
 }
 
 } // namespace frontier

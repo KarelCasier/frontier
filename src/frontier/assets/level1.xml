@@ -1,0 +1,20 @@
+<level>
+    <systems>
+        <rendersystem></rendersystem>
+    </systems>
+    <entities>
+        <entity>
+            <position>
+                <x>100</x>
+                <y>100</y>
+            </position>
+            <sprite>
+                <asset>Test.png</asset>
+                <x>100</x>
+                <y>100</y>
+                <w>100</w>
+                <h>100</h>
+            </sprite>
+        </entity>
+    </entities>
+</level>

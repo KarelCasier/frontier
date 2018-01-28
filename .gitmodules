@@ -1,3 +1,6 @@
 [submodule "src/ext/entityx"]
 	path = src/ext/entityx
 	url = git@github.com:alecthomas/entityx.git
+[submodule "src/ext/tinyxml2"]
+	path = src/ext/tinyxml2
+	url = git@github.com:leethomason/tinyxml2.git

@@ -13,6 +13,8 @@ set(HEADERSS
     include/frontier/states/StateMachine.hpp
     include/frontier/systems/RenderSystem.hpp
     include/frontier/Frontier.hpp
+    include/frontier/Level.hpp
+    include/frontier/LevelParser.hpp
     include/frontier/SDLApplication.hpp
     include/frontier/World.hpp
     )
@@ -22,6 +24,8 @@ set(SOURCES
     src/states/StateMachine.cpp
     src/systems/RenderSystem.cpp
     src/Frontier.cpp
+    src/Level.cpp
+    src/LevelParser.cpp
     src/SDLApplication.cpp
     src/World.cpp
     )
@@ -34,6 +38,7 @@ target_include_directories(frontier_lib
     PRIVATE
     ${SDL2_INCLUDE_DIR}
     ../ext/entityx
+    ../ext/tinyxml2
     )
 
 target_link_libraries(frontier_lib
@@ -44,6 +49,7 @@ target_link_libraries(frontier_lib
     math
     ${SDL2_LIBRARY}
     entityx
+    tinyxml2
     )
 
 set (EXEC_HEADERS

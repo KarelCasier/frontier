@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 project(frontier VERSION 0.1 LANGUAGES CXX)
 
 add_subdirectory(ext/entityx EXCLUDE_FROM_ALL)
+add_subdirectory(ext/tinyxml2 EXCLUDE_FROM_ALL)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake/")
 
