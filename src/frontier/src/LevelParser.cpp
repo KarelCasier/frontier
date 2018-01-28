@@ -33,6 +33,19 @@ void assertName(const XMLElement* element, const std::string_view& name)
     }
 }
 
+Vector2f parseVector2f(const XMLElement* element)
+{
+    element = element->FirstChildElement();
+    assertName(element, "x");
+    const auto x = element->FloatText(0);
+
+    element = element->NextSiblingElement();
+    assertName(element, "y");
+    const auto y = element->FloatText(0);
+
+    return {x, y};
+}
+
 } // namespace
 
 namespace frontier {
@@ -79,10 +92,12 @@ Entity LevelParser::parseEntity(const XMLElement* baseElement)
         const auto name = component->Name();
         if (isEqual(name, "positioncomponent")) {
             entity.assign<PositionComponent>(parsePositionComponent(component));
-        } else if (isEqual(name, "velocitycomponent")) {
-            entity.assign<VelocityComponent>(parseVelocityComponent(component));
+        } else if (isEqual(name, "physicscomponent")) {
+            entity.assign<PhysicsComponent>(parsePhysicsComponent(component));
         } else if (isEqual(name, "spritecomponent")) {
             entity.assign<SpriteComponent>(parseSpriteComponent(component));
+        } else if (isEqual(name, "rotationcomponent")) {
+            entity.assign<RotationComponent>(parseRotationComponent(component));
         } else {
             LOGE << "Unknown component: " << name;
         }
@@ -95,29 +110,47 @@ PositionComponent LevelParser::parsePositionComponent(const XMLElement* baseElem
     assertName(baseElement, "positioncomponent");
 
     auto element = baseElement->FirstChildElement();
-    assertName(element, "x");
-    const auto x = element->FloatText(0);
+    assertName(element, "position");
+    auto position = parseVector2f(element);
 
-    element = element->NextSiblingElement();
-    assertName(element, "y");
-    const auto y = element->FloatText(0);
-
-    return {{x, y}};
+    return {position};
 }
 
-VelocityComponent LevelParser::parseVelocityComponent(const XMLElement* baseElement)
+PhysicsComponent LevelParser::parsePhysicsComponent(const XMLElement* baseElement)
 {
-    assertName(baseElement, "velocitycomponent");
+    assertName(baseElement, "physicscomponent");
 
     auto element = baseElement->FirstChildElement();
-    assertName(element, "x");
-    const auto x = element->FloatText(0);
+    assertName(element, "velocity");
+    auto velocity = parseVector2f(element);
+
+    element = element->NextSiblingElement("friction");
+    if (element) {
+        assertName(element, "friction");
+        const auto friction = element->FloatText(0);
+        return {velocity, friction};
+    }
+
+    return {velocity};
+}
+
+RotationComponent LevelParser::parseRotationComponent(const XMLElement* baseElement)
+{
+    assertName(baseElement, "rotationcomponent");
+
+    auto element = baseElement->FirstChildElement();
+    assertName(element, "orientation");
+    auto orientation = element->FloatText(0);
 
     element = element->NextSiblingElement();
-    assertName(element, "y");
-    const auto y = element->FloatText(0);
+    assertName(element, "angularvelocity");
+    const auto angularVelocity = element->FloatText(0);
 
-    return {{x, y}};
+    element = element->NextSiblingElement();
+    assertName(element, "torque");
+    const auto torque = element->FloatText(0);
+
+    return {orientation, angularVelocity, torque};
 }
 
 SpriteComponent LevelParser::parseSpriteComponent(const XMLElement* baseElement)

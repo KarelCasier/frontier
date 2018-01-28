@@ -5,6 +5,8 @@
 
 namespace frontier {
 
+using namespace std::chrono;
+
 Level::Level(std::shared_ptr<TextureManager> textureManager)
 : _textureManager{std::move(textureManager)}
 {
@@ -15,9 +17,10 @@ void Level::finishInit()
     _entityX.systems.configure();
 }
 
-void Level::update(std::chrono::milliseconds delta)
+void Level::update(milliseconds delta)
 {
-    _entityX.systems.update<PhysicsSystem>(delta.count());
+    const auto secondsDelta = duration<double, seconds::period>(delta).count();
+    _entityX.systems.update<PhysicsSystem>(secondsDelta);
 }
 
 void Level::render()

@@ -6,14 +6,16 @@
 
 namespace frontier {
 
-class VelocityComponent : public entityx::Component<VelocityComponent> {
+class PhysicsComponent : public entityx::Component<PhysicsComponent> {
 public:
-    VelocityComponent(Vector2f velocity)
+    PhysicsComponent(Vector2f velocity, float friction = 0.7f)
     : _velocity{std::move(velocity)}
+    , _friction{friction}
     {
     }
 
     Vector2f _velocity;
+    float _friction;
 };
 
 } // namespace frontier

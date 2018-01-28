@@ -6,13 +6,22 @@
     <entities>
         <entity>
             <positioncomponent>
-                <x>100</x>
-                <y>100</y>
+                <position>
+                    <x>100</x>
+                    <y>100</y>
+                </position>
             </positioncomponent>
-            <velocitycomponent>
-                <x>.1</x>
-                <y>.1</y>
-            </velocitycomponent>
+            <physicscomponent>
+                <velocity>
+                    <x>30</x>
+                    <y>30</y>
+                </velocity>
+            </physicscomponent>
+            <rotationcomponent>
+                <orientation>0</orientation>
+                <angularvelocity>0</angularvelocity>
+                <torque>0</torque>
+            </rotationcomponent>
             <spritecomponent>
                 <asset>Test.png</asset>
                 <x>100</x>

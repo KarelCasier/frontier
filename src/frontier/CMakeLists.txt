@@ -5,9 +5,10 @@ find_package(SDL2 REQUIRED)
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 set(HEADERSS
+    include/frontier/components/PhysicsComponent.hpp
     include/frontier/components/PositionComponent.hpp
+    include/frontier/components/RotationComponent.hpp
     include/frontier/components/SpriteComponent.hpp
-    include/frontier/components/VelocityComponent.hpp
     include/frontier/states/IState.hpp
     include/frontier/states/IStateMachine.hpp
     include/frontier/states/PlayState.hpp
