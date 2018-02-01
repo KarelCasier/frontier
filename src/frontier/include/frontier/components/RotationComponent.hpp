@@ -8,16 +8,16 @@ namespace frontier {
 
 class RotationComponent : public entityx::Component<RotationComponent> {
 public:
-    RotationComponent(float orientation = 0.f, float angularVelocity = 0.f, float torque = 0.f)
+    RotationComponent(double orientation = 0.f, double angularVelocity = 0.f, double torque = 0.f)
     : _orientation{orientation}
     , _angularVelocity{angularVelocity}
     , _torque{torque}
     {
     }
 
-    float _orientation; // radians
-    float _angularVelocity;
-    float _torque;
+    double _orientation; // radians
+    double _angularVelocity;
+    double _torque;
 };
 
 } // namespace frontier

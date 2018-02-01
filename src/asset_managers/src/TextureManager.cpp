@@ -1,9 +1,11 @@
 #include <texture_manager/TextureManager.hpp>
 
-#include <iostream>
-#include <string>
 #include <SDL2_image/SDL_image.h>
+#include <math/Misc.hpp>
+#include <cmath>
+#include <iostream>
 #include <log/log.hpp>
+#include <string>
 
 namespace {
 
@@ -93,11 +95,13 @@ void TextureManager::purgeTextures()
     _textures.clear();
 }
 
-void TextureManager::render(TextureRef* texture, int x, int y, int width, int height)
+void TextureManager::render(const TextureRef* texture,
+                            const SDL_Rect& srcRect,
+                            const SDL_Rect& destRect,
+                            const double rotation,
+                            const SDL_Point* origin)
 {
-    SDL_Rect src{0, 0, width, height};
-    SDL_Rect dest{x, y, width, height};
-    SDL_RenderCopyEx(_renderer, texture->_texture, &src, &dest, 0, 0, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(_renderer, texture->_texture, &srcRect, &destRect, toDegrees(rotation), origin, SDL_FLIP_NONE);
 }
 
 } // namespace frontier

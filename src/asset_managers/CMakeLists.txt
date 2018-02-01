@@ -15,6 +15,7 @@ add_library(texture_manager STATIC ${SOURCES} ${HEADERS})
 target_link_libraries(texture_manager
     PRIVATE
     log
+    math
     ${SDL2_IMAGE_LIBRARIES}
     )
 

@@ -2,6 +2,7 @@ project(math LANGUAGES CXX)
 
 set (HEADERS
     include/math/Collision.hpp
+    include/math/Misc.hpp
     include/math/Rect.hpp
     include/math/Vector2.hpp
     )

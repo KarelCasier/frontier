@@ -2,6 +2,7 @@
 
 #include <frontier/components/PositionComponent.hpp>
 #include <frontier/components/PhysicsComponent.hpp>
+#include <frontier/components/RotationComponent.hpp>
 
 namespace frontier {
 using namespace entityx;
@@ -16,6 +17,11 @@ void PhysicsSystem::update(entityx::EntityManager& entities, entityx::EventManag
         (void)entity; // no unused warn
         position->_position += (physics->_velocity * dt);
         physics->_velocity *= std::pow(physics->_friction, dt);
+
+        auto rotation = entity.component<RotationComponent>();
+        if (rotation.valid()) {
+
+        }
     }
 }
 

@@ -18,7 +18,7 @@
                 </velocity>
             </physicscomponent>
             <rotationcomponent>
-                <orientation>0</orientation>
+                <orientation>90</orientation>
                 <angularvelocity>0</angularvelocity>
                 <torque>0</torque>
             </rotationcomponent>

@@ -3,6 +3,7 @@
 #include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
 #include <log/log.hpp>
+#include <math/Misc.hpp>
 #include <sstream>
 
 namespace {
@@ -140,15 +141,15 @@ RotationComponent LevelParser::parseRotationComponent(const XMLElement* baseElem
 
     auto element = baseElement->FirstChildElement();
     assertName(element, "orientation");
-    auto orientation = element->FloatText(0);
+    auto orientation = toRadians(element->DoubleText(0));
 
     element = element->NextSiblingElement();
     assertName(element, "angularvelocity");
-    const auto angularVelocity = element->FloatText(0);
+    const auto angularVelocity = toRadians(element->DoubleText(0));
 
     element = element->NextSiblingElement();
     assertName(element, "torque");
-    const auto torque = element->FloatText(0);
+    const auto torque = toRadians(element->DoubleText(0));
 
     return {orientation, angularVelocity, torque};
 }
