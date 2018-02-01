@@ -6,14 +6,16 @@
 
 namespace frontier {
 
-class PositionComponent : public entityx::Component<PositionComponent> {
+class TransformComponent : public entityx::Component<TransformComponent> {
 public:
-    PositionComponent(Vector2f position)
+    TransformComponent(Vector2f position, double orientation)
     : _position{std::move(position)}
+    , _orientation{orientation}
     {
     }
 
     Vector2f _position;
+    double _orientation; // radians
 };
 
 } // namespace frontier

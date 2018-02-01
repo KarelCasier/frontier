@@ -5,23 +5,22 @@
     </systems>
     <entities>
         <entity>
-            <positioncomponent>
+            <transformcomponent>
                 <position>
                     <x>100</x>
                     <y>100</y>
                 </position>
-            </positioncomponent>
+                <orientation>90</orientation>
+            </transformcomponent>
             <physicscomponent>
                 <velocity>
                     <x>30</x>
                     <y>30</y>
                 </velocity>
-            </physicscomponent>
-            <rotationcomponent>
-                <orientation>90</orientation>
+                <friction>0.7</friction>
                 <angularvelocity>0</angularvelocity>
                 <torque>0</torque>
-            </rotationcomponent>
+            </physicscomponent>
             <spritecomponent>
                 <asset>Test.png</asset>
                 <x>100</x>

@@ -1,8 +1,7 @@
 #include <frontier/systems/PhysicsSystem.hpp>
 
-#include <frontier/components/PositionComponent.hpp>
+#include <frontier/components/TransformComponent.hpp>
 #include <frontier/components/PhysicsComponent.hpp>
-#include <frontier/components/RotationComponent.hpp>
 
 namespace frontier {
 using namespace entityx;
@@ -11,17 +10,13 @@ PhysicsSystem::PhysicsSystem() {}
 
 void PhysicsSystem::update(entityx::EntityManager& entities, entityx::EventManager& /* events */, entityx::TimeDelta dt)
 {
-    ComponentHandle<PositionComponent> position;
+    ComponentHandle<TransformComponent> transform;
     ComponentHandle<PhysicsComponent> physics;
-    for (Entity entity : entities.entities_with_components(position, physics)) {
+    for (Entity entity : entities.entities_with_components(transform, physics)) {
         (void)entity; // no unused warn
-        position->_position += (physics->_velocity * dt);
+        transform->_position += (physics->_velocity * dt);
         physics->_velocity *= std::pow(physics->_friction, dt);
 
-        auto rotation = entity.component<RotationComponent>();
-        if (rotation.valid()) {
-
-        }
     }
 }
 
