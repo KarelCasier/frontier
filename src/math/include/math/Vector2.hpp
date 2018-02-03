@@ -32,8 +32,8 @@ public:
     T y() const { return _y; };
 
     /// Setters
-    T x(T x) { _x = std::move(x); };
-    T y(T y) { _y = std::move(y); };
+    void x(T x) { _x = std::move(x); };
+    void y(T y) { _y = std::move(y); };
 
     template <typename S, typename = typename std::enable_if_t<std::is_arithmetic<S>::value>>
     Vector2 operator*(S scalar)
