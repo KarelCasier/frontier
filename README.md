@@ -25,6 +25,17 @@ ninja
 ninja install
 ```
 
+### tests
+
+Currently only minimal tests in math library.
+
+After build:
+```sh
+ninja test
+# or
+ctest
+```
+
 ## run
 
 ```sh

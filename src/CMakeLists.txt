@@ -6,9 +6,9 @@ add_subdirectory(ext/tinyxml2 EXCLUDE_FROM_ALL)
 add_subdirectory(ext/googletest EXCLUDE_FROM_ALL)
 
 # Hacky way to remove external project tests
-add_custom_target(exclude_entityx_tests ALL 
+add_custom_target(exclude_entityx_tests ALL
     COMMAND rm -f "ext/entityx/CTestTestfile.cmake")
-add_custom_target(exclude_tinyxml2_lib_tests ALL 
+add_custom_target(exclude_tinyxml2_lib_tests ALL
     COMMAND rm -f "ext/tinyxml2/CTestTestfile.cmake")
 
 enable_testing()
