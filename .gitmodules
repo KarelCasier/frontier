@@ -4,3 +4,6 @@
 [submodule "src/ext/tinyxml2"]
 	path = src/ext/tinyxml2
 	url = git@github.com:leethomason/tinyxml2.git
+[submodule "src/ext/googletest"]
+	path = src/ext/googletest
+	url = git@github.com:google/googletest.git

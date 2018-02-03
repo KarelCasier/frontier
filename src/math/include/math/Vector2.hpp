@@ -81,7 +81,7 @@ public:
         return *this;
     }
 
-    bool operator==(const Vector2& other) { return _x == other._x && _y == other._y; }
+    bool operator==(const Vector2& other) const { return _x == other._x && _y == other._y; }
 
 private:
     T _x;

@@ -20,3 +20,4 @@ target_include_directories(math
     src
 )
 
+add_subdirectory(test)
