@@ -10,7 +10,8 @@ namespace frontier {
 /// @param point The point to consider.
 /// @param rect The rect to consider.
 /// @returns bool True if the point lies inside the rectangle, false otherwise.
-bool intersects(const Vector2f& point, const Rectf& rect);
+template <typename T>
+bool intersects(const Vector2<T>& point, const Rectf& rect);
 
 /// Determine if two AABB rectangles intersect.
 ///

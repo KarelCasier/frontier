@@ -2,7 +2,9 @@
 
 namespace frontier {
 
-bool intersects(const Vector2f& point, const Rectf& rect)
+inline
+template <typename T>
+bool intersects(const Vector2<T>& point, const Rectf& rect)
 {
     return (point.x > rect.x && point.x < rect.x + rect.w) || (point.y > rect.y && point.y < rect.y + rect.h);
 }

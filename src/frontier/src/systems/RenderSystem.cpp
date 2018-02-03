@@ -21,7 +21,7 @@ void RenderSystem::update(entityx::EntityManager& entities,
     for (Entity entity : entities.entities_with_components(transform, sprite)) {
         (void)entity; // no unused warn
         SDL_Rect srcRect{0, 0, static_cast<int>(sprite->_rect.w), static_cast<int>(sprite->_rect.h)};
-        SDL_Rect destRect{static_cast<int>(transform->_position.x), static_cast<int>(transform->_position.y),
+        SDL_Rect destRect{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w), static_cast<int>(sprite->_rect.h)};
         const auto orientation = transform->_orientation;
         _textureManager->render(sprite->_ref, srcRect, destRect, orientation);
