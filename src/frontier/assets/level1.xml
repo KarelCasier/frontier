@@ -18,7 +18,7 @@
                     <y>30</y>
                 </velocity>
                 <friction>0.7</friction>
-                <angularvelocity>0</angularvelocity>
+                <angularvelocity>100</angularvelocity>
                 <torque>0</torque>
             </physicscomponent>
             <spritecomponent>

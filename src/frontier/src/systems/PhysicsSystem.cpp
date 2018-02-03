@@ -17,6 +17,8 @@ void PhysicsSystem::update(entityx::EntityManager& entities, entityx::EventManag
         transform->_position += (physics->_velocity * dt);
         physics->_velocity *= std::pow(physics->_friction, dt);
 
+        transform->_orientation += (physics->_angularVelocity * dt);
+        physics->_angularVelocity *= std::pow(physics->_friction, dt);
     }
 }
 

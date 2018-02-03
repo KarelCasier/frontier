@@ -20,6 +20,7 @@ public:
     double _friction;
     double _angularVelocity;
     double _torque;
+
 };
 
 } // namespace frontier
