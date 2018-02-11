@@ -26,8 +26,8 @@ public:
     void y(T y) { _position.y(std::move(y)); }
     void w(T w) { _dimensions.x(std::move(w)); }
     void h(T h) { _dimensions.y(std::move(h)); }
-    void position(Vector2<T> position) const { _position = std::move(position); }
-    void dimensions(Vector2<T> dimensions) const { _dimensions = std::move(dimensions); }
+    void position(Vector2<T> position) { _position = std::move(position); }
+    void dimensions(Vector2<T> dimensions) { _dimensions = std::move(dimensions); }
 
 private:
     Vector2<T> _position;

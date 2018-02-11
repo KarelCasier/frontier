@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.2" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="10" tileheight="10" infinite="0" nextobjectid="15">
+ <objectgroup name="Object Layer 1">
+  <object id="9" x="-450" y="500">
+   <polygon points="0,0 100,-100 190,-10 90,90"/>
+  </object>
+  <object id="10" x="-350" y="400">
+   <polygon points="0,0 230,-40 90,90"/>
+  </object>
+  <object id="11" x="-260" y="490">
+   <polygon points="0,0 140,-130 300,-60 180,90"/>
+  </object>
+  <object id="12" x="-80" y="580">
+   <polygon points="0,0 120,-150 230,130 50,160"/>
+  </object>
+  <object id="13" x="-30" y="740">
+   <polygon points="0,0 180,-30 -20,220 -100,130"/>
+  </object>
+  <object id="14" x="-360" y="590">
+   <polygon points="0,0 100,-100 280,-10 330,150 230,280"/>
+  </object>
+ </objectgroup>
+</map>

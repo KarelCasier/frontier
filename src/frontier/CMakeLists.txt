@@ -5,6 +5,7 @@ find_package(SDL2 REQUIRED)
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 set(HEADERSS
+    include/frontier/components/NavigationComponent.hpp
     include/frontier/components/PhysicsComponent.hpp
     include/frontier/components/PositionComponent.hpp
     include/frontier/components/SpriteComponent.hpp
@@ -12,10 +13,12 @@ set(HEADERSS
     include/frontier/states/IStateMachine.hpp
     include/frontier/states/PlayState.hpp
     include/frontier/states/StateMachine.hpp
+    include/frontier/systems/NavigationSystem.hpp
     include/frontier/systems/PhysicsSystem.hpp
     include/frontier/systems/RenderSystem.hpp
     include/frontier/Frontier.hpp
     include/frontier/Level.hpp
+    include/frontier/LevelNavParser.hpp
     include/frontier/LevelParser.hpp
     include/frontier/SDLApplication.hpp
     include/frontier/World.hpp
@@ -24,10 +27,12 @@ set(HEADERSS
 set(SOURCES
     src/states/PlayState.cpp
     src/states/StateMachine.cpp
+    src/systems/NavigationSystem.cpp
     src/systems/PhysicsSystem.cpp
     src/systems/RenderSystem.cpp
     src/Frontier.cpp
     src/Level.cpp
+    src/LevelNavParser.cpp
     src/LevelParser.cpp
     src/SDLApplication.cpp
     src/World.cpp
@@ -50,6 +55,8 @@ target_link_libraries(frontier_lib
     PRIVATE
     log
     math
+    navigation
+    asset_util
     ${SDL2_LIBRARY}
     entityx
     tinyxml2

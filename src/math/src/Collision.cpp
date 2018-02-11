@@ -22,11 +22,20 @@ bool intersects(const Rect<T>& rect1, const Rect<T>& rect2)
     auto top2 = rect2.y();
     auto bottom2 = rect2.y() + rect2.h();
 
-    if (bottom1 < top2 || top1 > bottom2 || right1 < left2 || left1 > right2) {
+    if (bottom1 <= top2 || top1 >= bottom2 || right1 <= left2 || left1 >= right2) {
         return false;
     }
 
     return true;
 }
+
+/// Explicit template instantiation
+template bool intersects(const Vector2<float>&, const Rect<float>&);
+template bool intersects(const Vector2<double>&, const Rect<double>&);
+template bool intersects(const Vector2<int>&, const Rect<int>&);
+
+template bool intersects(const Rect<float>&, const Rect<float>&);
+template bool intersects(const Rect<double>&, const Rect<double>&);
+template bool intersects(const Rect<int>&, const Rect<int>&);
 
 } // namespace frontier

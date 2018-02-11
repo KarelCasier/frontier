@@ -1,7 +1,9 @@
 #include <frontier/LevelParser.hpp>
 
+#include <asset_util/Util.hpp>
 #include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
+#include <frontier/systems/NavigationSystem.hpp>
 #include <log/log.hpp>
 #include <math/Misc.hpp>
 #include <sstream>
@@ -12,7 +14,7 @@ using namespace frontier;
 using namespace entityx;
 using namespace tinyxml2;
 
-// Case insensitive string comparrison.
+/// Case insensitive string comparrison.
 bool isEqual(const std::string_view& left, const std::string_view& right)
 {
     auto lowerLeft = std::string{};
@@ -47,6 +49,12 @@ Vector2f parseVector2f(const XMLElement* element)
     return {x, y};
 }
 
+std::shared_ptr<NavigationSystem> parseNavigationSystem(const XMLElement* baseElement)
+{
+    assertName(baseElement, "navigationsystem");
+    return std::make_shared<NavigationSystem>(baseElement->GetText());
+}
+
 } // namespace
 
 namespace frontier {
@@ -58,9 +66,13 @@ LevelParser::LevelParser(std::shared_ptr<TextureManager> textureManager)
 
 std::shared_ptr<Level> LevelParser::parse(const std::string& file)
 {
-    const auto filePath = std::string{"assets/"} + file;
+    const auto filePath = getResourcePath() + file;
     XMLDocument doc;
     doc.LoadFile(filePath.c_str());
+    if (doc.Error()) {
+        auto error = std::string{"XML Error: "} + doc.ErrorStr();
+        throw std::runtime_error{error};
+    }
     LOGI << "Parsing file: " << file;
 
     _level = std::make_shared<Level>(_textureManager);
@@ -178,6 +190,8 @@ void LevelParser::parseSystem(const XMLElement* baseElement)
         _level->_entityX.systems.add<RenderSystem>(_textureManager);
     } else if (isEqual(name, "physicssystem")) {
         _level->_entityX.systems.add<PhysicsSystem>();
+    } else if (isEqual(name, "navigationsystem")) {
+        _level->_entityX.systems.add(parseNavigationSystem(baseElement));
     } else {
         LOGE << "Unknown system: " << name;
     }

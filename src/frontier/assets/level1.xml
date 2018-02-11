@@ -1,5 +1,6 @@
 <level>
     <systems>
+        <navigationsystem>level1_nav.tmx</navigationsystem>
         <rendersystem></rendersystem>
         <physicssystem></physicssystem>
     </systems>

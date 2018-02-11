@@ -1,7 +1,8 @@
 #pragma once
 
-#include <type_traits>
+#include <cassert>
 #include <cmath>
+#include <type_traits>
 
 namespace frontier {
 
@@ -11,6 +12,11 @@ namespace frontier {
 template <typename T, typename = typename std::enable_if_t<std::is_arithmetic<T>::value>>
 class Vector2 {
 public:
+    Vector2()
+    : _x{0}
+    , _y{0}
+    {
+    }
     Vector2(T x, T y)
     : _x{std::move(x)}
     , _y{std::move(y)}
@@ -137,8 +143,8 @@ public:
     }
 
     /// Vector2 math
-    double length() { return std::sqrt((_x * _x) + (_y * +_y)); }
-    double lengthSquared() { return (_x * _x) + (_y * +_y); }
+    double length() { return std::sqrt((_x * _x) + (_y * _y)); }
+    double lengthSquared() { return (_x * _x) + (_y * _y); }
     Vector2& normalize()
     {
         const auto l = length();

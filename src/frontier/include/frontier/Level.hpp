@@ -3,6 +3,7 @@
 #include <chrono>
 #include <entityx/entityx.h>
 #include <texture_manager/TextureManager.hpp>
+#include <navigation/NavMesh.hpp>
 
 namespace frontier {
 
@@ -19,6 +20,7 @@ private:
 
     std::shared_ptr<TextureManager> _textureManager;
     entityx::EntityX _entityX;
+    //NavMesh<float> _navMesh;
 };
 
 } // namespace frontier
