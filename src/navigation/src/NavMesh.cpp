@@ -1,10 +1,12 @@
+#include <navigation/NavMesh.hpp>
+
+#include <algorithm>
 #include <iostream>
 #include <math.h>
-#include <algorithm>
 
-#include <navigation/NavMesh.hpp>
-#include <math/Collision.hpp>
+#include <SDL2/SDL.h>
 #include <log/log.hpp>
+#include <math/Collision.hpp>
 
 namespace {
 using namespace frontier;
@@ -65,7 +67,6 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
     }
 
     if (connectedPoints.size() == 2) {
-        LOGI << "Connected Polygons";
         edge.start = connectedPoints[0];
         edge.end = connectedPoints[1];
         edge.mid = (edge.start + edge.end) / 2.0;
@@ -82,6 +83,25 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
 } // namespace
 
 namespace frontier {
+
+template <typename T>
+void NavMesh<T>::debugDraw(SDL_Renderer* renderer) const
+{
+    Uint8 r, g, b, a;
+    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    for (const auto& poly : _mesh) {
+        auto sdlPoints = std::vector<SDL_Point>{};
+        const auto shape = poly->_shape;
+        const auto points = shape->points();
+        std::transform(begin(points), end(points), std::back_inserter(sdlPoints), [](const auto& pt) -> SDL_Point {
+            return {static_cast<int>(pt.x()), static_cast<int>(pt.y())};
+        });
+        sdlPoints.push_back(sdlPoints.front());
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderDrawLines(renderer, sdlPoints.data(), sdlPoints.size());
+    }
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+}
 
 template <typename T>
 void NavMesh<T>::addPoly(std::shared_ptr<ConvexShape<T>> poly)

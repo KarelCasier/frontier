@@ -12,6 +12,10 @@ RenderSystem::RenderSystem(std::shared_ptr<TextureManager> textureManager)
 {
 }
 
+void RenderSystem::debugDraw(std::shared_ptr<IDebugDrawable> debugDrawable) {
+    _debugDrawables.push_back(std::move(debugDrawable));
+}
+
 void RenderSystem::update(entityx::EntityManager& entities,
                           entityx::EventManager& /* events */,
                           entityx::TimeDelta /* dt */)
@@ -25,6 +29,10 @@ void RenderSystem::update(entityx::EntityManager& entities,
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
         _textureManager->render(sprite->_ref, srcRect, destRect, orientation);
+    }
+
+    for (const auto& drawable : _debugDrawables) {
+        drawable->debugDraw(_textureManager->getRenderer());
     }
 }
 

@@ -65,4 +65,9 @@ void TextureManager::render(const TextureRef* texture,
     SDL_RenderCopyEx(_renderer, texture->_texture, &srcRect, &destRect, toDegrees(rotation), origin, SDL_FLIP_NONE);
 }
 
+SDL_Renderer* TextureManager::getRenderer()
+{
+    return _renderer;
+}
+
 } // namespace frontier

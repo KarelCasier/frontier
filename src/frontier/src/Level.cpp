@@ -11,24 +11,13 @@ using namespace std::chrono;
 Level::Level(std::shared_ptr<TextureManager> textureManager)
 : _textureManager{std::move(textureManager)}
 {
-    // Vector2f a{1.0, 1.0};
-    // Vector2f b{10.0, 10.0};
-    // Vector2f c{1.0, 10.0};
-    //
-    // Vector2f d{10.0, 1.0};
-    //
-    // std::vector<Vector2f> pointsA = {a,b,c};
-    // std::vector<Vector2f> pointsB = {a,d,b};
-    //
-    // auto shapeA = std::make_shared<ConvexShape<float>>(pointsA);
-    // auto shapeB = std::make_shared<ConvexShape<float>>(pointsB);
-    //_navMesh.addPoly(shapeA);
-    //_navMesh.addPoly(shapeB);
 }
 
 void Level::finishInit()
 {
     _entityX.systems.configure();
+    auto navSystem = _entityX.systems.system<NavigationSystem>();
+    _entityX.systems.system<RenderSystem>()->debugDraw(navSystem->getNavMesh());
 }
 
 void Level::update(milliseconds delta)

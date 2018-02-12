@@ -1,23 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="isometric" renderorder="right-down" width="100" height="100" tilewidth="10" tileheight="10" infinite="0" nextobjectid="15">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="10" tileheight="10" infinite="0" nextobjectid="29">
  <objectgroup name="Object Layer 1">
-  <object id="9" x="-450" y="500">
-   <polygon points="0,0 100,-100 190,-10 90,90"/>
+  <object id="16" x="-20" y="-340">
+   <polygon points="0,0 120,0 120,130 0,130"/>
   </object>
-  <object id="10" x="-350" y="400">
-   <polygon points="0,0 230,-40 90,90"/>
+  <object id="17" x="100" y="-340">
+   <polygon points="0,0 150,-100 200,140 0,130"/>
   </object>
-  <object id="11" x="-260" y="490">
-   <polygon points="0,0 140,-130 300,-60 180,90"/>
+  <object id="18" x="100" y="-210">
+   <polygon points="0,0 200,10 340,290 120,370"/>
   </object>
-  <object id="12" x="-80" y="580">
-   <polygon points="0,0 120,-150 230,130 50,160"/>
+  <object id="19" x="220" y="160">
+   <polygon points="0,0 220,-80 30,220 -310,220"/>
   </object>
-  <object id="13" x="-30" y="740">
-   <polygon points="0,0 180,-30 -20,220 -100,130"/>
+  <object id="20" x="-20" y="-210">
+   <polygon points="0,0 120,0 240,370 -70,590"/>
   </object>
-  <object id="14" x="-360" y="590">
-   <polygon points="0,0 100,-100 280,-10 330,150 230,280"/>
+  <object id="21" x="300" y="-200">
+   <polygon points="0,0 280,-20 140,280"/>
+  </object>
+  <object id="22" x="350" y="-430">
+   <polygon points="0,0 230,210 -50,230"/>
+  </object>
+  <object id="23" x="350" y="-430">
+   <polygon points="0,0 240,-170 230,210"/>
+  </object>
+  <object id="24" x="590" y="-600">
+   <polygon points="0,0 240,340 130,620 -10,380"/>
+  </object>
+  <object id="25" x="580" y="-220">
+   <polygon points="0,0 140,240 -10,460 -140,300"/>
+  </object>
+  <object id="26" x="440" y="80">
+   <polygon points="0,0 130,160 130,290 -190,300"/>
+  </object>
+  <object id="27" x="830" y="-260">
+   <polygon points="0,0 0,400 -110,280"/>
+  </object>
+  <object id="28" x="720" y="20">
+   <polygon points="0,0 110,120 110,360 -150,350 -150,220"/>
   </object>
  </objectgroup>
 </map>

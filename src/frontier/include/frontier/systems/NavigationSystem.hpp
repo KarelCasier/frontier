@@ -4,12 +4,16 @@
 
 #include <navigation/NavMesh.hpp>
 
+struct SDL_Renderer;
+
 namespace frontier {
 
 class NavigationSystem : public entityx::System<NavigationSystem> {
 public:
     NavigationSystem(const std::string& navMeshFile);
     ~NavigationSystem() override = default;
+
+    const std::shared_ptr<NavMesh<float>> getNavMesh() const;
 
     /// @name System overrides
     /// @{

@@ -14,6 +14,11 @@ NavigationSystem::NavigationSystem(const std::string& file)
     _navMesh = LevelNavParser{}.parse(file);
 }
 
+const std::shared_ptr<NavMesh<float>> NavigationSystem::getNavMesh() const
+{
+    return _navMesh;
+}
+
 void NavigationSystem::update(entityx::EntityManager& entities,
                               entityx::EventManager& /* events */,
                               entityx::TimeDelta /* dt */)

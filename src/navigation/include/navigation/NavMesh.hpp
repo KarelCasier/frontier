@@ -1,21 +1,27 @@
 #pragma once
+#include <debug_draw/IDebugDrawable.hpp>
+
 #include <vector>
 #include <utility>
 #include <queue>
 #include <unordered_map>
 #include <memory>
-#include <SDL2/SDL.h>
 
 #include "NavPoly.hpp"
 
 namespace frontier {
 
 template <typename T>
-class NavMesh {
+class NavMesh : public IDebugDrawable {
 public:
     void addPoly(std::shared_ptr<ConvexShape<T>> shape);
 
     std::vector<Vector2<T>> navigationPath(const Vector2<T>& startPos, const Vector2<T>& targetPos);
+
+    /// @name IDebugDrawable overrides
+    /// @{
+    void debugDraw(SDL_Renderer* renderer) const override;
+    /// @}
 
 private:
     void regenerate();

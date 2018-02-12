@@ -43,6 +43,7 @@ public:
     /// @param origin The point at which to rotate the srcRect at.
     void render(const TextureRef* texture, const SDL_Rect& srcRect, const SDL_Rect& destRect, const double rotation = 0.0, const SDL_Point* origin = NULL);
 
+    SDL_Renderer* getRenderer();
 private:
     std::unordered_map<uint64_t, TextureRef*> _textures;
     SDL_Renderer* _renderer;

@@ -57,6 +57,7 @@ target_link_libraries(frontier_lib
     math
     navigation
     asset_util
+    debug_draw
     ${SDL2_LIBRARY}
     entityx
     tinyxml2

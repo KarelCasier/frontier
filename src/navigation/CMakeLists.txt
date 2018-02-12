@@ -24,5 +24,6 @@ target_link_libraries(navigation
     log
     math
     tinyxml2
+    debug_draw
     )
 
