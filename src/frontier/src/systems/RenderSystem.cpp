@@ -2,6 +2,24 @@
 
 #include <frontier/components/TransformComponent.hpp>
 #include <frontier/components/SpriteComponent.hpp>
+#include <log/log.hpp>
+
+namespace {
+
+/// Compare two weak_ptrs
+template <typename T>
+struct WeakPtrCompare {
+    WeakPtrCompare(const std::weak_ptr<T>& first) : _first{first} {}
+
+    bool operator()(const std::weak_ptr<T>& second)
+    {
+        return !_first.owner_before(second) && !second.owner_before(_first);
+    }
+
+    const std::weak_ptr<T>& _first;
+};
+
+} // namespace
 
 namespace frontier {
 
@@ -12,8 +30,9 @@ RenderSystem::RenderSystem(std::shared_ptr<TextureManager> textureManager)
 {
 }
 
-void RenderSystem::debugDraw(std::shared_ptr<IDebugDrawable> debugDrawable) {
-    _debugDrawables.push_back(std::move(debugDrawable));
+void RenderSystem::configure(entityx::EventManager& event_manager)
+{
+    event_manager.subscribe<DebugDrawableEvent>(*this);
 }
 
 void RenderSystem::update(entityx::EntityManager& entities,
@@ -31,8 +50,23 @@ void RenderSystem::update(entityx::EntityManager& entities,
         _textureManager->render(sprite->_ref, srcRect, destRect, orientation);
     }
 
-    for (const auto& drawable : _debugDrawables) {
-        drawable->debugDraw(_textureManager->getRenderer());
+    for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {
+        if (auto strongDrawable = I->lock()) {
+            strongDrawable->debugDraw(_textureManager->getRenderer());
+        } else {
+            LOGI << "Removing debug drawable due to failed promotion to shared_ptr";
+            I = _debugDrawables.erase(I);
+        }
+    }
+}
+
+void RenderSystem::receive(const DebugDrawableEvent& debugDrawableEvent)
+{
+    if (debugDrawableEvent.enable()) {
+        _debugDrawables.push_back(debugDrawableEvent.get());
+    } else {
+        _debugDrawables.erase(
+            std::remove_if(begin(_debugDrawables), end(_debugDrawables), WeakPtrCompare<IDebugDrawable>{debugDrawableEvent.get()}));
     }
 }
 

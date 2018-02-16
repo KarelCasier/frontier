@@ -4,6 +4,8 @@
 #include <frontier/systems/RenderSystem.hpp>
 #include <frontier/systems/NavigationSystem.hpp>
 
+#include <frontier/events/DebugDrawableEvent.hpp>
+
 namespace frontier {
 
 using namespace std::chrono;
@@ -17,7 +19,7 @@ void Level::finishInit()
 {
     _entityX.systems.configure();
     auto navSystem = _entityX.systems.system<NavigationSystem>();
-    _entityX.systems.system<RenderSystem>()->debugDraw(navSystem->getNavMesh());
+    _entityX.events.emit<DebugDrawableEvent>(navSystem->getNavMesh(), true);
 }
 
 void Level::update(milliseconds delta)

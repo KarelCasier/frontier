@@ -9,13 +9,22 @@ set(HEADERSS
     include/frontier/components/PhysicsComponent.hpp
     include/frontier/components/PositionComponent.hpp
     include/frontier/components/SpriteComponent.hpp
+    include/frontier/components/UserInputComponent.hpp
+
+    include/frontier/commands/Command.hpp
+    include/frontier/commands/MoveCommand.hpp
+
+    include/frontier/event/DebugDrawableEvent.hpp
+
     include/frontier/states/IState.hpp
     include/frontier/states/IStateMachine.hpp
     include/frontier/states/PlayState.hpp
     include/frontier/states/StateMachine.hpp
+
     include/frontier/systems/NavigationSystem.hpp
     include/frontier/systems/PhysicsSystem.hpp
     include/frontier/systems/RenderSystem.hpp
+
     include/frontier/Frontier.hpp
     include/frontier/Level.hpp
     include/frontier/LevelNavParser.hpp
@@ -25,11 +34,15 @@ set(HEADERSS
     )
 
 set(SOURCES
+    src/components/UserInputComponent.cpp
+
     src/states/PlayState.cpp
     src/states/StateMachine.cpp
+
     src/systems/NavigationSystem.cpp
     src/systems/PhysicsSystem.cpp
     src/systems/RenderSystem.cpp
+
     src/Frontier.cpp
     src/Level.cpp
     src/LevelNavParser.cpp
