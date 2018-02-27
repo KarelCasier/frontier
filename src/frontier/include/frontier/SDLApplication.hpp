@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include <texture_manager/TextureManager.hpp>
+#include <input/InputManager.hpp>
 
 namespace frontier {
 
@@ -18,6 +19,7 @@ protected:
     SDL_Window* _window{nullptr};
     SDL_Renderer* _renderer{nullptr};
     std::shared_ptr<TextureManager> _textureManager;
+    std::shared_ptr<InputManager> _inputManager;
 };
 
 } // namespace frontier

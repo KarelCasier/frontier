@@ -4,6 +4,7 @@
 #include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
 #include <frontier/systems/NavigationSystem.hpp>
+#include <frontier/systems/InputSystem.hpp>
 #include <log/log.hpp>
 #include <math/Misc.hpp>
 #include <sstream>
@@ -59,8 +60,9 @@ std::shared_ptr<NavigationSystem> parseNavigationSystem(const XMLElement* baseEl
 
 namespace frontier {
 
-LevelParser::LevelParser(std::shared_ptr<TextureManager> textureManager)
+LevelParser::LevelParser(std::shared_ptr<TextureManager> textureManager, std::shared_ptr<InputManager> inputManager)
 : _textureManager{std::move(textureManager)}
+, _inputManager{std::move(inputManager)}
 {
 }
 
@@ -75,7 +77,7 @@ std::shared_ptr<Level> LevelParser::parse(const std::string& file)
     }
     LOGI << "Parsing file: " << file;
 
-    _level = std::make_shared<Level>(_textureManager);
+    _level = std::make_shared<Level>(_textureManager, _inputManager);
 
     auto element = doc.RootElement();
     assertName(element, "level");
@@ -192,6 +194,8 @@ void LevelParser::parseSystem(const XMLElement* baseElement)
         _level->_entityX.systems.add<PhysicsSystem>();
     } else if (isEqual(name, "navigationsystem")) {
         _level->_entityX.systems.add(parseNavigationSystem(baseElement));
+    } else if (isEqual(name, "inputsystem")) {
+        _level->_entityX.systems.add<InputSystem>(_inputManager);
     } else {
         LOGE << "Unknown system: " << name;
     }

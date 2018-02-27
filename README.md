@@ -13,6 +13,7 @@
 
 ```sh
 brew install CMake Ninja sdl2 sdl2_image
+brew install llvm
 ```
 
 ## build

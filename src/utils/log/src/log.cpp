@@ -35,8 +35,10 @@ inline std::ostream& operator<<(std::ostream& os, const frontier::LogLevel& leve
     switch (level) {
     case frontier::LOG_ERROR:
         return os << BG_RED << "  E  " << BG_DEFAULT << " ";
+    case frontier::LOG_WARN:
+        return os << BG_YELLOW << "  W  " << BG_DEFAULT << " ";
     case frontier::LOG_INFO:
-        return os << BG_YELLOW << "  I  " << BG_DEFAULT << " ";
+        return os << BG_GREEN << "  I  " << BG_DEFAULT << " ";
     case frontier::LOG_DEBUG:
         return os << BG_BLUE << "  D  " << BG_DEFAULT << " ";
     default:

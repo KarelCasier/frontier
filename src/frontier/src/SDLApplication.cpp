@@ -30,6 +30,7 @@ SDLApplication::SDLApplication(const char* title, int x, int y, int w, int h, Ui
         throw std::runtime_error(err.str());
     }
     _textureManager = std::make_shared<TextureManager>(_renderer);
+    _inputManager = std::make_shared<InputManager>();
 }
 
 SDLApplication::~SDLApplication()

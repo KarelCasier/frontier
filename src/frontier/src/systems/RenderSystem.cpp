@@ -9,7 +9,10 @@ namespace {
 /// Compare two weak_ptrs
 template <typename T>
 struct WeakPtrCompare {
-    WeakPtrCompare(const std::weak_ptr<T>& first) : _first{first} {}
+    WeakPtrCompare(const std::weak_ptr<T>& first)
+    : _first{first}
+    {
+    }
 
     bool operator()(const std::weak_ptr<T>& second)
     {
@@ -30,9 +33,9 @@ RenderSystem::RenderSystem(std::shared_ptr<TextureManager> textureManager)
 {
 }
 
-void RenderSystem::configure(entityx::EventManager& event_manager)
+void RenderSystem::configure(EventManager& eventManager)
 {
-    event_manager.subscribe<DebugDrawableEvent>(*this);
+    eventManager.subscribe<DebugDrawableEvent>(*this);
 }
 
 void RenderSystem::update(entityx::EntityManager& entities,
@@ -65,8 +68,8 @@ void RenderSystem::receive(const DebugDrawableEvent& debugDrawableEvent)
     if (debugDrawableEvent.enable()) {
         _debugDrawables.push_back(debugDrawableEvent.get());
     } else {
-        _debugDrawables.erase(
-            std::remove_if(begin(_debugDrawables), end(_debugDrawables), WeakPtrCompare<IDebugDrawable>{debugDrawableEvent.get()}));
+        _debugDrawables.erase(std::remove_if(begin(_debugDrawables), end(_debugDrawables),
+                                             WeakPtrCompare<IDebugDrawable>{debugDrawableEvent.get()}));
     }
 }
 

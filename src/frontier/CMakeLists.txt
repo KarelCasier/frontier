@@ -5,11 +5,11 @@ find_package(SDL2 REQUIRED)
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 set(HEADERSS
+    include/frontier/components/InputComponent.hpp
     include/frontier/components/NavigationComponent.hpp
     include/frontier/components/PhysicsComponent.hpp
     include/frontier/components/PositionComponent.hpp
     include/frontier/components/SpriteComponent.hpp
-    include/frontier/components/UserInputComponent.hpp
 
     include/frontier/commands/Command.hpp
     include/frontier/commands/MoveCommand.hpp
@@ -21,6 +21,7 @@ set(HEADERSS
     include/frontier/states/PlayState.hpp
     include/frontier/states/StateMachine.hpp
 
+    include/frontier/systems/InputSystem.hpp
     include/frontier/systems/NavigationSystem.hpp
     include/frontier/systems/PhysicsSystem.hpp
     include/frontier/systems/RenderSystem.hpp
@@ -34,11 +35,12 @@ set(HEADERSS
     )
 
 set(SOURCES
-    src/components/UserInputComponent.cpp
+    src/components/InputComponent.cpp
 
     src/states/PlayState.cpp
     src/states/StateMachine.cpp
 
+    src/systems/InputSystem.cpp
     src/systems/NavigationSystem.cpp
     src/systems/PhysicsSystem.cpp
     src/systems/RenderSystem.cpp
@@ -65,6 +67,7 @@ target_include_directories(frontier_lib
 target_link_libraries(frontier_lib
     PUBLIC
     texture_manager
+    input
     PRIVATE
     log
     math

@@ -6,6 +6,7 @@ namespace frontier {
 
 enum LogLevel {
     LOG_ERROR,
+    LOG_WARN,
     LOG_INFO,
     LOG_DEBUG,
 };
@@ -34,6 +35,7 @@ private:
 };
 
 #define LOGE Logger(LOG_ERROR)
+#define LOGW Logger(LOG_WARN)
 #define LOGI Logger(LOG_INFO)
 #define LOGD Logger(LOG_DEBUG)
 

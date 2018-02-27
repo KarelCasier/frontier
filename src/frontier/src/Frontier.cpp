@@ -27,11 +27,12 @@ Frontier::Frontier()
       windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN)
 , _stateMachine{std::make_unique<StateMachine>()}
 {
-    _stateMachine->push(std::make_shared<PlayState>(_textureManager), true);
 }
 
 int Frontier::exec()
 {
+    _stateMachine->push(std::make_shared<PlayState>(_textureManager, _inputManager), true);
+
     SDL_Event event;
 
     auto now = steady_clock::now();
@@ -93,8 +94,8 @@ bool Frontier::handleGlobalEvent(const SDL_Event& event)
     case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_ESCAPE) {
             quit();
+            handled = true;
         }
-        handled = true;
         break;
     default:
         break;

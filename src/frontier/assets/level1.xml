@@ -1,8 +1,9 @@
 <level>
     <systems>
+        <inputsystem></inputsystem>
         <navigationsystem>level1_nav.tmx</navigationsystem>
-        <rendersystem></rendersystem>
         <physicssystem></physicssystem>
+        <rendersystem></rendersystem>
     </systems>
     <entities>
         <entity>

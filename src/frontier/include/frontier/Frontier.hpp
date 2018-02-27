@@ -6,6 +6,7 @@
 #include <memory>
 
 #include <frontier/states/IStateMachine.hpp>
+#include <input/InputManager.hpp>
 
 namespace frontier {
 

@@ -14,7 +14,7 @@ public:
 
     /// @name System overrides
     /// @{
-    void configure(entityx::EventManager& event_manager) override;
+    void configure(entityx::EventManager& eventManager) override;
     void update(entityx::EntityManager& entities, entityx::EventManager& events, entityx::TimeDelta dt) override;
     /// @}
 
