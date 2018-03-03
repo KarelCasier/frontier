@@ -1,6 +1,6 @@
 #include <frontier/LevelParser.hpp>
 
-#include <asset_util/Util.hpp>
+#include <graphics/Util.hpp>
 #include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
 #include <frontier/systems/NavigationSystem.hpp>

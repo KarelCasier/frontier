@@ -1,5 +1,5 @@
 #pragma once
-#include <debug_draw/IDebugDrawable.hpp>
+#include <graphics/IDebugDrawable.hpp>
 
 #include <vector>
 #include <utility>

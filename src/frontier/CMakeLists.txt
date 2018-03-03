@@ -66,14 +66,12 @@ target_include_directories(frontier_lib
 
 target_link_libraries(frontier_lib
     PUBLIC
-    texture_manager
+    graphics
     input
     PRIVATE
     log
     math
     navigation
-    asset_util
-    debug_draw
     ${SDL2_LIBRARY}
     entityx
     tinyxml2

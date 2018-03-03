@@ -1,6 +1,6 @@
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 
-#include <asset_util/Util.hpp>
+#include <graphics/Util.hpp>
 #include <SDL2_image/SDL_image.h>
 #include <math/Misc.hpp>
 #include <cmath>

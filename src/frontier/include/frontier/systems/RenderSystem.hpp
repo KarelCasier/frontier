@@ -1,8 +1,8 @@
 #pragma once
 
 #include <entityx/entityx.h>
-#include <texture_manager/TextureManager.hpp>
-#include <debug_draw/IDebugDrawable.hpp>
+#include <graphics/TextureManager.hpp>
+#include <graphics/IDebugDrawable.hpp>
 #include <frontier/events/DebugDrawableEvent.hpp>
 
 namespace frontier {

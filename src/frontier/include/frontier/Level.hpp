@@ -2,7 +2,7 @@
 
 #include <chrono>
 #include <entityx/entityx.h>
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 #include <input/InputManager.hpp>
 #include <navigation/NavMesh.hpp>
 

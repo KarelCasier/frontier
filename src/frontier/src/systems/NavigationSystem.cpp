@@ -3,7 +3,7 @@
 #include <frontier/components/NavigationComponent.hpp>
 #include <frontier/components/TransformComponent.hpp>
 
-#include <asset_util/Util.hpp>
+#include <graphics/Util.hpp>
 #include <frontier/LevelNavParser.hpp>
 
 namespace frontier {

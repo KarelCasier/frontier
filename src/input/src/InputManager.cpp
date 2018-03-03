@@ -2,7 +2,6 @@
 
 #include <utility>
 #include <map>
-#include <stdio.h>
 
 #include <input/BindingContext.hpp>
 #include <input/InputConsumer.hpp>

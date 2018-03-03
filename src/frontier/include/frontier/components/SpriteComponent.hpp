@@ -2,7 +2,7 @@
 
 #include <entityx/entityx.h>
 
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 #include <math/Rect.hpp>
 
 namespace frontier {

@@ -1,6 +1,6 @@
 #include <frontier/World.hpp>
 
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 #include <input/InputManager.hpp>
 #include <frontier/Level.hpp>
 #include <frontier/LevelParser.hpp>

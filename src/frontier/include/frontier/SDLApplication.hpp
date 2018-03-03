@@ -3,7 +3,7 @@
 #include <memory>
 #include <SDL2/SDL.h>
 
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 #include <input/InputManager.hpp>
 
 namespace frontier {

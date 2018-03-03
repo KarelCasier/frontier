@@ -1,7 +1,7 @@
 #pragma once
 
 #include <entityx/entityx.h>
-#include <texture_manager/TextureManager.hpp>
+#include <graphics/TextureManager.hpp>
 
 namespace frontier {
 

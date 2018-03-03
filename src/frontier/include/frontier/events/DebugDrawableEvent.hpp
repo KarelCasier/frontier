@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <debug_draw/IDebugDrawable.hpp>
+#include <graphics/IDebugDrawable.hpp>
 
 namespace frontier {
 
