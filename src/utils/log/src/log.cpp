@@ -60,7 +60,7 @@ Logger::Logger(LogLevel level)
 
 Logger::~Logger()
 {
-    std::cout << std::endl << _outBuffer.str();
+    std::cout << _outBuffer.str() << std::endl;
     _outBuffer.flush();
 }
 
