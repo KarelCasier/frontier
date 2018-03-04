@@ -3,9 +3,12 @@ project(math LANGUAGES CXX)
 set (HEADERS
     include/math/Collision.hpp
     include/math/ConvexShape.hpp
+    include/math/Matrix.hpp
     include/math/Misc.hpp
+    include/math/Printers.hpp
     include/math/Rect.hpp
     include/math/Vector2.hpp
+    include/math/impl/Matrix_impl.hpp
     )
 
 set(SOURCES

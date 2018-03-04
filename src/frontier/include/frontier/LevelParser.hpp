@@ -2,7 +2,6 @@
 
 #include <tinyxml2.h>
 #include <string>
-#include <input/InputManager.hpp>
 #include <frontier/Level.hpp>
 #include <frontier/components/PhysicsComponent.hpp>
 #include <frontier/components/SpriteComponent.hpp>
@@ -10,9 +9,15 @@
 
 namespace frontier {
 
+class RenderManager;
+class TextureManager;
+class InputManager;
+
 class LevelParser {
 public:
-    LevelParser(std::shared_ptr<TextureManager> textureManager, std::shared_ptr<InputManager> inputManager);
+    LevelParser(std::shared_ptr<RenderManager> renderManager,
+                std::shared_ptr<TextureManager> textureManager,
+                std::shared_ptr<InputManager> inputManager);
 
     std::shared_ptr<Level> parse(const std::string& file);
 
@@ -24,6 +29,7 @@ private:
 
     void parseSystem(const tinyxml2::XMLElement* baseElement);
 
+    std::shared_ptr<RenderManager> _renderManager;
     std::shared_ptr<TextureManager> _textureManager;
     std::shared_ptr<InputManager> _inputManager;
     std::shared_ptr<Level> _level;

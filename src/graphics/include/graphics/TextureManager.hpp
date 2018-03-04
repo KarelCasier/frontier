@@ -3,15 +3,17 @@
 #include <unordered_map>
 #include <string>
 
-#include <SDL2/SDL.h>
+struct SDL_Texture;
+struct SDL_Renderer;
 
 namespace frontier {
 
+/// Handle for a texture
 class TextureRef {
 public:
-    uint64_t id() { return _id; }
-    const std::string& name() { return _name; }
-    SDL_Texture* texture() { return _texture; }
+    uint64_t id() const { return _id; }
+    const std::string& name() const { return _name; }
+    SDL_Texture* texture() const { return _texture; }
 
 private:
     TextureRef(uint64_t id, const std::string& name, SDL_Texture* texture)
@@ -27,23 +29,23 @@ private:
     friend class TextureManager;
 };
 
+/// Class to manage texture loading
 class TextureManager {
 public:
+    /// Create a TextureManager
+    /// @param renderer The renderer used to create textures
+    /// Note: renderer is not owned by TextureManager
     TextureManager(SDL_Renderer* renderer);
     ~TextureManager();
 
+    /// Load a texture from file
+    /// @param name The name of the file to load
+    /// @return A pointer to the loaded texture
     TextureRef* loadTexture(const std::string& name);
+
+    /// Purge all textures
     void purgeTextures();
 
-    /// Render a texture.
-    /// @param texture The texture reference obtained from a loadTexture call.
-    /// @param srcRect The source rectangle of the texture.
-    /// @param destRect The destination rectangle to draw the texture at.
-    /// @param rotation The rotation (in radians) to draw the texture at.
-    /// @param origin The point at which to rotate the srcRect at.
-    void render(const TextureRef* texture, const SDL_Rect& srcRect, const SDL_Rect& destRect, const double rotation = 0.0, const SDL_Point* origin = NULL);
-
-    SDL_Renderer* getRenderer();
 private:
     std::unordered_map<uint64_t, TextureRef*> _textures;
     SDL_Renderer* _renderer;

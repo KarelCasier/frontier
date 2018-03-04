@@ -28,8 +28,8 @@ namespace frontier {
 
 using namespace entityx;
 
-RenderSystem::RenderSystem(std::shared_ptr<TextureManager> textureManager)
-: _textureManager{std::move(textureManager)}
+RenderSystem::RenderSystem(std::shared_ptr<RenderManager> renderManager)
+: _renderManager{std::move(renderManager)}
 {
 }
 
@@ -50,12 +50,12 @@ void RenderSystem::update(entityx::EntityManager& entities,
         SDL_Rect destRect{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
-        _textureManager->render(sprite->_ref, srcRect, destRect, orientation);
+        _renderManager->render(sprite->_ref, srcRect, destRect, orientation);
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {
         if (auto strongDrawable = I->lock()) {
-            strongDrawable->debugDraw(_textureManager->getRenderer());
+            _renderManager->render(strongDrawable.get());
         } else {
             LOGI << "Removing debug drawable due to failed promotion to shared_ptr";
             I = _debugDrawables.erase(I);
@@ -69,7 +69,7 @@ void RenderSystem::receive(const DebugDrawableEvent& debugDrawableEvent)
         _debugDrawables.push_back(debugDrawableEvent.get());
     } else {
         _debugDrawables.erase(std::remove_if(begin(_debugDrawables), end(_debugDrawables),
-                                             WeakPtrCompare<IDebugDrawable>{debugDrawableEvent.get()}));
+                                             WeakPtrCompare<ISelfRenderable>{debugDrawableEvent.get()}));
     }
 }
 

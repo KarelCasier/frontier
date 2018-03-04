@@ -1,6 +1,9 @@
 #include <frontier/LevelParser.hpp>
 
 #include <graphics/Util.hpp>
+#include <graphics/RenderManager.hpp>
+#include <graphics/TextureManager.hpp>
+#include <input/InputManager.hpp>
 #include <frontier/systems/PhysicsSystem.hpp>
 #include <frontier/systems/RenderSystem.hpp>
 #include <frontier/systems/NavigationSystem.hpp>
@@ -60,8 +63,11 @@ std::shared_ptr<NavigationSystem> parseNavigationSystem(const XMLElement* baseEl
 
 namespace frontier {
 
-LevelParser::LevelParser(std::shared_ptr<TextureManager> textureManager, std::shared_ptr<InputManager> inputManager)
-: _textureManager{std::move(textureManager)}
+LevelParser::LevelParser(std::shared_ptr<RenderManager> renderManager,
+                         std::shared_ptr<TextureManager> textureManager,
+                         std::shared_ptr<InputManager> inputManager)
+: _renderManager{std::move(renderManager)}
+, _textureManager{std::move(textureManager)}
 , _inputManager{std::move(inputManager)}
 {
 }
@@ -77,7 +83,7 @@ std::shared_ptr<Level> LevelParser::parse(const std::string& file)
     }
     LOGI << "Parsing file: " << file;
 
-    _level = std::make_shared<Level>(_textureManager, _inputManager);
+    _level = std::make_shared<Level>(_renderManager, _textureManager, _inputManager);
 
     auto element = doc.RootElement();
     assertName(element, "level");
@@ -189,7 +195,7 @@ void LevelParser::parseSystem(const XMLElement* baseElement)
 {
     const auto name = baseElement->Name();
     if (isEqual(name, "rendersystem")) {
-        _level->_entityX.systems.add<RenderSystem>(_textureManager);
+        _level->_entityX.systems.add<RenderSystem>(_renderManager);
     } else if (isEqual(name, "physicssystem")) {
         _level->_entityX.systems.add<PhysicsSystem>();
     } else if (isEqual(name, "navigationsystem")) {

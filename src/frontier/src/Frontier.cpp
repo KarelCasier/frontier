@@ -31,7 +31,7 @@ Frontier::Frontier()
 
 int Frontier::exec()
 {
-    _stateMachine->push(std::make_shared<PlayState>(_textureManager, _inputManager), true);
+    _stateMachine->push(std::make_shared<PlayState>(_renderManager, _textureManager, _inputManager), true);
 
     SDL_Event event;
 

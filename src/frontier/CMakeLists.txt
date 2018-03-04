@@ -66,11 +66,10 @@ target_include_directories(frontier_lib
 
 target_link_libraries(frontier_lib
     PUBLIC
-    graphics
-    input
     PRIVATE
+    input
+    graphics
     log
-    math
     navigation
     ${SDL2_LIBRARY}
     entityx

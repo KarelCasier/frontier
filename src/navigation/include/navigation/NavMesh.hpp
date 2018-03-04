@@ -1,5 +1,5 @@
 #pragma once
-#include <graphics/IDebugDrawable.hpp>
+#include <graphics/ISelfRenderable.hpp>
 
 #include <vector>
 #include <utility>
@@ -12,15 +12,15 @@
 namespace frontier {
 
 template <typename T>
-class NavMesh : public IDebugDrawable {
+class NavMesh : public ISelfRenderable{
 public:
     void addPoly(std::shared_ptr<ConvexShape<T>> shape);
 
     std::vector<Vector2<T>> navigationPath(const Vector2<T>& startPos, const Vector2<T>& targetPos);
 
-    /// @name IDebugDrawable overrides
+    /// @name ISelfRenderable overrides
     /// @{
-    void debugDraw(SDL_Renderer* renderer) const override;
+    void renderSelf(SDL_Renderer* renderer) const override;
     /// @}
 
 private:

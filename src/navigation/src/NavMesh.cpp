@@ -85,7 +85,7 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
 namespace frontier {
 
 template <typename T>
-void NavMesh<T>::debugDraw(SDL_Renderer* renderer) const
+void NavMesh<T>::renderSelf(SDL_Renderer* renderer) const
 {
     Uint8 r, g, b, a;
     SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);

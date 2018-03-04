@@ -3,6 +3,9 @@
 #include <iostream>
 
 #include <log/log.hpp>
+#include <graphics/RenderManager.hpp>
+#include <graphics/TextureManager.hpp>
+#include <input/InputManager.hpp>
 
 namespace frontier {
 
@@ -30,6 +33,7 @@ SDLApplication::SDLApplication(const char* title, int x, int y, int w, int h, Ui
         throw std::runtime_error(err.str());
     }
     _textureManager = std::make_shared<TextureManager>(_renderer);
+    _renderManager = std::make_shared<RenderManager>(_renderer);
     _inputManager = std::make_shared<InputManager>();
 }
 
