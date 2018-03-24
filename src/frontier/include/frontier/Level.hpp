@@ -5,13 +5,13 @@
 
 namespace frontier {
 
-class RenderManager;
+class Window;
 class TextureManager;
 class InputManager;
 
 class Level {
 public:
-    Level(std::shared_ptr<RenderManager> renderManager,
+    Level(std::shared_ptr<Window> window,
           std::shared_ptr<TextureManager> textureManager,
           std::shared_ptr<InputManager> inputManager);
 
@@ -22,7 +22,7 @@ public:
 private:
     friend class LevelParser;
 
-    std::shared_ptr<RenderManager> _renderManager;
+    std::shared_ptr<Window> _window;
     std::shared_ptr<TextureManager> _textureManager;
     std::shared_ptr<InputManager> _inputManager;
     entityx::EntityX _entityX;

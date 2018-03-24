@@ -1,15 +1,15 @@
 #pragma once
 
 #include <entityx/entityx.h>
-#include <graphics/RenderManager.hpp>
-#include <graphics/ISelfRenderable.hpp>
+#include <graphics/Window.hpp>
+#include <graphics/IRenderable.hpp>
 #include <frontier/events/DebugDrawableEvent.hpp>
 
 namespace frontier {
 
 class RenderSystem : public entityx::System<RenderSystem>, public entityx::Receiver<RenderSystem> {
 public:
-    RenderSystem(std::shared_ptr<RenderManager> renderManager);
+    RenderSystem(std::shared_ptr<Window> window);
     ~RenderSystem() override = default;
 
     /// @name System overrides
@@ -24,8 +24,8 @@ public:
     /// @}
 
 private:
-    std::shared_ptr<RenderManager> _renderManager;
-    std::vector<std::weak_ptr<ISelfRenderable>> _debugDrawables;
+    std::shared_ptr<Window> _window;
+    std::vector<std::weak_ptr<IRenderable>> _debugDrawables;
 };
 
 } // namespace frontier

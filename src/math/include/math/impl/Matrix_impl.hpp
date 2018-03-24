@@ -17,7 +17,7 @@ namespace {
  *        containing column indexes where the permutation matrix has "1". The last element P[N]=S+N,
  *        where S is the number of row exchanges needed for determinant computation, det(P)=(-1)^S
  */
-int LUPDecompose(double** A, int N, double Tol, int* P)
+inline int LUPDecompose(double** A, int N, double Tol, int* P)
 {
     int i, j, k, imax;
     double maxA, *ptr, absA;
@@ -67,7 +67,7 @@ int LUPDecompose(double** A, int N, double Tol, int* P)
 /* INPUT: A,P filled in LUPDecompose; b - rhs vector; N - dimension
  * OUTPUT: x - solution vector of A*x=b
  */
-void LUPSolve(double** A, int* P, double* b, int N, double* x)
+inline void LUPSolve(double** A, int* P, double* b, int N, double* x)
 {
     for (int i = 0; i < N; i++) {
         x[i] = b[P[i]];
@@ -87,7 +87,7 @@ void LUPSolve(double** A, int* P, double* b, int N, double* x)
 /* INPUT: A,P filled in LUPDecompose; N - dimension
  * OUTPUT: IA is the inverse of the initial matrix
  */
-void LUPInvert(double** A, int* P, int N, double** IA)
+inline void LUPInvert(double** A, int* P, int N, double** IA)
 {
     for (int j = 0; j < N; j++) {
         for (int i = 0; i < N; i++) {
@@ -112,7 +112,7 @@ void LUPInvert(double** A, int* P, int N, double** IA)
 /* INPUT: A,P filled in LUPDecompose; N - dimension.
  * OUTPUT: Function returns the determinant of the initial matrix
  */
-double LUPDeterminant(double** A, int* P, int N)
+inline double LUPDeterminant(double** A, int* P, int N)
 {
     double det = A[0][0];
 
@@ -172,6 +172,13 @@ Matrix<T, R, C> Matrix<T, R, C>::Identity()
         mat(i, i) = 1.0;
     }
     return mat;
+}
+
+template <typename T, size_t R, size_t C>
+template <size_t RO, size_t CO>
+bool Matrix<T, R, C>::operator==(const Matrix<T, RO, CO>& other) const
+{
+    return R == RO && C == CO && _matrix == other._matrix;
 }
 
 template <typename T, size_t R, size_t C>

@@ -5,14 +5,14 @@
 
 namespace frontier {
 
-class RenderManager;
+class Window;
 class TextureManager;
 class InputManager;
 class Level;
 
 class World {
 public:
-    World(std::shared_ptr<RenderManager> renderManager,
+    World(std::shared_ptr<Window> window,
           std::shared_ptr<TextureManager> textureManager,
           std::shared_ptr<InputManager> inputManager);
 
@@ -20,7 +20,7 @@ public:
     void render();
 
 private:
-    std::shared_ptr<RenderManager> _renderManager;
+    std::shared_ptr<Window> _window;
     std::shared_ptr<TextureManager> _textureManager;
     std::shared_ptr<InputManager> _inputManager;
     std::shared_ptr<Level> _level;

@@ -66,9 +66,9 @@ target_include_directories(frontier_lib
 
 target_link_libraries(frontier_lib
     PUBLIC
+    graphics
     PRIVATE
     input
-    graphics
     log
     navigation
     ${SDL2_LIBRARY}

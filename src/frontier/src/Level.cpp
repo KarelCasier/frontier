@@ -10,16 +10,19 @@
 #include <frontier/events/DebugDrawableEvent.hpp>
 #include <input/InputActions.hpp>
 
+#include <graphics/Camera.hpp>
+#include <math/Printers.hpp>
+
 #include <log/log.hpp>
 
 namespace frontier {
 
 using namespace std::chrono;
 
-Level::Level(std::shared_ptr<RenderManager> renderManager,
+Level::Level(std::shared_ptr<Window> window,
              std::shared_ptr<TextureManager> textureManager,
              std::shared_ptr<InputManager> inputManager)
-: _renderManager{std::move(renderManager)}
+: _window{std::move(window)}
 , _textureManager{std::move(textureManager)}
 , _inputManager{std::move(inputManager)}
 {
@@ -33,7 +36,12 @@ void Level::finishInit()
 
     auto e = _entityX.entities.create();
     auto input = InputComponent{};
-    input.bindMouseCallback(LeftClick, [](int x, int y) { LOGI << "LEFT: " << x << ", " << y; });
+    input.bindMouseCallback(LeftClick, [](int x, int y) {
+        LOGI << "LEFT: " << x << ", " << y;
+        Camera cam{{0, 0, 800, 600}};
+        LOGD << cam.screenToCamera({x, y});
+
+    });
     input.bindMouseCallback(RightClick, [](int x, int y) { LOGI << "RIGHT: " << x << ", " << y; });
     input.bindActionCallback("A", []() { LOGI << "A"; });
     input.bindActionCallback("ARel", []() { LOGI << "ARel"; });

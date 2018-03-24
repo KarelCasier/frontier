@@ -1,23 +1,23 @@
 #pragma once
 
 #include <memory>
-#include <graphics/ISelfRenderable.hpp>
+#include <graphics/IRenderable.hpp>
 
 namespace frontier {
 
 class DebugDrawableEvent {
 public:
-    DebugDrawableEvent(std::weak_ptr<ISelfRenderable> debugDrawable, bool enable)
+    DebugDrawableEvent(std::weak_ptr<IRenderable> debugDrawable, bool enable)
     : _debugDrawable{std::move(debugDrawable)}
     , _enable{enable}
     {
     }
 
-    std::weak_ptr<ISelfRenderable> get() const { return _debugDrawable; }
+    std::weak_ptr<IRenderable> get() const { return _debugDrawable; }
     bool enable() const { return _enable; }
 
 private:
-    std::weak_ptr<ISelfRenderable> _debugDrawable;
+    std::weak_ptr<IRenderable> _debugDrawable;
     bool _enable;
 };
 

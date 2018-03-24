@@ -1,18 +1,28 @@
 #pragma once
 
+#include <iostream>
 #include <math/Matrix.hpp>
+#include <math/Vector2.hpp>
 
 namespace frontier {
 
 template <typename T, size_t R, size_t C>
-void print(const Matrix<T, R, C>& mat)
+std::ostream& operator<<(std::ostream& os, const Matrix<T, R, C>& mat)
 {
     for (auto i{0u}; i < R; ++i) {
         for (auto j{0u}; j < C; ++j) {
-            std::cout << mat(i, j) << " ";
+            os << mat(i, j) << " ";
         }
-        std::cout << std::endl;
+        os << std::endl;
     }
+    return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vector2<T>& vec)
+{
+    os << "[" << vec.x() << ", " << vec.y() << "]" << std::endl;
+    return os;
 }
 
 } // namespace frontier

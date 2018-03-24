@@ -1,10 +1,11 @@
 #include <navigation/NavMesh.hpp>
 
+#include <SDL2/SDL.h>
+
 #include <algorithm>
 #include <iostream>
 #include <math.h>
 
-#include <SDL2/SDL.h>
 #include <log/log.hpp>
 #include <math/Collision.hpp>
 
@@ -85,22 +86,22 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
 namespace frontier {
 
 template <typename T>
-void NavMesh<T>::renderSelf(SDL_Renderer* renderer) const
+void NavMesh<T>::render(IRenderTarget& /*renderTarget*/)
 {
-    Uint8 r, g, b, a;
-    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-    for (const auto& poly : _mesh) {
-        auto sdlPoints = std::vector<SDL_Point>{};
-        const auto shape = poly->_shape;
-        const auto points = shape->points();
-        std::transform(begin(points), end(points), std::back_inserter(sdlPoints), [](const auto& pt) -> SDL_Point {
-            return {static_cast<int>(pt.x()), static_cast<int>(pt.y())};
-        });
-        sdlPoints.push_back(sdlPoints.front());
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderDrawLines(renderer, sdlPoints.data(), sdlPoints.size());
-    }
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    //Uint8 r, g, b, a;
+    //SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    //for (const auto& poly : _mesh) {
+        //auto sdlPoints = std::vector<SDL_Point>{};
+        //const auto shape = poly->_shape;
+        //const auto points = shape->points();
+        //std::transform(begin(points), end(points), std::back_inserter(sdlPoints), [](const auto& pt) -> SDL_Point {
+            //return {static_cast<int>(pt.x()), static_cast<int>(pt.y())};
+        //});
+        //sdlPoints.push_back(sdlPoints.front());
+        //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        //SDL_RenderDrawLines(renderer, sdlPoints.data(), sdlPoints.size());
+    //}
+    //SDL_SetRenderDrawColor(renderer, r, g, b, a);
 }
 
 template <typename T>

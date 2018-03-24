@@ -25,8 +25,8 @@
             </physicscomponent>
             <spritecomponent>
                 <asset>Test.png</asset>
-                <x>100</x>
-                <y>100</y>
+                <x>0</x>
+                <y>0</y>
                 <w>100</w>
                 <h>100</h>
             </spritecomponent>

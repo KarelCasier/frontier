@@ -28,8 +28,8 @@ namespace frontier {
 
 using namespace entityx;
 
-RenderSystem::RenderSystem(std::shared_ptr<RenderManager> renderManager)
-: _renderManager{std::move(renderManager)}
+RenderSystem::RenderSystem(std::shared_ptr<Window> window)
+: _window{std::move(window)}
 {
 }
 
@@ -46,16 +46,16 @@ void RenderSystem::update(entityx::EntityManager& entities,
     ComponentHandle<SpriteComponent> sprite;
     for (Entity entity : entities.entities_with_components(transform, sprite)) {
         (void)entity; // no unused warn
-        SDL_Rect srcRect{0, 0, static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
-        SDL_Rect destRect{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
+        const auto srcRect = static_cast<Recti>(sprite->_rect);
+        const auto destRect = Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
-        _renderManager->render(sprite->_ref, srcRect, destRect, orientation);
+        _window->render(sprite->_ref, srcRect, destRect, orientation);
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {
         if (auto strongDrawable = I->lock()) {
-            _renderManager->render(strongDrawable.get());
+            _window->render(*strongDrawable);
         } else {
             LOGI << "Removing debug drawable due to failed promotion to shared_ptr";
             I = _debugDrawables.erase(I);
@@ -69,7 +69,7 @@ void RenderSystem::receive(const DebugDrawableEvent& debugDrawableEvent)
         _debugDrawables.push_back(debugDrawableEvent.get());
     } else {
         _debugDrawables.erase(std::remove_if(begin(_debugDrawables), end(_debugDrawables),
-                                             WeakPtrCompare<ISelfRenderable>{debugDrawableEvent.get()}));
+                                             WeakPtrCompare<IRenderable>{debugDrawableEvent.get()}));
     }
 }
 

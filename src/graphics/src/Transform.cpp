@@ -1,7 +1,6 @@
 #include <graphics/Transform.hpp>
 
 #include <math/Misc.hpp>
-#include <iostream>
 
 namespace frontier {
 
@@ -10,6 +9,11 @@ Transform::Transform()
     row1(1, 0, 0);
     row2(0, 1, 0);
     row3(0, 0, 1);
+}
+
+Transform::Transform(Matrix<float, 3, 3> matrix)
+: _matrix{std::move(matrix)}
+{
 }
 
 Transform::Transform(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22)
@@ -74,8 +78,12 @@ Vector2f Transform::transformPoint(const Vector2f& point)
 {
     const auto matPoint = Matrix<float, 3, 1>{{{{{point.x()}}, {{point.y()}}, {{1}}}}};
     const auto transMatPoint = _matrix * matPoint;
-    //std::cout << transMatPoint(0, 0) << " " << transMatPoint(0, 1) << " " << transMatPoint(0, 2) << std::endl;
     return {transMatPoint(0, 0), transMatPoint(0, 1)};
+}
+
+Transform Transform::inverse() const
+{
+    return {_matrix.inverse()};
 }
 
 Transform& Transform::row1(float a00, float a01, float a02)

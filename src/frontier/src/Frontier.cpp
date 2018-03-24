@@ -1,7 +1,9 @@
 #include <frontier/Frontier.hpp>
 
-#include <frontier/states/StateMachine.hpp>
 #include <frontier/states/PlayState.hpp>
+#include <frontier/states/StateMachine.hpp>
+#include <graphics/TextureManager.hpp>
+#include <input/InputManager.hpp>
 #include <log/log.hpp>
 
 namespace {
@@ -23,15 +25,15 @@ static constexpr auto resetTimeDeltaThreshhold{1s};
 namespace frontier {
 
 Frontier::Frontier()
-: SDLApplication(
-      windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN)
+: SDLApplication(windowTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT)
 , _stateMachine{std::make_unique<StateMachine>()}
+, _inputManager{std::make_shared<InputManager>()}
 {
 }
 
 int Frontier::exec()
 {
-    _stateMachine->push(std::make_shared<PlayState>(_renderManager, _textureManager, _inputManager), true);
+    _stateMachine->push(std::make_shared<PlayState>(_window, std::make_shared<TextureManager>(_window), _inputManager), true);
 
     SDL_Event event;
 
@@ -56,7 +58,7 @@ int Frontier::exec()
             _stateMachine->update(timeStep);
 
             lag -= timeStep;
-            // Reset lag if game was externally paused.
+            // Reset lag if game was externally paused id dubugged breakpoint.
             if (lag > resetTimeDeltaThreshhold) {
                 LOGD << "Detected external pause. Reseting lag.";
                 lag = 0s;
@@ -65,9 +67,9 @@ int Frontier::exec()
         last_update = now;
 
         if (now - last_frame > timePerFrame) {
-            SDL_RenderClear(_renderer);
+            _window->preRender();
             _stateMachine->render();
-            SDL_RenderPresent(_renderer);
+            _window->postRender();
 
             last_frame = now;
             frame++;

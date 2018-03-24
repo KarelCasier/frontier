@@ -4,20 +4,20 @@
 #include <input/BindingData.hpp>
 #include <input/InputActions.hpp>
 #include <input/InputManager.hpp>
-#include <graphics/RenderManager.hpp>
+#include <graphics/Window.hpp>
 #include <graphics/TextureManager.hpp>
 
 #include <log/log.hpp>
 
 namespace frontier {
 
-PlayState::PlayState(std::shared_ptr<RenderManager> renderManager,
+PlayState::PlayState(std::shared_ptr<Window> window,
                      std::shared_ptr<TextureManager> textureManager,
                      std::shared_ptr<InputManager> inputManager)
-: _renderManager{std::move(renderManager)}
+: _window{std::move(window)}
 , _textureManager{std::move(textureManager)}
 , _inputManager{std::move(inputManager)}
-, _world{_renderManager, _textureManager, _inputManager}
+, _world{_window, _textureManager, _inputManager}
 {
 }
 

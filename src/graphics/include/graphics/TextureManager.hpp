@@ -3,39 +3,18 @@
 #include <unordered_map>
 #include <string>
 
-struct SDL_Texture;
-struct SDL_Renderer;
+#include <graphics/TextureRef.hpp>
 
 namespace frontier {
 
-/// Handle for a texture
-class TextureRef {
-public:
-    uint64_t id() const { return _id; }
-    const std::string& name() const { return _name; }
-    SDL_Texture* texture() const { return _texture; }
-
-private:
-    TextureRef(uint64_t id, const std::string& name, SDL_Texture* texture)
-    : _id{id}
-    , _name{name}
-    , _texture{texture}
-    {
-    }
-
-    uint64_t _id;
-    std::string _name;
-    SDL_Texture* _texture;
-    friend class TextureManager;
-};
+class Window;
 
 /// Class to manage texture loading
 class TextureManager {
 public:
     /// Create a TextureManager
-    /// @param renderer The renderer used to create textures
-    /// Note: renderer is not owned by TextureManager
-    TextureManager(SDL_Renderer* renderer);
+    /// @param window The window used to create textures
+    TextureManager(std::shared_ptr<Window> window);
     ~TextureManager();
 
     /// Load a texture from file
@@ -47,8 +26,11 @@ public:
     void purgeTextures();
 
 private:
+    class SDL_Image;
+
     std::unordered_map<uint64_t, TextureRef*> _textures;
-    SDL_Renderer* _renderer;
+    std::shared_ptr<Window> _window;
+    std::unique_ptr<SDL_Image> _sdlImage;
 };
 
 } // namespace frontier

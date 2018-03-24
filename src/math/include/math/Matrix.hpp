@@ -15,6 +15,10 @@ public:
     /// Contruct an identity matrix
     static Matrix Identity();
 
+    template <size_t RO, size_t CO>
+    bool operator==(const Matrix<T, RO, CO>& other) const;
+
+    /// Accessors
     const T& operator()(size_t r, size_t c) const;
     T& operator()(size_t r, size_t c);
 

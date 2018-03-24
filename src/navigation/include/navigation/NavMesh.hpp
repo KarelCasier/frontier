@@ -1,5 +1,6 @@
 #pragma once
-#include <graphics/ISelfRenderable.hpp>
+
+#include <graphics/IRenderable.hpp>
 
 #include <vector>
 #include <utility>
@@ -12,15 +13,15 @@
 namespace frontier {
 
 template <typename T>
-class NavMesh : public ISelfRenderable{
+class NavMesh : public IRenderable {
 public:
     void addPoly(std::shared_ptr<ConvexShape<T>> shape);
 
     std::vector<Vector2<T>> navigationPath(const Vector2<T>& startPos, const Vector2<T>& targetPos);
 
-    /// @name ISelfRenderable overrides
+    /// @name IRenderable overrides
     /// @{
-    void renderSelf(SDL_Renderer* renderer) const override;
+    void render(IRenderTarget& renderTarget) override;
     /// @}
 
 private:

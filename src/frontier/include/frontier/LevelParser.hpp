@@ -9,13 +9,13 @@
 
 namespace frontier {
 
-class RenderManager;
+class Window;
 class TextureManager;
 class InputManager;
 
 class LevelParser {
 public:
-    LevelParser(std::shared_ptr<RenderManager> renderManager,
+    LevelParser(std::shared_ptr<Window> window,
                 std::shared_ptr<TextureManager> textureManager,
                 std::shared_ptr<InputManager> inputManager);
 
@@ -29,7 +29,7 @@ private:
 
     void parseSystem(const tinyxml2::XMLElement* baseElement);
 
-    std::shared_ptr<RenderManager> _renderManager;
+    std::shared_ptr<Window> _window;
     std::shared_ptr<TextureManager> _textureManager;
     std::shared_ptr<InputManager> _inputManager;
     std::shared_ptr<Level> _level;

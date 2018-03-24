@@ -4,13 +4,21 @@
 
 namespace frontier {
 
-template <typename T>
+template <typename T, typename = typename std::enable_if_t<std::is_arithmetic<T>::value>>
 class Rect {
 public:
     Rect(T x, T y, T w, T h)
     : _position{std::move(x), std::move(y)}
     , _dimensions{std::move(w), std::move(h)}
     {
+    }
+
+    // Allow explicit conversion
+    template <typename O>
+    explicit operator Rect<O>()
+    {
+        return {static_cast<O>(_position.x()), static_cast<O>(_position.y()), static_cast<O>(_dimensions.x()),
+                static_cast<O>(_dimensions.y())};
     }
 
     /// Getters
@@ -35,5 +43,6 @@ private:
 };
 
 using Rectf = Rect<float>;
+using Recti = Rect<int>;
 
 } // namespace frontier

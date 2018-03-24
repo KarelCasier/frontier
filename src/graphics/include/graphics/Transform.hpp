@@ -8,6 +8,7 @@ namespace frontier {
 class Transform {
 public:
     Transform();
+    Transform(Matrix<float, 3 ,3> matrix);
     Transform(float a00, float a01, float a02, float a10, float a11, float a12, float a20, float a21, float a22);
 
     /// Apply a scaling factor
@@ -26,6 +27,9 @@ public:
 
     /// Transform a point
     Vector2f transformPoint(const Vector2f& point);
+
+    /// Compute the inverse transform
+    Transform inverse() const;
 
 private:
     Transform& row1(float a00, float a01, float a02);

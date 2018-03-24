@@ -1,27 +1,49 @@
 #include <graphics/TextureManager.hpp>
 
-#include <graphics/Util.hpp>
-#include <SDL2_image/SDL_image.h>
-#include <SDL2/SDL_render.h>
-#include <log/log.hpp>
 #include <string>
 
-namespace {
+#include <graphics/Util.hpp>
+#include <graphics/Window.hpp>
+#include <log/log.hpp>
 
-} // namespace
+#include <SDL2_image/SDL_image.h>
+#include <SDL2/SDL.h>
 
 namespace frontier {
 
-TextureManager::TextureManager(SDL_Renderer* renderer)
-: _renderer{std::move(renderer)}
+/// SDL_image library has global initialization only
+class TextureManager::SDL_Image {
+public:
+    SDL_Image()
+    {
+        if (instances == 0) {
+            IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+        }
+        ++instances;
+    }
+    ~SDL_Image()
+    {
+        --instances;
+        if (instances == 0) {
+            IMG_Quit();
+        }
+    }
+
+private:
+    static uint8_t instances;
+};
+
+uint8_t TextureManager::SDL_Image::instances = 0;
+
+TextureManager::TextureManager(std::shared_ptr<Window> window)
+: _window{std::move(window)}
+, _sdlImage{std::make_unique<SDL_Image>()}
 {
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 }
 
 TextureManager::~TextureManager()
 {
     purgeTextures();
-    IMG_Quit();
 }
 
 TextureRef* TextureManager::loadTexture(const std::string& name)
@@ -34,7 +56,7 @@ TextureRef* TextureManager::loadTexture(const std::string& name)
         if (!surface) {
             throw std::runtime_error{"Failed to load asset from: " + assetLocation};
         }
-        auto texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        auto texture = SDL_CreateTextureFromSurface(_window->getSDLRenderer(), surface);
         SDL_FreeSurface(surface);
         auto textureRef = new TextureRef{hashId, name, texture};
         _textures.insert({hashId, textureRef});
