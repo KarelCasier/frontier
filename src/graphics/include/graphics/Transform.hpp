@@ -26,7 +26,7 @@ public:
     Transform& combine(const Transform& transform);
 
     /// Transform a point
-    Vector2f transformPoint(const Vector2f& point);
+    Vector2f transformPoint(const Vector2f& point) const;
 
     /// Compute the inverse transform
     Transform inverse() const;

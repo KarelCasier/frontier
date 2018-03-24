@@ -102,6 +102,31 @@ void Window::render(IRenderable& renderable)
     renderable.render(*this);
 }
 
+Vector2f Window::screenToCamera(const Vector2i& screenPoint, const Camera& camera) const
+{
+    const auto windowSize = static_cast<Vector2f>(size());
+    auto normalized = Vector2f{};
+    normalized.x(-1.f + 2.f * (screenPoint.x()) / windowSize.x());
+    normalized.y(1.f - 2.f * (screenPoint.y()) / windowSize.y());
+    return camera.inverseTransform().transformPoint(normalized);
+}
+
+Vector2i Window::cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const
+{
+    const auto windowSize = static_cast<Vector2f>(size());
+    const auto normalized = camera.transform().transformPoint(cameraPoint);
+    auto pixel = Vector2i{};
+    pixel.x(static_cast<int>(std::round((normalized.x() + 1.f) / 2.f * windowSize.x())));
+    pixel.y(static_cast<int>(std::round((-normalized.y() + 1.f) / 2.f * windowSize.y())));
+    return pixel;
+}
+
+Camera Window::createSizedCamera() const
+{
+    const auto windowSize = size();
+    return {static_cast<Rectf>(Recti{0, 0, windowSize.x(), windowSize.y()})};
+}
+
 Vector2i Window::position() const
 {
     int x, y;

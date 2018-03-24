@@ -36,10 +36,13 @@ void Level::finishInit()
 
     auto e = _entityX.entities.create();
     auto input = InputComponent{};
-    input.bindMouseCallback(LeftClick, [](int x, int y) {
-        LOGI << "LEFT: " << x << ", " << y;
-        Camera cam{{0, 0, 800, 600}};
-        LOGD << cam.screenToCamera({x, y});
+    input.bindMouseCallback(LeftClick, [this](int x, int y) {
+        LOGI << "LEFTCLICK: " << x << ", " << y << "\n";
+        Camera cam{{10, 10, 800, 600}};
+        auto camPoint = _window->screenToCamera({x, y}, cam);
+        auto winPoint = _window->cameraToScreen(camPoint, cam);
+        LOGD << camPoint;
+        LOGD << winPoint;
 
     });
     input.bindMouseCallback(RightClick, [](int x, int y) { LOGI << "RIGHT: " << x << ", " << y; });

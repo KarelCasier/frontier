@@ -51,16 +51,6 @@ public:
     /// Get the current inverse transform
     const Transform& inverseTransform() const;
 
-    /// Map a screen point to a camera point
-    /// @param screenPoint The point on the screen to convert
-    /// @returns The transformed point
-    Vec2f screenToCamera(const Vec2i& screenPoint) const;
-
-    /// Map a camera point to a screen point
-    /// @param cameraPoint The point on the screen to convert
-    /// @returns The transformed point
-    Vec2i cameraToScreen(const Vec2f& cameraPoint) const;
-
 private:
 
     void checkAndRecalculateTransform() const;

@@ -74,7 +74,7 @@ Transform& Transform::combine(const Transform& transform)
     return *this;
 }
 
-Vector2f Transform::transformPoint(const Vector2f& point)
+Vector2f Transform::transformPoint(const Vector2f& point) const
 {
     const auto matPoint = Matrix<float, 3, 1>{{{{{point.x()}}, {{point.y()}}, {{1}}}}};
     const auto transMatPoint = _matrix * matPoint;

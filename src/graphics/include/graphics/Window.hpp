@@ -1,9 +1,6 @@
 #pragma once
 
 #include <string>
-#include <mutex>
-#include <thread>
-#include <vector>
 #include <SDL2/SDL.h>
 
 #include <graphics/IRenderTarget.hpp>
@@ -34,7 +31,12 @@ public:
                 const double rotation = 0.0,
                 const std::optional<Vector2i> origin = {}) override;
     void render(IRenderable& renderable) override;
+    Vector2f screenToCamera(const Vector2i& screenPoint, const Camera& camera) const;
+    Vector2i cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const;
     /// @}
+
+    /// Create a camera sized to the window.
+    Camera createSizedCamera() const;
 
     /// Get the position of the window.
     Vector2i position() const;
@@ -73,10 +75,6 @@ private:
     bool _focused{false};
     bool _shown{false};
     bool _closed{false};
-    std::vector<SDL_Event> _events;
-
-    std::thread _eventThread;
-    std::mutex _eventMutex;
 };
 
 } // namespace frontier

@@ -90,28 +90,6 @@ const Transform& Camera::inverseTransform() const
     return _inverseTransform;
 }
 
-Camera::Vec2f Camera::screenToCamera(const Vec2i& screenPoint) const
-{
-    checkAndRecalculateTransform();
-    return _transform.transformPoint({static_cast<float>(screenPoint.x()), static_cast<float>(screenPoint.y())});
-    // Vec2f normalized{};
-    // normalized.x(-1.f + 2.f * (screenPoint.x()));
-    // normalized.y(1.f - 2.f * (screenPoint.y()));
-    // return _transform.transformPoint(normalized);
-}
-
-Camera::Vec2i Camera::cameraToScreen(const Vec2f& cameraPoint) const
-{
-    checkAndRecalculateTransform();
-    const auto floatPoint = _inverseTransform.transformPoint(cameraPoint);
-    return {static_cast<int>(floatPoint.x()), static_cast<int>(floatPoint.y())};
-    // const auto normalized = _inverseTransform.transformPoint(cameraPoint);
-    // auto pixel = Vec2i{};
-    // pixel.x(static_cast<int>((normalized.x() + 1.f) / 2.f));
-    // pixel.y(static_cast<int>((-normalized.y() + 1.f) / 2.f));
-    // return pixel;
-}
-
 void Camera::invalidateTransform()
 {
     _staleTransform = true;

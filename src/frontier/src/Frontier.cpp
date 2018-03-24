@@ -52,6 +52,7 @@ int Frontier::exec()
         while (lag > timeStep) {
             while (SDL_PollEvent(&event) != 0) {
                 if (!handleGlobalEvent(event)) {
+                    _window->handleWindowEvent(event);
                     _stateMachine->handleEvent(event);
                 }
             }

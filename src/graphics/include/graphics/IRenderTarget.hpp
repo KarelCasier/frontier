@@ -48,9 +48,22 @@ public:
                 const double rotation = 0.0,
                 const std::optional<Vector2i> origin = {}) = 0;
 
-    /// Render a renderable object
-    /// @param renderable The object to render
+    /// Render a renderable object.
+    /// @param renderable The object to render.
     virtual void render(IRenderable& renderable) = 0;
+
+    /// Map a screen point to a camera point.
+    /// @param screenPoint The point on the screen to convert.
+    /// @param camera The camera to convert the point to.
+    /// @returns The transformed point.
+    Vector2f screenToCamera(const Vector2i& screenPoint, const Camera& camera) const;
+
+    /// Map a camera point to a screen point.
+    /// @param cameraPoint The point on the screen to convert.
+    /// @param camera The camera to convert the point from.
+    /// @returns The transformed point.
+    Vector2i cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const;
+
 };
 
 } // namespace frontier
