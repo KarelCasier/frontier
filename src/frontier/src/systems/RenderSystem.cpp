@@ -42,6 +42,7 @@ void RenderSystem::update(entityx::EntityManager& entities,
                           entityx::EventManager& /* events */,
                           entityx::TimeDelta /* dt */)
 {
+    auto cam = _window->createSizedCamera();
     ComponentHandle<TransformComponent> transform;
     ComponentHandle<SpriteComponent> sprite;
     for (Entity entity : entities.entities_with_components(transform, sprite)) {
@@ -50,7 +51,8 @@ void RenderSystem::update(entityx::EntityManager& entities,
         const auto destRect = Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
-        _window->render(sprite->_ref, srcRect, destRect, orientation);
+        cam.center(transform->_position + sprite->_rect.dimensions() / 2.f);
+        _window->render(cam, sprite->_ref, srcRect, destRect, orientation);
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {

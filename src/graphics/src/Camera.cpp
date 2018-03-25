@@ -86,13 +86,14 @@ const Transform& Camera::transform() const
 
 const Transform& Camera::inverseTransform() const
 {
-    checkAndRecalculateTransform();
+    checkAndRecalculateInverseTransform();
     return _inverseTransform;
 }
 
 void Camera::invalidateTransform()
 {
     _staleTransform = true;
+    _staleInverseTransform = true;
 }
 
 void Camera::checkAndRecalculateTransform() const
@@ -115,6 +116,15 @@ void Camera::checkAndRecalculateTransform() const
 
         // Rebuild the projection matrix
         _transform = Transform{a * cosine, a * sine, a * tx + c, -b * sine, b * cosine, b * ty + d, 0.f, 0.f, 1.f};
+    }
+}
+
+void Camera::checkAndRecalculateInverseTransform() const
+{
+    if (_staleInverseTransform) {
+        _staleInverseTransform = false;
+
+        checkAndRecalculateTransform();
         _inverseTransform = _transform.inverse();
     }
 }

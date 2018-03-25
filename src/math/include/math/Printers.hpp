@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math/Matrix.hpp>
 #include <math/Vector2.hpp>
+#include <math/Rect.hpp>
 
 namespace frontier {
 
@@ -21,7 +22,14 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T, R, C>& mat)
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Vector2<T>& vec)
 {
-    os << "[" << vec.x() << ", " << vec.y() << "]" << std::endl;
+    os << "[" << vec.x() << ", " << vec.y() << "]";
+    return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Rect<T>& rect)
+{
+    os << "[" << rect.position() << ", " << rect.dimensions() << "]";
     return os;
 }
 

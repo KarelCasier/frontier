@@ -12,10 +12,15 @@ public:
     , _dimensions{std::move(w), std::move(h)}
     {
     }
+    Rect(Vector2<T> position, Vector2<T> dimensions)
+    : _position{std::move(position)}
+    , _dimensions{std::move(dimensions)}
+    {
+    }
 
     // Allow explicit conversion
     template <typename O>
-    explicit operator Rect<O>()
+    explicit operator Rect<O>() const
     {
         return {static_cast<O>(_position.x()), static_cast<O>(_position.y()), static_cast<O>(_dimensions.x()),
                 static_cast<O>(_dimensions.y())};
@@ -26,8 +31,8 @@ public:
     T y() const { return _position.y(); }
     T w() const { return _dimensions.x(); }
     T h() const { return _dimensions.y(); }
-    Vector2<T> position() const { _position; }
-    Vector2<T> dimensions() const { _dimensions; }
+    Vector2<T> position() const { return _position; }
+    Vector2<T> dimensions() const { return _dimensions; }
 
     /// Setters
     void x(T x) { _position.x(std::move(x)); }

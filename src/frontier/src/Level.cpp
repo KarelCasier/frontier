@@ -38,7 +38,8 @@ void Level::finishInit()
     auto input = InputComponent{};
     input.bindMouseCallback(LeftClick, [this](int x, int y) {
         LOGI << "LEFTCLICK: " << x << ", " << y << "\n";
-        Camera cam{{10, 10, 800, 600}};
+        auto cam = _window->createSizedCamera();
+        cam.move({50, 50});
         auto camPoint = _window->screenToCamera({x, y}, cam);
         auto winPoint = _window->cameraToScreen(camPoint, cam);
         LOGD << camPoint;

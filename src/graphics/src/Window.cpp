@@ -1,6 +1,7 @@
 #include <graphics/Window.hpp>
 
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_opengl.h>
 
 #include <sstream>
 
@@ -8,6 +9,7 @@
 #include <graphics/TextureRef.hpp>
 #include <log/log.hpp>
 #include <math/Misc.hpp>
+#include <math/Printers.hpp>
 
 namespace {
 
@@ -22,7 +24,7 @@ namespace frontier {
 
 Window::Window(const std::string& title, int32_t x, int32_t y, int32_t width, int32_t height)
 {
-    _window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_SHOWN);
+    _window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (_window == nullptr) {
         const auto err = std::stringstream{} << "Error creating window: " << SDL_GetError();
         LOGE << err.str();
@@ -71,30 +73,28 @@ void Window::render(const TextureRef* texture,
         sdlOrigin.x = origin->x();
         sdlOrigin.y = origin->y();
     }
-    auto sdlSrcRect = toSDLRect(srcRect);
-    auto sdlDestRect = toSDLRect(destRect);
+    const auto sdlSrcRect = toSDLRect(srcRect);
+    const auto sdlDestRect = toSDLRect(destRect);
 
     SDL_RenderCopyEx(_renderer, texture->texture(), &sdlSrcRect, &sdlDestRect, toDegrees(rotation),
                      origin ? &sdlOrigin : NULL, SDL_FLIP_NONE);
 }
 
-void Window::render(const Camera& /*camera*/,
-                    const TextureRef* /*texture*/,
-                    const Recti& /*srcRect*/,
-                    const Recti& /*destRect*/,
-                    const double /*rotation*/,
-                    const std::optional<Vector2i> /*origin*/)
+void Window::render(const Camera& camera,
+                    const TextureRef* texture,
+                    const Recti& srcRect,
+                    const Recti& destRect,
+                    const double rotation,
+                    const std::optional<Vector2i> origin)
 {
-    throw std::logic_error{"Unimplemented"};
-    // assert(texture);
-    // auto offsetDestRect = SDL_Rect{};
-    // const auto cameraBounds = camera.bounds();
-    // offsetDestRect.x = cameraBounds.x();
-    // offsetDestRect.y = cameraBounds.y();
-    //
-    // offsetDestRect.w = cameraDimensions.x();
-    // offsetDestRect.h = cameraDimensions.y();
-    // render(texture, srcRect, offsetDestRect, rotation, origin);
+    assert(texture);
+
+    const auto topLeft = cameraToScreen(static_cast<Vector2f>(destRect.position()), camera);
+    const auto bottomRight =
+        cameraToScreen(static_cast<Vector2f>(destRect.position() + destRect.dimensions()), camera);
+    const auto destRectOffset = Recti{topLeft, bottomRight - topLeft};
+
+    render(texture, srcRect, destRectOffset, rotation, origin);
 }
 
 void Window::render(IRenderable& renderable)

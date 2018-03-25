@@ -52,14 +52,15 @@ public:
     const Transform& inverseTransform() const;
 
 private:
-
     void checkAndRecalculateTransform() const;
+    void checkAndRecalculateInverseTransform() const;
     void invalidateTransform();
 
     Vec2f _center;
     Vec2f _dimensions;
     float _rotation{0.f};
     mutable bool _staleTransform{true};
+    mutable bool _staleInverseTransform{true};
     mutable Transform _transform;
     mutable Transform _inverseTransform;
 };

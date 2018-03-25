@@ -29,7 +29,7 @@ public:
 
     // Allow explicit conversion
     template <typename O>
-    explicit operator Vector2<O>()
+    explicit operator Vector2<O>() const
     {
         return {static_cast<O>(_x), static_cast<O>(_y)};
     }
@@ -51,23 +51,23 @@ public:
 
     /// Scalar arithmetic
     template <typename S, typename = typename std::enable_if_t<std::is_arithmetic<S>::value>>
-    Vector2 operator*(S scalar)
+    Vector2 operator*(S scalar) const
     {
         return {static_cast<T>(_x * scalar), static_cast<T>(_y * scalar)};
     }
     template <typename S, typename = typename std::enable_if_t<std::is_arithmetic<S>::value>>
-    Vector2 operator/(S scalar)
+    Vector2 operator/(S scalar) const
     {
         assert(scalar != 0);
         return {static_cast<T>(_x / scalar), static_cast<T>(_y / scalar)};
     }
     template <typename S, typename = typename std::enable_if_t<std::is_arithmetic<S>::value>>
-    Vector2 operator+(S scalar)
+    Vector2 operator+(S scalar) const
     {
         return {static_cast<T>(_x + scalar), static_cast<T>(_y + scalar)};
     }
     template <typename S, typename = typename std::enable_if_t<std::is_arithmetic<S>::value>>
-    Vector2 operator-(S scalar)
+    Vector2 operator-(S scalar) const
     {
         return {static_cast<T>(_x - scalar), static_cast<T>(_y - scalar)};
     }
@@ -104,15 +104,15 @@ public:
     }
 
     /// Vector2 arithmetic
-    Vector2 operator*(const Vector2& rhs) { return {_x * rhs._x, _y * rhs._y}; }
-    Vector2 operator/(const Vector2& rhs)
+    Vector2 operator*(const Vector2& rhs) const { return {_x * rhs._x, _y * rhs._y}; }
+    Vector2 operator/(const Vector2& rhs) const
     {
         assert(rhs._x != 0);
         assert(rhs._y != 0);
         return {_x / rhs._x, _y / rhs._y};
     }
-    Vector2 operator+(const Vector2& rhs) { return {_x + rhs._x, _y + rhs._y}; }
-    Vector2 operator-(const Vector2& rhs) { return {_x - rhs._x, _y - rhs._y}; }
+    Vector2 operator+(const Vector2& rhs) const { return {_x + rhs._x, _y + rhs._y}; }
+    Vector2 operator-(const Vector2& rhs) const { return {_x - rhs._x, _y - rhs._y}; }
 
     /// Vector2 compound assignment arithmetic
     Vector2& operator*=(const Vector2& rhs)
