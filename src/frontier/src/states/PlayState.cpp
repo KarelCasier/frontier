@@ -29,12 +29,11 @@ void PlayState::onEnter()
     _bindingContext->addMouseActionBinding(LeftClick, MouseButtonBindingData{MouseButton::LEFT, ButtonState::PRESSED});
     _bindingContext->addMouseActionBinding(RightClick,
                                            MouseButtonBindingData{MouseButton::RIGHT, ButtonState::PRESSED});
-    _bindingContext->addKeyboardActionBinding("A", KeyboardBindingData{SDLK_a, ButtonState::PRESSED, ModifierBitset{}});
-    _bindingContext->addKeyboardActionBinding("ARel",
-                                              KeyboardBindingData{SDLK_a, ButtonState::RELEASED, ModifierBitset{}});
-    ModifierBitset alt{};
-    alt.set(Modifier::ALT);
-    _bindingContext->addKeyboardActionBinding("Alt-A", KeyboardBindingData{SDLK_a, ButtonState::PRESSED, alt});
+
+    _bindingContext->addKeyboardActionBinding("Left", KeyboardBindingData{SDLK_LEFT, ButtonState::PRESSED, {}});
+    _bindingContext->addKeyboardActionBinding("Right", KeyboardBindingData{SDLK_RIGHT, ButtonState::PRESSED, {}});
+    _bindingContext->addKeyboardActionBinding("Up", KeyboardBindingData{SDLK_UP, ButtonState::PRESSED, {}});
+    _bindingContext->addKeyboardActionBinding("Down", KeyboardBindingData{SDLK_DOWN, ButtonState::PRESSED, {}});
     _inputManager->pushContext(_bindingContext);
 }
 

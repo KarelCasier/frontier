@@ -3,6 +3,8 @@
 #include <chrono>
 #include <entityx/entityx.h>
 
+#include <graphics/Camera.hpp>
+
 namespace frontier {
 
 class Window;
@@ -25,6 +27,7 @@ private:
     std::shared_ptr<Window> _window;
     std::shared_ptr<TextureManager> _textureManager;
     std::shared_ptr<InputManager> _inputManager;
+    Camera _levelCamera;
     entityx::EntityX _entityX;
 };
 

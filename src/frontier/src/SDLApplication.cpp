@@ -13,6 +13,7 @@ SDLApplication::SDLApplication(const std::string& title, int x, int y, int width
         LOGE << err.str();
         throw std::runtime_error(err.str());
     }
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
 
     _window = std::make_shared<Window>(title, x, y, width, height);
 }

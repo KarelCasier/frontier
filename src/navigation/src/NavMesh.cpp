@@ -86,22 +86,14 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
 namespace frontier {
 
 template <typename T>
-void NavMesh<T>::render(IRenderTarget& /*renderTarget*/)
+void NavMesh<T>::render(IRenderTarget& renderTarget)
 {
-    //Uint8 r, g, b, a;
-    //SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-    //for (const auto& poly : _mesh) {
-        //auto sdlPoints = std::vector<SDL_Point>{};
-        //const auto shape = poly->_shape;
-        //const auto points = shape->points();
-        //std::transform(begin(points), end(points), std::back_inserter(sdlPoints), [](const auto& pt) -> SDL_Point {
-            //return {static_cast<int>(pt.x()), static_cast<int>(pt.y())};
-        //});
-        //sdlPoints.push_back(sdlPoints.front());
-        //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        //SDL_RenderDrawLines(renderer, sdlPoints.data(), sdlPoints.size());
-    //}
-    //SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    for (const auto& poly : _mesh) {
+        const auto shape = poly->_shape;
+        auto points = shape->points();
+        points.push_back(points.front());
+        renderTarget.render(points, PrimativeType::LineStrip, {255, 0, 0});
+    }
 }
 
 template <typename T>
@@ -136,7 +128,5 @@ std::vector<Vector2<T>> NavMesh<T>::navigationPath(const Vector2<T>& startPos, c
 
 /// Explicit template instantiation
 template class NavMesh<float>;
-template class NavMesh<double>;
-template class NavMesh<int>;
 
 } // namespace frontier

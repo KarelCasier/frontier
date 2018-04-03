@@ -4,6 +4,7 @@
 #include <SDL2/SDL_opengl.h>
 
 #include <sstream>
+#include <stack>
 
 #include <graphics/IRenderable.hpp>
 #include <graphics/TextureRef.hpp>
@@ -18,11 +19,53 @@ SDL_Rect toSDLRect(const Recti& rect)
     return {rect.x(), rect.y(), rect.w(), rect.h()};
 }
 
+/// [[[ SDLRenderColorState ---------------------------------------------------
+
+class SDLRenderColorState {
+public:
+    SDLRenderColorState(SDL_Renderer* renderer);
+
+    void push();
+    void pop();
+    void set(const Color& color);
+
+private:
+    SDL_Renderer* _renderer;
+    std::stack<Color> _colorState;
+};
+
+SDLRenderColorState::SDLRenderColorState(SDL_Renderer* renderer)
+: _renderer{renderer}
+{
+}
+
+void SDLRenderColorState::push()
+{
+    auto color = Color{};
+    SDL_GetRenderDrawColor(_renderer, &color.r, &color.g, &color.b, &color.a);
+    _colorState.emplace(std::move(color));
+}
+
+void SDLRenderColorState::pop()
+{
+    assert(!_colorState.empty());
+    set(_colorState.top());
+    _colorState.pop();
+}
+
+void SDLRenderColorState::set(const Color& color)
+{
+    SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
+}
+
+/// ]]] SDLRenderColorState ---------------------------------------------------
+
 } // namespace
 
 namespace frontier {
 
 Window::Window(const std::string& title, int32_t x, int32_t y, int32_t width, int32_t height)
+: _camera{{0, 0}, {0, 0}}
 {
     _window = SDL_CreateWindow(title.c_str(), x, y, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
     if (_window == nullptr) {
@@ -38,6 +81,8 @@ Window::Window(const std::string& title, int32_t x, int32_t y, int32_t width, in
         LOGE << err.str();
         throw std::runtime_error(err.str());
     }
+
+    _camera = createSizedCamera();
 }
 
 Window::~Window()
@@ -66,18 +111,7 @@ void Window::render(const TextureRef* texture,
                     const double rotation,
                     const std::optional<Vector2i> origin)
 {
-    assert(texture);
-
-    SDL_Point sdlOrigin;
-    if (origin) {
-        sdlOrigin.x = origin->x();
-        sdlOrigin.y = origin->y();
-    }
-    const auto sdlSrcRect = toSDLRect(srcRect);
-    const auto sdlDestRect = toSDLRect(destRect);
-
-    SDL_RenderCopyEx(_renderer, texture->texture(), &sdlSrcRect, &sdlDestRect, toDegrees(rotation),
-                     origin ? &sdlOrigin : NULL, SDL_FLIP_NONE);
+    render(_camera, texture, srcRect, destRect, rotation, origin);
 }
 
 void Window::render(const Camera& camera,
@@ -90,11 +124,66 @@ void Window::render(const Camera& camera,
     assert(texture);
 
     const auto topLeft = cameraToScreen(static_cast<Vector2f>(destRect.position()), camera);
-    const auto bottomRight =
-        cameraToScreen(static_cast<Vector2f>(destRect.position() + destRect.dimensions()), camera);
+    const auto bottomRight = cameraToScreen(static_cast<Vector2f>(destRect.position() + destRect.dimensions()), camera);
     const auto destRectOffset = Recti{topLeft, bottomRight - topLeft};
 
-    render(texture, srcRect, destRectOffset, rotation, origin);
+    SDL_Point sdlOrigin;
+    if (origin) {
+        sdlOrigin.x = origin->x();
+        sdlOrigin.y = origin->y();
+    }
+    const auto sdlSrcRect = toSDLRect(srcRect);
+    const auto sdlDestRect = toSDLRect(destRectOffset);
+
+    SDL_RenderCopyEx(_renderer, texture->texture(), &sdlSrcRect, &sdlDestRect, toDegrees(rotation),
+                     origin ? &sdlOrigin : NULL, SDL_FLIP_NONE);
+}
+
+void Window::render(const std::vector<Vector2f>& vertices, PrimativeType type, const Color& color)
+{
+    render(_camera, vertices, type, color);
+}
+
+void Window::render(const Camera& camera, const std::vector<Vector2f>& vertices, PrimativeType type, const Color& color)
+{
+    switch (type) {
+    case PrimativeType::Points:
+        renderPoints(camera, vertices, color);
+        break;
+    case PrimativeType::LineStrip:
+        renderLineStrip(camera, vertices, color);
+        break;
+    }
+}
+
+void Window::renderPoints(const Camera& camera, const std::vector<Vector2f>& vertices, const Color& color)
+{
+    std::vector<SDL_Point> sdlPoints{};
+    std::transform(std::begin(vertices), std::end(vertices), std::back_inserter(sdlPoints),
+                   [this, &camera](const Vector2f& vec) -> SDL_Point {
+                       auto screenPt = cameraToScreen({vec.x(), vec.y()}, camera);
+                       return {screenPt.x(), screenPt.y()};
+                   });
+    auto colorState = SDLRenderColorState{_renderer};
+    colorState.push();
+    colorState.set(color);
+    SDL_RenderDrawPoints(_renderer, sdlPoints.data(), sdlPoints.size());
+    colorState.pop();
+}
+
+void Window::renderLineStrip(const Camera& camera, const std::vector<Vector2f>& vertices, const Color& color)
+{
+    std::vector<SDL_Point> sdlPoints{};
+    std::transform(std::begin(vertices), std::end(vertices), std::back_inserter(sdlPoints),
+                   [this, &camera](const Vector2f& vec) -> SDL_Point {
+                       auto screenPt = cameraToScreen({vec.x(), vec.y()}, camera);
+                       return {screenPt.x(), screenPt.y()};
+                   });
+    auto colorState = SDLRenderColorState{_renderer};
+    colorState.push();
+    colorState.set(color);
+    SDL_RenderDrawLines(_renderer, sdlPoints.data(), sdlPoints.size());
+    colorState.pop();
 }
 
 void Window::render(IRenderable& renderable)
@@ -119,6 +208,16 @@ Vector2i Window::cameraToScreen(const Vector2f& cameraPoint, const Camera& camer
     pixel.x(static_cast<int>(std::round((normalized.x() + 1.f) / 2.f * windowSize.x())));
     pixel.y(static_cast<int>(std::round((-normalized.y() + 1.f) / 2.f * windowSize.y())));
     return pixel;
+}
+
+void Window::setCamera(const Camera& camera)
+{
+    _camera = camera;
+}
+
+const Camera& Window::getCamera() const
+{
+    return _camera;
 }
 
 Camera Window::createSizedCamera() const

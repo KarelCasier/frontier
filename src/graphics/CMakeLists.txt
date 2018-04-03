@@ -4,8 +4,10 @@ find_package(SDL2_image REQUIRED)
 
 set (HEADERS
     include/graphics/Camera.hpp
+    include/graphics/Color.hpp
     include/graphics/IRenderTarget.hpp
     include/graphics/IRenderable.hpp
+    include/graphics/PrimativeType.hpp
     include/graphics/TextureManager.hpp
     include/graphics/TextureRef.hpp
     include/graphics/Transform.hpp

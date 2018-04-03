@@ -30,9 +30,16 @@ public:
                 const Recti& destRect,
                 const double rotation = 0.0,
                 const std::optional<Vector2i> origin = {}) override;
+    void render(const std::vector<Vector2f>& vertices, PrimativeType type, const Color& color) override;
+    void render(const Camera& camera,
+                const std::vector<Vector2f>& vertices,
+                PrimativeType type,
+                const Color& color) override;
     void render(IRenderable& renderable) override;
-    Vector2f screenToCamera(const Vector2i& screenPoint, const Camera& camera) const;
-    Vector2i cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const;
+    Vector2f screenToCamera(const Vector2i& screenPoint, const Camera& camera) const override;
+    Vector2i cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const override;
+    void setCamera(const Camera& camera) override;
+    const Camera& getCamera() const override;
     /// @}
 
     /// Create a camera sized to the window.
@@ -68,6 +75,9 @@ public:
 private:
     using StateLock = std::lock_guard<std::mutex>;
 
+    void renderPoints(const Camera& camera, const std::vector<Vector2f>& vertices, const Color& color);
+    void renderLineStrip(const Camera& camera, const std::vector<Vector2f>& vertices, const Color& color);
+
     SDL_Window* _window{nullptr};
     SDL_Renderer* _renderer{nullptr};
 
@@ -75,6 +85,8 @@ private:
     bool _focused{false};
     bool _shown{false};
     bool _closed{false};
+
+    Camera _camera;
 };
 
 } // namespace frontier

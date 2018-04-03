@@ -51,8 +51,9 @@ void RenderSystem::update(entityx::EntityManager& entities,
         const auto destRect = Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
-        cam.center(transform->_position + sprite->_rect.dimensions() / 2.f);
-        _window->render(cam, sprite->_ref, srcRect, destRect, orientation);
+        //cam.center(transform->_position + sprite->_rect.dimensions() / 2.f);
+        //_window->setCamera(cam);
+        _window->render(sprite->_ref, srcRect, destRect, orientation);
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {
