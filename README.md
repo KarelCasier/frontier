@@ -1,5 +1,7 @@
 # frontier
 
+[trello board](https://trello.com/b/vcpQr5g3/frontier)
+
 ## dependencies
 
 - CMake

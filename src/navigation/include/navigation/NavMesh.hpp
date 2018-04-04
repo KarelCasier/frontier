@@ -14,7 +14,7 @@ namespace frontier {
 
 class NavMesh : public IRenderable {
 public:
-    void addPoly(std::shared_ptr<ConvexShape<float>> shape);
+    void addPoly(ConvexShape<float> shape);
 
     std::vector<Vector2f> navigationPath(const Vector2f& startPos, const Vector2f& targetPos);
 
@@ -26,7 +26,7 @@ public:
 private:
     void regenerate();
 
-    std::vector<std::shared_ptr<NavPoly>> _mesh;
+    std::vector<NavPoly> _mesh;
 };
 
 template <typename T, typename Number = int>

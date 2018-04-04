@@ -2,6 +2,7 @@ project(math LANGUAGES CXX)
 
 set (HEADERS
     include/math/Collision.hpp
+    include/math/ConvexHelpers.hpp
     include/math/ConvexShape.hpp
     include/math/Matrix.hpp
     include/math/Misc.hpp

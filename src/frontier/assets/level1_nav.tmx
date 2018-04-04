@@ -5,7 +5,7 @@
    <polygon points="0,0 120,0 120,130 0,130"/>
   </object>
   <object id="17" x="100" y="-340">
-   <polygon points="0,0 150,-100 200,140 0,130"/>
+   <polygon points="0,0 250,-90 200,140 0,130"/>
   </object>
   <object id="18" x="100" y="-210">
    <polygon points="0,0 200,10 340,290 120,370"/>

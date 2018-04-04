@@ -15,14 +15,14 @@ struct Edge {
 };
 
 struct NavPoly {
-    NavPoly(std::shared_ptr<ConvexShape<float>> shape)
+    NavPoly(ConvexShape<float> shape)
     : _shape{std::move(shape)}
     {
     }
 
-    std::vector<std::pair<std::shared_ptr<NavPoly>, Edge>> _neighbours;
+    std::vector<std::pair<NavPoly, Edge>> _neighbours;
 
-    std::shared_ptr<ConvexShape<float>> _shape;
+    ConvexShape<float> _shape;
 };
 
 } // namespace frontier

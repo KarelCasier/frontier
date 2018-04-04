@@ -49,7 +49,7 @@ std::vector<Vector2<float>> parsePoints(const std::string& pointList)
     return points;
 }
 
-std::shared_ptr<ConvexShape<float>> parseObject(const XMLElement* baseElement)
+ConvexShape<float> parseObject(const XMLElement* baseElement)
 {
     assertName(baseElement, "object");
     const auto baseX = baseElement->FloatAttribute("x");
@@ -64,7 +64,7 @@ std::shared_ptr<ConvexShape<float>> parseObject(const XMLElement* baseElement)
         point += {baseX, baseY};
     }
 
-    return std::make_shared<ConvexShape<float>>(std::move(points));
+    return {std::move(points)};
 };
 
 } // namespace

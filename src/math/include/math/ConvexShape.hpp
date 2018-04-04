@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "ConvexHelpers.hpp"
 #include "Rect.hpp"
 #include "Vector2.hpp"
 
@@ -11,16 +12,16 @@ template <typename T>
 class ConvexShape {
 public:
     ConvexShape(std::vector<Vector2<T>> points)
-    : _points{std::move(points)}
+    : _points{}
     , _boundingBox{0, 0, 0, 0}
     {
-        computeBoundingBox();
+        this->points(std::move(points));
     }
 
     const std::vector<Vector2<T>>& points() const { return _points; }
     void points(std::vector<Vector2<T>> points)
     {
-        _points = std::move(points);
+        _points = toConvexHull(std::move(points));
         computeBoundingBox();
     }
 
