@@ -10,10 +10,10 @@ class LevelNavParser {
 public:
     LevelNavParser();
 
-    std::shared_ptr<NavMesh<float>> parse(const std::string& file);
+    std::shared_ptr<NavMesh> parse(const std::string& file);
 
 private:
-    std::shared_ptr<NavMesh<float>> _navMesh;
+    std::shared_ptr<NavMesh> _navMesh;
 };
 
 } // namespace frontier

@@ -8,23 +8,21 @@
 
 namespace frontier {
 
-template <typename T>
 struct Edge {
-    Vector2<T> start;
-    Vector2<T> end;
-    Vector2<T> mid;
+    Vector2f start;
+    Vector2f end;
+    Vector2f mid;
 };
 
-template <typename T>
 struct NavPoly {
-    NavPoly(std::shared_ptr<ConvexShape<T>> shape)
+    NavPoly(std::shared_ptr<ConvexShape<float>> shape)
     : _shape{std::move(shape)}
     {
     }
 
-    std::vector<std::pair<std::shared_ptr<NavPoly<T>>, Edge<T>>> _neighbours;
+    std::vector<std::pair<std::shared_ptr<NavPoly>, Edge>> _neighbours;
 
-    std::shared_ptr<ConvexShape<T>> _shape;
+    std::shared_ptr<ConvexShape<float>> _shape;
 };
 
 } // namespace frontier

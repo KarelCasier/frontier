@@ -15,22 +15,19 @@ using namespace frontier;
 /// 2D cross product of "oa" and "ob" vectors, i.e. z-component of their 3D cross product.
 /// Returns a positive value, if "oab" makes a counter-clockwise turn,
 /// negative for clockwise turn, and zero if the points are collinear.
-template <typename T>
-double cross(const Vector2<T>& o, const Vector2<T>& a, const Vector2<T>& b)
+double cross(const Vector2f& o, const Vector2f& a, const Vector2f& b)
 {
     return (a.x() - o.x()) * (b.y() - o.y()) - (a.y() - o.y()) * (b.x() - o.x());
 }
 
-template <typename T>
-bool vectorCompare(Vector2<T>& a, Vector2<T>& b)
+bool vectorCompare(Vector2f& a, Vector2f& b)
 {
     return a.x() < b.x() || (a.x() == b.x() && a.y() < b.y());
 }
 
 /// Returns a list of points on the convex hull in counter-clockwise order.
 /// Note: the last point in the returned list is the same as the first one.
-template <typename T>
-std::vector<Vector2<T>> toConvexHull(std::vector<Vector2<T>> points)
+std::vector<Vector2f> toConvexHull(std::vector<Vector2f> points)
 {
     return points;
 }
@@ -43,8 +40,7 @@ std::vector<Vector2<T>> toConvexHull(std::vector<Vector2<T>> points)
 /// @returns true if they are neighbours, false otherwise.
 ///
 /// TODO: Ensure that the points are contigous.
-template <typename T>
-bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> polyB, Edge<T>& edge)
+bool isNeighbour(std::shared_ptr<NavPoly> polyA, std::shared_ptr<NavPoly> polyB, Edge& edge)
 {
     if (polyA.get() == polyB.get()) {
         return false;
@@ -57,7 +53,7 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
         return false;
     }
 
-    std::vector<Vector2<T>> connectedPoints;
+    std::vector<Vector2f> connectedPoints;
 
     for (auto& pointA : shapeA->points()) {
         for (auto& pointB : shapeB->points()) {
@@ -85,8 +81,7 @@ bool isNeighbour(std::shared_ptr<NavPoly<T>> polyA, std::shared_ptr<NavPoly<T>> 
 
 namespace frontier {
 
-template <typename T>
-void NavMesh<T>::render(IRenderTarget& renderTarget)
+void NavMesh::render(IRenderTarget& renderTarget)
 {
     for (const auto& poly : _mesh) {
         const auto shape = poly->_shape;
@@ -96,22 +91,20 @@ void NavMesh<T>::render(IRenderTarget& renderTarget)
     }
 }
 
-template <typename T>
-void NavMesh<T>::addPoly(std::shared_ptr<ConvexShape<T>> poly)
+void NavMesh::addPoly(std::shared_ptr<ConvexShape<float>> poly)
 {
-    _mesh.push_back(std::make_shared<NavPoly<T>>(poly));
+    _mesh.push_back(std::make_shared<NavPoly>(poly));
     regenerate();
 }
 
-template <typename T>
-void NavMesh<T>::regenerate()
+void NavMesh::regenerate()
 {
     for (auto I = begin(_mesh); I != end(_mesh); ++I) {
         (*I)->_neighbours.clear();
     }
     for (auto I = begin(_mesh); I != end(_mesh); ++I) {
         for (auto J = I; J != end(_mesh); ++J) {
-            auto edge = Edge<T>{};
+            auto edge = Edge{};
             auto neighbour = isNeighbour(*I, *J, edge);
             if (neighbour) {
                 (*I)->_neighbours.emplace_back(*J, edge);
@@ -121,12 +114,8 @@ void NavMesh<T>::regenerate()
     }
 }
 
-template <typename T>
-std::vector<Vector2<T>> NavMesh<T>::navigationPath(const Vector2<T>& startPos, const Vector2<T>& targetPos)
+std::vector<Vector2f> NavMesh::navigationPath(const Vector2f& startPos, const Vector2f& targetPos)
 {
 }
-
-/// Explicit template instantiation
-template class NavMesh<float>;
 
 } // namespace frontier

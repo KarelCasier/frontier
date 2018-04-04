@@ -13,7 +13,7 @@ public:
     NavigationSystem(const std::string& navMeshFile);
     ~NavigationSystem() override = default;
 
-    const std::shared_ptr<NavMesh<float>> getNavMesh() const;
+    const std::shared_ptr<NavMesh> getNavMesh() const;
 
     /// @name System overrides
     /// @{
@@ -21,7 +21,7 @@ public:
     /// @}
 
 private:
-    std::shared_ptr<NavMesh<float>> _navMesh;
+    std::shared_ptr<NavMesh> _navMesh;
 };
 
 } // namespace frontier

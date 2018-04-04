@@ -73,7 +73,7 @@ namespace frontier {
 
 LevelNavParser::LevelNavParser() {}
 
-std::shared_ptr<NavMesh<float>> LevelNavParser::parse(const std::string& file)
+std::shared_ptr<NavMesh> LevelNavParser::parse(const std::string& file)
 {
     const auto filePath = getResourcePath() + file;
     XMLDocument doc;
@@ -84,7 +84,7 @@ std::shared_ptr<NavMesh<float>> LevelNavParser::parse(const std::string& file)
     }
     LOGI << "Parsing file: " << file;
 
-    _navMesh = std::make_shared<NavMesh<float>>();
+    _navMesh = std::make_shared<NavMesh>();
 
     auto element = doc.RootElement();
     assertName(element, "map");

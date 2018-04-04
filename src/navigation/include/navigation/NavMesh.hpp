@@ -12,12 +12,11 @@
 
 namespace frontier {
 
-template <typename T>
 class NavMesh : public IRenderable {
 public:
-    void addPoly(std::shared_ptr<ConvexShape<T>> shape);
+    void addPoly(std::shared_ptr<ConvexShape<float>> shape);
 
-    std::vector<Vector2<T>> navigationPath(const Vector2<T>& startPos, const Vector2<T>& targetPos);
+    std::vector<Vector2f> navigationPath(const Vector2f& startPos, const Vector2f& targetPos);
 
     /// @name IRenderable overrides
     /// @{
@@ -27,7 +26,7 @@ public:
 private:
     void regenerate();
 
-    std::vector<std::shared_ptr<NavPoly<T>>> _mesh;
+    std::vector<std::shared_ptr<NavPoly>> _mesh;
 };
 
 template <typename T, typename Number = int>
