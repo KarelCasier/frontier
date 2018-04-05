@@ -18,7 +18,7 @@ double cross(const Vector2<T>& o, const Vector2<T>& a, const Vector2<T>& b)
 template <typename T>
 bool lexicographVectorCompare(const Vector2<T>& a, const Vector2<T>& b)
 {
-    return a.x() < b.x() || (a.x() == b.x() && a.y() < b.y());
+    return (a.x() < b.x()) || (a.x() == b.x() && a.y() < b.y());
 }
 
 /// Returns a list of points on the convex hull in counter-clockwise order.
@@ -44,7 +44,7 @@ std::vector<Vector2<T>> toConvexHull(std::vector<Vector2<T>> points)
 
     // Build upper hull
     for (int i{numPoints - 2}, t{k + 1}; i >= 0; i--) {
-        while (k >= t && cross(hull[k - 2], hull[k - 1], hull[i]) <= 0) {
+        while (k >= t && cross(hull[k - 2], hull[k - 1], points[i]) <= 0) {
             k--;
         }
         hull[k++] = points[i];

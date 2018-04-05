@@ -61,6 +61,7 @@ target_include_directories(frontier_lib
     PRIVATE
     ${SDL2_INCLUDE_DIR}
     ../ext/entityx
+    ../ext/moment
     ../ext/tinyxml2
     )
 
@@ -74,6 +75,7 @@ target_link_libraries(frontier_lib
     ${SDL2_LIBRARY}
     entityx
     tinyxml2
+    moment_lib
     )
 
 set (EXEC_HEADERS

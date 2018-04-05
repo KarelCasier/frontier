@@ -20,7 +20,7 @@ struct NavPoly {
     {
     }
 
-    std::vector<std::pair<NavPoly, Edge>> _neighbours;
+    std::vector<std::pair<const NavPoly*, Edge>> _neighbours;
 
     ConvexShape<float> _shape;
 };

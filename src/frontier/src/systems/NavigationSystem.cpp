@@ -28,7 +28,9 @@ void NavigationSystem::update(entityx::EntityManager& entities,
     for (Entity entity : entities.entities_with_components(transform, navigation)) {
         (void)entity; // no unused warn
 
-        navigation->_path = _navMesh->navigationPath(transform->_position, navigation->_target);
+        if (navigation->stale()) {
+            navigation->setPath(_navMesh->findPath(transform->_position, navigation->getTarget()));
+        }
     }
 }
 

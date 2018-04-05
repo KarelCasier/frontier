@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 set(CMAKE_CXX_COMPILER /usr/local/opt/llvm/bin/clang++)
 project(frontier VERSION 0.1 LANGUAGES CXX)
 
+option(MOMENT_BUILD_TESTS "Enable testing" OFF)
+
 add_subdirectory(ext/entityx EXCLUDE_FROM_ALL)
+add_subdirectory(ext/moment EXCLUDE_FROM_ALL)
 add_subdirectory(ext/tinyxml2 EXCLUDE_FROM_ALL)
 add_subdirectory(ext/googletest EXCLUDE_FROM_ALL)
 
@@ -19,7 +22,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake/")
 set(CMAKE_CXX17_STANDARD_COMPILE_OPTION "-std=c++17")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")

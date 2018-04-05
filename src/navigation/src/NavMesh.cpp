@@ -39,8 +39,8 @@ bool isNeighbour(const NavPoly& polyA, const NavPoly& polyB, Edge& edge)
         }
     }
 
-    std::sort(begin(connectedPoints), end(connectedPoints), lexicographVectorCompare<float>);
     /// Since first and last points are the same, we may have duplicated points.
+    std::sort(begin(connectedPoints), end(connectedPoints), lexicographVectorCompare<float>);
     auto I = std::unique(begin(connectedPoints), end(connectedPoints));
     connectedPoints.resize(distance(begin(connectedPoints), I));
 
@@ -62,6 +62,11 @@ bool isNeighbour(const NavPoly& polyA, const NavPoly& polyB, Edge& edge)
 
 namespace frontier {
 
+NavMesh::NavMesh(std::unique_ptr<INavAlgorithm> navAlgorithm)
+: _navAlgorithm{std::move(navAlgorithm)}
+{
+}
+
 void NavMesh::render(IRenderTarget& renderTarget)
 {
     for (const auto& poly : _mesh) {
@@ -69,16 +74,21 @@ void NavMesh::render(IRenderTarget& renderTarget)
         auto points = shape.points();
         points.push_back(points.front());
         renderTarget.render(points, PrimativeType::LineStrip, {255, 0, 0});
+        renderTarget.render({shape.center()}, PrimativeType::Points, {255, 0, 0});
+        for (const auto& [_, edge] : poly._neighbours) {
+            renderTarget.render({edge.mid}, PrimativeType::Points, {255, 255, 255});
+        }
     }
 }
 
 void NavMesh::addPoly(ConvexShape<float> poly)
 {
+    StateLock lock{_stateMutex};
     _mesh.emplace_back(std::move(poly));
-    regenerate();
+    regenerate(lock);
 }
 
-void NavMesh::regenerate()
+void NavMesh::regenerate(const StateLock&)
 {
     for (auto I = begin(_mesh); I != end(_mesh); ++I) {
         (*I)._neighbours.clear();
@@ -88,15 +98,42 @@ void NavMesh::regenerate()
             auto edge = Edge{};
             auto neighbour = isNeighbour(*I, *J, edge);
             if (neighbour) {
-                (*I)._neighbours.emplace_back(*J, edge);
-                (*J)._neighbours.emplace_back(*I, edge);
+                (*I)._neighbours.emplace_back(&(*J), edge);
+                (*J)._neighbours.emplace_back(&(*I), edge);
             }
         }
     }
 }
 
-std::vector<Vector2f> NavMesh::navigationPath(const Vector2f& startPos, const Vector2f& targetPos)
+std::optional<const NavPoly*> NavMesh::findNavPolyContaining(const StateLock&, const Vector2f& point)
 {
+    for (const NavPoly& poly : _mesh) {
+        if (poly._shape.contains(point)) {
+            return &poly;
+        }
+    }
+    return {};
+}
+
+std::vector<Vector2f> NavMesh::findPath(const Vector2f& initial, const Vector2f& target)
+{
+    StateLock lock{_stateMutex};
+
+    auto initialNavPoly = findNavPolyContaining(lock, initial);
+    auto targetNavPoly = findNavPolyContaining(lock, target);
+
+    if (!initialNavPoly || !targetNavPoly) {
+        return {initial, target};
+    }
+
+    auto navPolyPath = _navAlgorithm->findNavPolyPath(*initialNavPoly, *targetNavPoly);
+
+    /// TODO apply funnel algorithm instead of taking the center of NavPolys
+    auto pointPath = std::vector<Vector2f>{initial};
+    std::transform(begin(navPolyPath), end(navPolyPath), back_inserter(pointPath),
+                   [](const NavPoly* poly) { return poly->_shape.center(); });
+    pointPath.emplace_back(target);
+    return pointPath;
 }
 
 } // namespace frontier

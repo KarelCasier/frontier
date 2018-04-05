@@ -73,6 +73,19 @@ public:
     virtual void render(IRenderable& renderable) = 0;
 
     /// Map a screen point to a camera point.
+    /// @note Assumes current camera.
+    /// @param screenPoint The point on the screen to convert.
+    /// @returns The transformed point.
+    virtual Vector2f screenToCamera(const Vector2i& screenPoint) const = 0;
+
+    /// Map a camera point to a screen point.
+    /// @note Assumes current camera.
+    /// @param cameraPoint The point on the screen to convert.
+    /// @param camera The camera to convert the point from.
+    /// @returns The transformed point.
+    virtual Vector2i cameraToScreen(const Vector2f& cameraPoint) const = 0;
+
+    /// Map a screen point to a camera point.
     /// @param screenPoint The point on the screen to convert.
     /// @param camera The camera to convert the point to.
     /// @returns The transformed point.

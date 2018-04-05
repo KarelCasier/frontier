@@ -1,11 +1,14 @@
 project(navigation LANGUAGES CXX)
 
 set (HEADERS
+    include/navigation/AStar.hpp
+    include/navigation/INavAlgorithm.hpp
     include/navigation/NavMesh.hpp
     include/navigation/NavPoly.hpp
     )
 
 set(SOURCES
+    src/AStar.cpp
     src/NavMesh.cpp
     )
 
@@ -23,7 +26,6 @@ target_link_libraries(navigation
     PRIVATE
     log
     math
-    tinyxml2
     graphics
     )
 

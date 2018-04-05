@@ -36,6 +36,8 @@ public:
                 PrimativeType type,
                 const Color& color) override;
     void render(IRenderable& renderable) override;
+    Vector2f screenToCamera(const Vector2i& screenPoint) const override;
+    Vector2i cameraToScreen(const Vector2f& cameraPoint) const override;
     Vector2f screenToCamera(const Vector2i& screenPoint, const Camera& camera) const override;
     Vector2i cameraToScreen(const Vector2f& cameraPoint, const Camera& camera) const override;
     void setCamera(const Camera& camera) override;

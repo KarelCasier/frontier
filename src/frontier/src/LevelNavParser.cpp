@@ -1,5 +1,6 @@
 #include <frontier/LevelNavParser.hpp>
 
+#include <navigation/AStar.hpp>
 #include <graphics/Util.hpp>
 #include <log/log.hpp>
 #include <sstream>
@@ -84,7 +85,7 @@ std::shared_ptr<NavMesh> LevelNavParser::parse(const std::string& file)
     }
     LOGI << "Parsing file: " << file;
 
-    _navMesh = std::make_shared<NavMesh>();
+    _navMesh = std::make_shared<NavMesh>(std::make_unique<AStar>());
 
     auto element = doc.RootElement();
     assertName(element, "map");

@@ -1,22 +1,30 @@
 #pragma once
 
 #include <graphics/IRenderable.hpp>
+#include <navigation/INavAlgorithm.hpp>
+#include <navigation/INav.hpp>
+#include <utils/Optional.hpp>
 
 #include <vector>
-#include <utility>
-#include <queue>
-#include <unordered_map>
 #include <memory>
+#include <mutex>
 
 #include "NavPoly.hpp"
 
 namespace frontier {
 
-class NavMesh : public IRenderable {
+class NavMesh : public INav, public IRenderable {
 public:
+    NavMesh(std::unique_ptr<INavAlgorithm> navAlgorithm);
+
+    /// Add a polygon to the mesh.
+    /// @param shape The shape to add the mesh.
     void addPoly(ConvexShape<float> shape);
 
-    std::vector<Vector2f> navigationPath(const Vector2f& startPos, const Vector2f& targetPos);
+    /// @name INav overrides
+    /// @{
+    std::vector<Vector2f> findPath(const Vector2f& initial, const Vector2f& target) override;
+    /// @}
 
     /// @name IRenderable overrides
     /// @{
@@ -24,26 +32,14 @@ public:
     /// @}
 
 private:
-    void regenerate();
+    using StateLock = std::lock_guard<std::mutex>;
 
+    void regenerate(const StateLock&);
+    std::optional<const NavPoly*> findNavPolyContaining(const StateLock&, const Vector2f& point);
+
+    std::unique_ptr<INavAlgorithm> _navAlgorithm;
     std::vector<NavPoly> _mesh;
-};
-
-template <typename T, typename Number = int>
-struct PriorityQueue {
-    typedef std::pair<Number, T> PQElement;
-    std::priority_queue<PQElement, std::vector<PQElement>, std::greater<PQElement>> elements;
-
-    inline bool empty() { return elements.empty(); }
-
-    inline void add(T item, Number priority) { elements.emplace(priority, item); }
-
-    inline T get()
-    {
-        T best_item = elements.top().second;
-        elements.pop();
-        return best_item;
-    }
+    std::mutex _stateMutex;
 };
 
 } // namespace frontier

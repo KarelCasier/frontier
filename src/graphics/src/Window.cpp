@@ -191,6 +191,16 @@ void Window::render(IRenderable& renderable)
     renderable.render(*this);
 }
 
+Vector2f Window::screenToCamera(const Vector2i& screenPoint) const
+{
+    return screenToCamera(screenPoint, getCamera());
+}
+
+Vector2i Window::cameraToScreen(const Vector2f& cameraPoint) const
+{
+    return cameraToScreen(cameraPoint, getCamera());
+}
+
 Vector2f Window::screenToCamera(const Vector2i& screenPoint, const Camera& camera) const
 {
     const auto windowSize = static_cast<Vector2f>(size());

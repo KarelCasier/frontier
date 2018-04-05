@@ -7,3 +7,6 @@
 [submodule "src/ext/googletest"]
 	path = src/ext/googletest
 	url = git@github.com:google/googletest.git
+[submodule "src/ext/moment"]
+	path = src/ext/moment
+	url = git@github.com:KarelCasier/moment.git

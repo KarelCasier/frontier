@@ -2,6 +2,7 @@
 
 #include <frontier/components/TransformComponent.hpp>
 #include <frontier/components/SpriteComponent.hpp>
+#include <frontier/components/NavigationComponent.hpp>
 #include <log/log.hpp>
 
 namespace {
@@ -42,18 +43,19 @@ void RenderSystem::update(entityx::EntityManager& entities,
                           entityx::EventManager& /* events */,
                           entityx::TimeDelta /* dt */)
 {
-    auto cam = _window->createSizedCamera();
     ComponentHandle<TransformComponent> transform;
     ComponentHandle<SpriteComponent> sprite;
-    for (Entity entity : entities.entities_with_components(transform, sprite)) {
-        (void)entity; // no unused warn
+    for (Entity entity __unused: entities.entities_with_components(transform, sprite)) {
         const auto srcRect = static_cast<Recti>(sprite->_rect);
         const auto destRect = Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                           static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
         const auto orientation = transform->_orientation;
-        //cam.center(transform->_position + sprite->_rect.dimensions() / 2.f);
-        //_window->setCamera(cam);
         _window->render(sprite->_ref, srcRect, destRect, orientation);
+    }
+
+    ComponentHandle<NavigationComponent> nav;
+    for (Entity entity __unused: entities.entities_with_components(nav)) {
+        _window->render(nav->getPath(), PrimativeType::LineStrip, {0,0,255});
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {

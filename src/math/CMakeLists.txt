@@ -1,28 +1,10 @@
 project(math LANGUAGES CXX)
 
-set (HEADERS
-    include/math/Collision.hpp
-    include/math/ConvexHelpers.hpp
-    include/math/ConvexShape.hpp
-    include/math/Matrix.hpp
-    include/math/Misc.hpp
-    include/math/Printers.hpp
-    include/math/Rect.hpp
-    include/math/Vector2.hpp
-    include/math/impl/Matrix_impl.hpp
-    )
-
-set(SOURCES
-    src/Collision.cpp
-    )
-
-add_library(math STATIC ${SOURCES} ${HEADERS})
+add_library(math INTERFACE)
 
 target_include_directories(math
-    PUBLIC
+    INTERFACE
     include
-    PRIVATE
-    src
 )
 
 add_subdirectory(test)

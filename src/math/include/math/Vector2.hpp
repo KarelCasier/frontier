@@ -40,6 +40,10 @@ public:
         const auto yEqual{std::abs(_y - other._y) <= epsilon};
         return xEqual && yEqual;
     }
+    bool operator!=(const Vector2& other) const
+    {
+        return !(*this == other);
+    }
 
     /// Getters
     T x() const { return _x; };
@@ -143,8 +147,8 @@ public:
     }
 
     /// Vector2 math
-    double length() { return std::sqrt((_x * _x) + (_y * _y)); }
-    double lengthSquared() { return (_x * _x) + (_y * _y); }
+    double length() const { return std::sqrt((_x * _x) + (_y * _y)); }
+    double lengthSquared() const { return (_x * _x) + (_y * _y); }
     Vector2& normalize()
     {
         const auto l = length();
