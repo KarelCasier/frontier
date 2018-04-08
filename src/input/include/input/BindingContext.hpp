@@ -33,6 +33,12 @@ public:
     /// @returns False if the action exists already, true otherwise
     bool addMouseActionBinding(std::string action, MouseButtonBindingData bindingData);
 
+    /// Add a axis binding to the context
+    /// @param action The action the binding triggers
+    /// @param bindingData The mouse button binding data
+    /// @returns False if the action exists already, true otherwise
+    bool addMouseMotionBinding(std::string action, MouseMotionBindingData bindingData);
+
     /// Attempts to map a keyboard binding to an action
     /// @param bindingData The binding data to attempt to match
     /// @return The action if it exists, std::nullopt otherwise
@@ -43,9 +49,15 @@ public:
     /// @return The action if it exists, std::nullopt otherwise
     std::optional<std::string> mapMouseButtonBindingToAction(const MouseButtonBindingData& bindingData) const;
 
+    /// Attempts to map a mouse motion binding to an action
+    /// @param bindingData The binding data to attempt to match
+    /// @return The action if it exists, std::nullopt otherwise
+    std::optional<std::string> mapMouseMotionBindingToAction(const MouseMotionBindingData& bindingData) const;
+
 private:
     std::unordered_map<KeyboardBindingData, std::string> _actionBindings;
     std::unordered_map<MouseButtonBindingData, std::string> _mouseButtonBindings;
+    std::unordered_map<MouseMotionBindingData, std::string> _mouseMotionBindings;
 };
 
 } // namespace frontier

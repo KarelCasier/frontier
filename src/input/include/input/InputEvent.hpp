@@ -23,4 +23,11 @@ struct MouseEvent {
     int y;
 };
 
+/// A input mouse motion event
+struct MouseMotionEvent {
+    std::string action;
+    int x;
+    int y;
+};
+
 } // namespace frontier

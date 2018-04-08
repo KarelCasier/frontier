@@ -16,6 +16,11 @@ void InputComponent::bindMouseCallback(const std::string& action, MouseCallback 
     mouseButtonCallbacks[action].push_back(std::move(callback));
 }
 
+void InputComponent::bindMouseMotionCallback(const std::string& action, MouseCallback callback)
+{
+    mouseMotionCallbacks[action].push_back(std::move(callback));
+}
+
 void InputComponent::handleInputEvent(const ActionEvent& event)
 {
     for (const auto& callback : actionCallbacks[event.action]) {
@@ -26,6 +31,13 @@ void InputComponent::handleInputEvent(const ActionEvent& event)
 void InputComponent::handleInputEvent(const MouseEvent& event)
 {
     for (const auto& callback : mouseButtonCallbacks[event.action]) {
+        callback(event.x, event.y);
+    }
+}
+
+void InputComponent::handleInputEvent(const MouseMotionEvent& event)
+{
+    for (const auto& callback : mouseMotionCallbacks[event.action]) {
         callback(event.x, event.y);
     }
 }

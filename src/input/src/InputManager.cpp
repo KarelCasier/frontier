@@ -59,6 +59,23 @@ MouseButton toMouseButton(uint8_t sdlMouseButton)
     throw std::runtime_error{"Invalid sdl mouse button"};
 }
 
+/// Convert SDL mouse button mask to MouseButtonBitset
+MouseButtonBitset toMouseButtonBitset(uint32_t mask)
+{
+    auto buttonBitset = MouseButtonBitset{};
+    static const auto buttonMaskMap = std::map<uint32_t, MouseButton>{
+        {SDL_BUTTON_LMASK, MouseButton::LEFT},
+        {SDL_BUTTON_MMASK, MouseButton::MIDDLE},
+        {SDL_BUTTON_RMASK, MouseButton::RIGHT},
+    };
+    for (const auto& [sdlButtonMask, button] : buttonMaskMap) {
+        if ((sdlButtonMask & mask) == sdlButtonMask) {
+            buttonBitset.set(button);
+        }
+    }
+    return buttonBitset;
+}
+
 /// Convert a SDL_KeyboardEvent to the corresponding KeyboardBindingData structure
 KeyboardBindingData toKeyboardBindingData(const SDL_KeyboardEvent& event)
 {
@@ -69,6 +86,12 @@ KeyboardBindingData toKeyboardBindingData(const SDL_KeyboardEvent& event)
 MouseButtonBindingData toMouseButtonBindingData(const SDL_MouseButtonEvent& event)
 {
     return {toMouseButton(event.button), toButtonState(event.state)};
+}
+
+/// Convert a SDL_MouseMotionEvent to the corresponding MouseMotionBindingData structure
+MouseMotionBindingData toMouseMotionBindingData(const SDL_MouseMotionEvent& event)
+{
+    return {toMouseButtonBitset(event.state)};
 }
 
 } // namespace
@@ -102,7 +125,7 @@ void InputManager::handleEvent(const SDL_Event& event)
         handleMouseButtonEvent(event.button);
         break;
     case SDL_EventType::SDL_MOUSEMOTION:
-        /// TODO: Map to axis
+        handleMouseMotionEvent(event.motion);
         break;
     default:
         break;
@@ -135,6 +158,19 @@ void InputManager::handleMouseButtonEvent(const SDL_MouseButtonEvent& event)
     }
 }
 
+void InputManager::handleMouseMotionEvent(const SDL_MouseMotionEvent& event)
+{
+    const auto& context = topContext();
+    if (!context) {
+        LOGW << "Input ignored as there are no binding contexts";
+        return;
+    }
+    const auto action = context->mapMouseMotionBindingToAction(toMouseMotionBindingData(event));
+    if (action) {
+        notifyAll(MouseMotionEvent{*action, event.x, event.y});
+    }
+}
+
 template <typename EventT>
 void InputManager::notifyAll(const EventT& event)
 {
@@ -146,6 +182,7 @@ void InputManager::notifyAll(const EventT& event)
 /// Explicit template instances (avoid having to define in header)
 template void InputManager::notifyAll(const ActionEvent& event);
 template void InputManager::notifyAll(const MouseEvent& event);
+template void InputManager::notifyAll(const MouseMotionEvent& event);
 
 void InputManager::subscribe(InputConsumer* inputConsumer)
 {

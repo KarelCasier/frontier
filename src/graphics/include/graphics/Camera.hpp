@@ -36,6 +36,8 @@ public:
     void dimensions(const Vec2f& dimensions);
     /// Set the rotation of the camera
     void rotation(float degrees);
+    /// Zoom the camera
+    void zoom(float factor);
 
     /// Get the bounds of the camera
     Bounds bounds() const;

@@ -17,15 +17,9 @@ PlayState::PlayState(std::shared_ptr<Window> window,
 : _window{std::move(window)}
 , _textureManager{std::move(textureManager)}
 , _inputManager{std::move(inputManager)}
+, _bindingContext{std::make_shared<BindingContext>()}
 , _world{_window, _textureManager, _inputManager}
 {
-}
-
-PlayState::~PlayState() {}
-
-void PlayState::onEnter()
-{
-    _bindingContext = std::make_shared<BindingContext>();
     _bindingContext->addMouseActionBinding(LeftClick, MouseButtonBindingData{MouseButton::LEFT, ButtonState::PRESSED});
     _bindingContext->addMouseActionBinding(RightClick,
                                            MouseButtonBindingData{MouseButton::RIGHT, ButtonState::PRESSED});
@@ -34,6 +28,22 @@ void PlayState::onEnter()
     _bindingContext->addKeyboardActionBinding("Right", KeyboardBindingData{SDLK_RIGHT, ButtonState::PRESSED, {}});
     _bindingContext->addKeyboardActionBinding("Up", KeyboardBindingData{SDLK_UP, ButtonState::PRESSED, {}});
     _bindingContext->addKeyboardActionBinding("Down", KeyboardBindingData{SDLK_DOWN, ButtonState::PRESSED, {}});
+
+    _bindingContext->addKeyboardActionBinding(
+        "ZoomIn", KeyboardBindingData{SDLK_EQUALS, ButtonState::PRESSED, ModifierBitset{}.set(Modifier::SHIFT)});
+    _bindingContext->addKeyboardActionBinding(
+        "ZoomOut", KeyboardBindingData{SDLK_MINUS, ButtonState::PRESSED, ModifierBitset{}.set(Modifier::SHIFT)});
+
+    _bindingContext->addKeyboardActionBinding("ZoomIn", KeyboardBindingData{SDLK_EQUALS, ButtonState::PRESSED, {}});
+    _bindingContext->addKeyboardActionBinding("ZoomOut", KeyboardBindingData{SDLK_MINUS, ButtonState::PRESSED, {}});
+
+    _bindingContext->addMouseMotionBinding(MouseMotion, MouseMotionBindingData{});
+}
+
+PlayState::~PlayState() {}
+
+void PlayState::onEnter()
+{
     _inputManager->pushContext(_bindingContext);
 }
 

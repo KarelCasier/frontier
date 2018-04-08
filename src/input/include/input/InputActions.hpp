@@ -6,10 +6,11 @@ namespace frontier {
 
 using namespace std::string_literals;
 
-/// Built in mouse axis events
+/// Built in mouse events
 const auto LeftClick = "LeftClick"s;
 const auto MiddleClick = "MiddleClick"s;
 const auto RightClick = "RightClick"s;
+const auto MouseMotion = "MouseMotion"s;
 
 /// Built in mouse axis events
 /// TODO: add axis support

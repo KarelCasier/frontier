@@ -58,6 +58,12 @@ void Camera::rotation(float degrees)
     invalidateTransform();
 }
 
+void Camera::zoom(float factor)
+{
+    assert(factor != 0.f);
+    dimensions(dimensions() * 1 / factor);
+}
+
 Camera::Bounds Camera::bounds() const
 {
     return {_center.x() - _dimensions.x() / 2.f, _center.y() - _dimensions.y() / 2.f, _dimensions.x(), _dimensions.y()};

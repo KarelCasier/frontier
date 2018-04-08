@@ -25,15 +25,15 @@ void buildDebugPathingEntity(entityx::EntityManager& entityManager, std::weak_pt
 {
     auto entity = entityManager.create();
     entity.assign<TransformComponent>(Vector2f{0, 0}, 0);
-    entity.assign<NavigationComponent>(Vector2f{0, 0});
+    entity.assign<NavigationComponent>(Vector2f{600, 400});
     auto input = InputComponent{};
-    input.bindMouseCallback(LeftClick, [entity, renderTarget](int x, int y) mutable {
+    input.bindMouseMotionCallback(MouseMotion, [entity, renderTarget](int x, int y) mutable {
         if (auto strongRenderTarget = renderTarget.lock()) {
             auto nav = entity.component<NavigationComponent>();
             nav->setTarget(strongRenderTarget->screenToCamera({x, y}));
         }
     });
-    input.bindMouseCallback(RightClick, [entity, renderTarget](int x, int y) mutable {
+    input.bindMouseCallback(LeftClick, [entity, renderTarget](int x, int y) mutable {
         if (auto strongRenderTarget = renderTarget.lock()) {
             auto trans = entity.component<TransformComponent>();
             auto nav = entity.component<NavigationComponent>();
@@ -69,12 +69,12 @@ void Level::finishInit()
 
     auto e = _entityX.entities.create();
     auto input = InputComponent{};
-    input.bindMouseCallback(LeftClick, [](int x, int y) { LOGI << "LEFT: " << x << ", " << y; });
-    input.bindMouseCallback(RightClick, [](int x, int y) { LOGI << "RIGHT: " << x << ", " << y; });
     input.bindActionCallback("Left", [this]() { _levelCamera.move({-10, 0}); });
     input.bindActionCallback("Right", [this]() { _levelCamera.move({10, 0}); });
     input.bindActionCallback("Up", [this]() { _levelCamera.move({0, -10}); });
     input.bindActionCallback("Down", [this]() { _levelCamera.move({0, 10}); });
+    input.bindActionCallback("ZoomIn", [this]() { _levelCamera.zoom(2.f); });
+    input.bindActionCallback("ZoomOut", [this]() { _levelCamera.zoom(1/2.f); });
     e.assign_from_copy(input);
 
     buildDebugPathingEntity(_entityX.entities, _window);

@@ -36,6 +36,7 @@ private:
     std::shared_ptr<BindingContext> topContext();
     void handleKeyboardEvent(const SDL_KeyboardEvent& event);
     void handleMouseButtonEvent(const SDL_MouseButtonEvent& event);
+    void handleMouseMotionEvent(const SDL_MouseMotionEvent& event);
     template <typename EventT>
     void notifyAll(const EventT& event);
 

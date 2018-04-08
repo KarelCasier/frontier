@@ -21,11 +21,13 @@ public:
     /// @{
     void receive(const ActionEvent& event) override;
     void receive(const MouseEvent& event) override;
+    void receive(const MouseMotionEvent& event) override;
     /// @}
 
 private:
     std::vector<ActionEvent> _actionEvents;
     std::vector<MouseEvent> _mouseEvents;
+    std::vector<MouseMotionEvent> _mouseMotionEvents;
 };
 
 

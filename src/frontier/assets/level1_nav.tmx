@@ -1,44 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="10" tileheight="10" infinite="0" nextobjectid="81">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="10" tileheight="10" infinite="0" nextobjectid="116">
  <objectgroup name="Object Layer 1">
-  <object id="16" x="-20" y="-340">
-   <polygon points="0,0 120,0 120,130 0,130"/>
+  <object id="82" x="300" y="-480">
+   <polygon points="0,0 50,-70 140,10 10,70"/>
   </object>
-  <object id="17" x="100" y="-340">
-   <polygon points="0,0 250,-90 200,130 0,130"/>
+  <object id="83" x="310" y="-410">
+   <polygon points="0,0 130,-60 230,50 120,180 -60,120"/>
   </object>
-  <object id="18" x="100" y="-210">
-   <polygon points="0,0 200,0 340,290 120,370"/>
+  <object id="84" x="250" y="-290">
+   <polygon points="0,0 -60,170 40,190 180,60"/>
   </object>
-  <object id="19" x="220" y="160">
-   <polygon points="0,0 220,-80 30,220 -310,220"/>
+  <object id="85" x="430" y="-230">
+   <polygon points="0,0 90,70 180,-30 110,-130"/>
   </object>
-  <object id="20" x="-20" y="-210">
-   <polygon points="0,0 120,0 240,370 -70,590"/>
+  <object id="86" x="520" y="-160">
+   <polygon points="0,0 70,140 160,100 90,-100"/>
   </object>
-  <object id="21" x="300" y="-200">
-   <polygon points="0,-10 280,-20 140,280"/>
+  <object id="87" x="350" y="-550">
+   <polygon points="0,0 20,-170 120,-200 160,-110 90,80"/>
   </object>
-  <object id="22" x="350" y="-430">
-   <polygon points="0,0 230,210 -50,220"/>
+  <object id="88" x="470" y="-750">
+   <polygon points="0,0 140,-20 250,50 200,110 40,90"/>
   </object>
-  <object id="23" x="350" y="-430">
-   <polygon points="0,0 240,-170 230,210"/>
+  <object id="89" x="720" y="-700">
+   <polygon points="0,0 170,-30 200,130 -50,60"/>
   </object>
-  <object id="24" x="590" y="-600">
-   <polygon points="0,0 240,340 130,620 -10,380"/>
+  <object id="90" x="890" y="-730">
+   <polygon points="0,0 160,30 130,190 30,160"/>
   </object>
-  <object id="25" x="580" y="-220">
-   <polygon points="0,0 140,240 -10,460 -140,300"/>
+  <object id="91" x="920" y="-570">
+   <polygon points="0,0 100,30 130,220 0,210 -20,60"/>
   </object>
-  <object id="26" x="440" y="80">
-   <polygon points="0,0 130,160 130,290 -190,300"/>
+  <object id="92" x="900" y="-510">
+   <polygon points="0,0 -120,20 -120,120 20,150"/>
   </object>
-  <object id="27" x="830" y="-260">
-   <polygon points="0,0 0,400 -110,280"/>
+  <object id="93" x="780" y="-490">
+   <polygon points="0,0 -80,-30 -120,60 0,100"/>
   </object>
-  <object id="28" x="720" y="20">
-   <polygon points="0,0 110,120 110,360 -150,350 -150,220"/>
+  <object id="94" x="660" y="-430">
+   <polygon points="0,0 -120,70 -50,170 120,40"/>
+  </object>
+  <object id="95" x="680" y="-60">
+   <polygon points="0,0 150,20 150,110 20,160 -90,40"/>
+  </object>
+  <object id="96" x="830" y="-40">
+   <polygon points="0,0 190,-90 240,0 0,90"/>
+  </object>
+  <object id="97" x="1020" y="-130">
+   <polygon points="0,0 10,-100 100,-70 50,90"/>
+  </object>
+  <object id="98" x="920" y="-360">
+   <polygon points="0,0 130,10 200,160 110,130"/>
+  </object>
+  <object id="99" x="190" y="-120">
+   <polygon points="0,0 100,20 220,150 70,190"/>
+  </object>
+  <object id="100" x="260" y="70">
+   <polygon points="0,0 10,100 120,110 160,50 150,-40"/>
+  </object>
+  <object id="101" x="380" y="180">
+   <polygon points="0,0 50,100 160,170 190,140 190,-20 40,-60"/>
+  </object>
+  <object id="102" x="270" y="170">
+   <polygon points="0,0 -50,130 30,210 160,110 110,10"/>
+  </object>
+  <object id="103" x="300" y="380">
+   <polygon points="0,0 130,-100 240,-30 250,100"/>
+  </object>
+  <object id="104" x="570" y="320">
+   <polygon points="0,0 -30,30 -20,160 250,110 220,-40"/>
+  </object>
+  <object id="105" x="790" y="280">
+   <polygon points="0,0 90,-40 180,90 30,150"/>
+  </object>
+  <object id="106" x="880" y="240">
+   <polygon points="0,0 60,-110 180,-110 90,130"/>
+  </object>
+  <object id="107" x="830" y="50">
+   <polygon points="0,0 110,80 230,80 240,-90"/>
+  </object>
+  <object id="108" x="220" y="300">
+   <polygon points="0,0 -140,50 -140,170 80,80"/>
+  </object>
+  <object id="109" x="80" y="350">
+   <polygon points="0,0 -60,-110 -140,-50 0,120"/>
+  </object>
+  <object id="110" x="-60" y="300">
+   <polygon points="0,0 -50,-130 80,-60"/>
+  </object>
+  <object id="111" x="-110" y="170">
+   <polygon points="0,0 100,-150 130,70"/>
+  </object>
+  <object id="112" x="-110" y="170">
+   <polygon points="0,0 -30,-190 100,-150"/>
+  </object>
+  <object id="113" x="-140" y="-20">
+   <polygon points="0,0 80,-160 220,-100 130,40"/>
+  </object>
+  <object id="114" x="-60" y="-180">
+   <polygon points="0,0 160,-120 140,60"/>
+  </object>
+  <object id="115" x="100" y="-300">
+   <polygon points="0,0 80,-20 150,10 90,180 -20,180"/>
   </object>
  </objectgroup>
 </map>

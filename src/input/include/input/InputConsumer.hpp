@@ -20,6 +20,7 @@ public:
     /// @{
     void receive(const ActionEvent& event) override = 0;
     void receive(const MouseEvent& event) override = 0;
+    void receive(const MouseMotionEvent& event) override = 0;
     /// @}
 
 private:
