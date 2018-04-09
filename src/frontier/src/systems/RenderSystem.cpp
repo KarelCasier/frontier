@@ -2,8 +2,11 @@
 
 #include <frontier/components/TransformComponent.hpp>
 #include <frontier/components/SpriteComponent.hpp>
+#include <frontier/components/ShapeComponent.hpp>
 #include <frontier/components/NavigationComponent.hpp>
+#include <frontier/components/Util.hpp>
 #include <log/log.hpp>
+#include <math/Misc.hpp>
 
 namespace {
 
@@ -45,17 +48,31 @@ void RenderSystem::update(entityx::EntityManager& entities,
 {
     ComponentHandle<TransformComponent> transform;
     ComponentHandle<SpriteComponent> sprite;
-    for (Entity entity __unused: entities.entities_with_components(transform, sprite)) {
-        const auto srcRect = static_cast<Recti>(sprite->_rect);
-        const auto destRect = Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
-                          static_cast<int>(sprite->_rect.w()), static_cast<int>(sprite->_rect.h())};
+    ComponentHandle<ShapeComponent> shape;
+    for (Entity entity __unused : entities.entities_with_components(transform, sprite, shape)) {
+        const auto srcRect = static_cast<Recti>(sprite->_srcRect);
+        assert(shape->_type == ShapeComponent::Type::Rect); // TODO add support for other shapes
+        const auto destRect =
+            Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
+                  static_cast<int>(shape->_shape._rect.x()), static_cast<int>(shape->_shape._rect.y())};
         const auto orientation = transform->_orientation;
         _window->render(sprite->_ref, srcRect, destRect, orientation);
+
+        // Debug draw bounds
+        auto transShape = transformedShape(transform, shape);
+        _window->render(transShape.points(), PrimativeType::LineStrip, {0,255, 0});
+        auto norms = transShape.normals();
+        for (auto i{0u}; i < norms.size(); ++i) {
+            const auto o = (i + 1) % norms.size();
+            const auto faceMid = Vector2f{transShape.point(o) - transShape.point(i)} / 2.f;
+            const auto pt = transShape.point(i) + faceMid;
+            _window->render({pt, pt + norms[i] * 5.f}, PrimativeType::LineStrip, {0,255, 0});
+        }
     }
 
     ComponentHandle<NavigationComponent> nav;
-    for (Entity entity __unused: entities.entities_with_components(nav)) {
-        _window->render(nav->getPath(), PrimativeType::LineStrip, {0,0,255});
+    for (Entity entity __unused : entities.entities_with_components(nav)) {
+        _window->render(nav->getPath(), PrimativeType::LineStrip, {0, 0, 255});
     }
 
     for (auto I = begin(_debugDrawables); I != end(_debugDrawables); ++I) {

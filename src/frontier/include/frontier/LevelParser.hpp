@@ -4,6 +4,7 @@
 #include <string>
 #include <frontier/Level.hpp>
 #include <frontier/components/PhysicsComponent.hpp>
+#include <frontier/components/ShapeComponent.hpp>
 #include <frontier/components/SpriteComponent.hpp>
 #include <frontier/components/TransformComponent.hpp>
 
@@ -26,6 +27,7 @@ private:
     PhysicsComponent parsePhysicsComponent(const tinyxml2::XMLElement* baseElement);
     TransformComponent parseTransformComponent(const tinyxml2::XMLElement* baseElement);
     SpriteComponent parseSpriteComponent(const tinyxml2::XMLElement* baseElement);
+    ShapeComponent parseShapeComponent(const tinyxml2::XMLElement* baseElement);
 
     void parseSystem(const tinyxml2::XMLElement* baseElement);
 

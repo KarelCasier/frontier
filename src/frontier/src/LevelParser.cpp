@@ -118,6 +118,8 @@ Entity LevelParser::parseEntity(const XMLElement* baseElement)
             entity.assign<PhysicsComponent>(parsePhysicsComponent(component));
         } else if (isEqual(name, "spritecomponent")) {
             entity.assign<SpriteComponent>(parseSpriteComponent(component));
+        } else if (isEqual(name, "shapecomponent")) {
+            entity.assign<ShapeComponent>(parseShapeComponent(component));
         } else {
             LOGE << "Unknown component: " << name;
         }
@@ -145,6 +147,10 @@ PhysicsComponent LevelParser::parsePhysicsComponent(const XMLElement* baseElemen
     assertName(baseElement, "physicscomponent");
 
     auto element = baseElement->FirstChildElement();
+    assertName(element, "mass");
+    const auto mass = element->DoubleText();
+
+    element = element->NextSiblingElement("velocity");
     assertName(element, "velocity");
     const auto velocity = parseVector2f(element);
 
@@ -160,7 +166,7 @@ PhysicsComponent LevelParser::parsePhysicsComponent(const XMLElement* baseElemen
     assertName(element, "torque");
     const auto torque = toRadians(element->DoubleText(0));
 
-    return {velocity, friction, angularVelocity, torque};
+    return {mass, velocity, friction, angularVelocity, torque};
 }
 
 SpriteComponent LevelParser::parseSpriteComponent(const XMLElement* baseElement)
@@ -190,6 +196,21 @@ SpriteComponent LevelParser::parseSpriteComponent(const XMLElement* baseElement)
     auto textureRef = _textureManager->loadTexture(asset);
 
     return {textureRef, Rectf{x, y, w, h}};
+}
+
+ShapeComponent LevelParser::parseShapeComponent(const XMLElement* baseElement)
+{
+    assertName(baseElement, "shapecomponent");
+
+    auto element = baseElement->FirstChildElement();
+    assertName(element, "w");
+    const auto w = element->FloatText(0);
+
+    element = element->NextSiblingElement();
+    assertName(element, "h");
+    const auto h = element->FloatText(0);
+
+    return {{w, h}};
 }
 
 void LevelParser::parseSystem(const XMLElement* baseElement)

@@ -7,4 +7,9 @@ target_include_directories(math
     include
 )
 
+target_link_libraries(math
+    INTERFACE
+    utils
+)
+
 add_subdirectory(test)

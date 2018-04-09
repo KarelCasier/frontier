@@ -15,8 +15,9 @@
                 <orientation>90</orientation>
             </transformcomponent>
             <physicscomponent>
+                <mass>1</mass>
                 <velocity>
-                    <x>30</x>
+                    <x>60</x>
                     <y>30</y>
                 </velocity>
                 <friction>0.7</friction>
@@ -30,6 +31,40 @@
                 <w>100</w>
                 <h>100</h>
             </spritecomponent>
+            <shapecomponent>
+                <w>100</w>
+                <h>100</h>
+            </shapecomponent>
+        </entity>
+        <entity>
+            <transformcomponent>
+                <position>
+                    <x>300</x>
+                    <y>100</y>
+                </position>
+                <orientation>90</orientation>
+            </transformcomponent>
+            <physicscomponent>
+                <mass>1</mass>
+                <velocity>
+                    <x>-50</x>
+                    <y>-30</y>
+                </velocity>
+                <friction>0.7</friction>
+                <angularvelocity>-10</angularvelocity>
+                <torque>0</torque>
+            </physicscomponent>
+            <spritecomponent>
+                <asset>Test.png</asset>
+                <x>0</x>
+                <y>0</y>
+                <w>100</w>
+                <h>100</h>
+            </spritecomponent>
+            <shapecomponent>
+                <w>100</w>
+                <h>100</h>
+            </shapecomponent>
         </entity>
     </entities>
 </level>

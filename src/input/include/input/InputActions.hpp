@@ -11,6 +11,9 @@ const auto LeftClick = "LeftClick"s;
 const auto MiddleClick = "MiddleClick"s;
 const auto RightClick = "RightClick"s;
 const auto MouseMotion = "MouseMotion"s;
+const auto MouseMotionLeft = "MouseMotionLeft"s;
+const auto MouseMotionMiddle = "MouseMotionMiddle"s;
+const auto MouseMotionRight = "MouseMotionRight"s;
 
 /// Built in mouse axis events
 /// TODO: add axis support

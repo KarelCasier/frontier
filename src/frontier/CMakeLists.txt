@@ -10,6 +10,7 @@ set(HEADERSS
     include/frontier/components/PhysicsComponent.hpp
     include/frontier/components/PositionComponent.hpp
     include/frontier/components/SpriteComponent.hpp
+    include/frontier/components/Util.hpp
 
     include/frontier/commands/Command.hpp
     include/frontier/commands/MoveCommand.hpp

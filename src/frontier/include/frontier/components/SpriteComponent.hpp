@@ -9,14 +9,14 @@ namespace frontier {
 
 class SpriteComponent : public entityx::Component<SpriteComponent> {
 public:
-    SpriteComponent(TextureRef* ref, Rectf rect)
+    SpriteComponent(TextureRef* ref, Rectf srcRect)
     : _ref{ref}
-    , _rect{std::move(rect)}
+    , _srcRect{std::move(srcRect)}
     {
     }
 
     TextureRef* _ref;
-    Rectf _rect;
+    Rectf _srcRect;
 }; // namespace frontier
 
 } // namespace frontier

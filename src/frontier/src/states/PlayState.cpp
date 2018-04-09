@@ -38,6 +38,7 @@ PlayState::PlayState(std::shared_ptr<Window> window,
     _bindingContext->addKeyboardActionBinding("ZoomOut", KeyboardBindingData{SDLK_MINUS, ButtonState::PRESSED, {}});
 
     _bindingContext->addMouseMotionBinding(MouseMotion, MouseMotionBindingData{});
+    _bindingContext->addMouseMotionBinding(MouseMotionLeft, MouseMotionBindingData{MouseButtonBitset{}.set(MouseButton::LEFT)});
 }
 
 PlayState::~PlayState() {}

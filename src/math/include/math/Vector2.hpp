@@ -40,10 +40,9 @@ public:
         const auto yEqual{std::abs(_y - other._y) <= epsilon};
         return xEqual && yEqual;
     }
-    bool operator!=(const Vector2& other) const
-    {
-        return !(*this == other);
-    }
+    bool operator!=(const Vector2& other) const { return !(*this == other); }
+
+    Vector2 operator-() const { return {-_x, -_y}; }
 
     /// Getters
     T x() const { return _x; };
@@ -157,6 +156,8 @@ public:
         }
         return *this;
     }
+    Vector2 normal() const { return Vector2{y(), -x()}.normalize(); }
+    double dot(const Vector2& other) const { return x() * other.x() + y() * other.y(); }
 
 private:
     static long double constexpr epsilon = 0.000001;

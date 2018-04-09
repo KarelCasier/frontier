@@ -1,21 +1,16 @@
 #pragma once
 
-#include <math/Vector2.hpp>
+#include <vector>
+
+#include <math/ConvexShape.hpp>
 #include <math/Rect.hpp>
+#include <math/Vector2.hpp>
+#include <utils/Optional.hpp>
 
 namespace frontier {
 
-/// Determine if a point lies within the AABB rectangle.
-///
-/// @param point The point to consider.
-/// @param rect The rect to consider.
-/// @returns bool True if the point lies inside the rectangle, false otherwise.
-template <typename T>
-inline bool intersects(const Vector2<T>& point, const Rect<T>& rect)
-{
-    return (point.x() > rect.x() && point.x() < rect.x() + rect.w()) ||
-           (point.y() > rect.y() && point.y() < rect.y() + rect.h());
-}
+struct Manifest {
+};
 
 /// Determine if two AABB rectangles intersect.
 ///
@@ -42,5 +37,61 @@ inline bool intersects(const Rect<T>& rect1, const Rect<T>& rect2, double tol = 
     return true;
 }
 
-} // namespace frontier
+/// Get the furthest point in a given direction
+template <typename T>
+inline Vector2<T> supportPoint(const ConvexShape<T>& convexShape, const Vector2<T>& axis)
+{
+    auto largestProjection = std::numeric_limits<double>::lowest();
+    const auto& points = convexShape.points();
+    typename std::vector<Vector2<T>>::const_iterator furthestPoint;
+    for (auto I = begin(points); I != end(points); ++I) {
+        const auto projection = I->dot(axis);
+        if (projection > largestProjection) {
+            largestProjection = projection;
+            furthestPoint = I;
+        }
+    }
+    return *furthestPoint;
+}
 
+template <typename T>
+inline double findAxisLeastPenetration(std::size_t& faceIdx, const ConvexShape<T>& shapeA, const ConvexShape<T>& shapeB)
+{
+    auto greatestDistance = std::numeric_limits<double>::lowest();
+    auto bestIndex = std::size_t{0u};
+
+    const auto& pointsA = shapeA.points();
+    for (auto i{0u}; i < pointsA.size() - 1; ++i) {
+        const auto& normal = shapeA.normal(i);
+        const auto support = supportPoint(shapeB, -normal);
+        const auto& point = pointsA[i];
+        // Compute penetration distance (in B's model space)
+        const auto penDist = normal.dot(support - point);
+        if (penDist > greatestDistance) {
+            greatestDistance = penDist;
+            bestIndex = i;
+        }
+    }
+
+    faceIdx = bestIndex;
+    return greatestDistance;
+}
+
+template <typename T>
+inline std::optional<Manifest> intersects(const ConvexShape<T>& shapeA, const ConvexShape<T>& shapeB)
+{
+    auto faceA = std::size_t{};
+    const auto penA = findAxisLeastPenetration(faceA, shapeA, shapeB);
+    if (penA >= 0.f) {
+        return {};
+    }
+    auto faceB = std::size_t{};
+    const auto penB = findAxisLeastPenetration(faceB, shapeB, shapeA);
+    if (penB >= 0.f) {
+        return {};
+    }
+
+    return Manifest{};
+}
+
+} // namespace frontier

@@ -73,8 +73,8 @@ void Level::finishInit()
     input.bindActionCallback("Right", [this]() { _levelCamera.move({10, 0}); });
     input.bindActionCallback("Up", [this]() { _levelCamera.move({0, -10}); });
     input.bindActionCallback("Down", [this]() { _levelCamera.move({0, 10}); });
-    input.bindActionCallback("ZoomIn", [this]() { _levelCamera.zoom(2.f); });
-    input.bindActionCallback("ZoomOut", [this]() { _levelCamera.zoom(1/2.f); });
+    input.bindActionCallback("ZoomIn", [this]() { _levelCamera.zoom(1.5f); });
+    input.bindActionCallback("ZoomOut", [this]() { _levelCamera.zoom(1/1.5f); });
     e.assign_from_copy(input);
 
     buildDebugPathingEntity(_entityX.entities, _window);

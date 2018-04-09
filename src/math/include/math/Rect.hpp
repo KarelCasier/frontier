@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Vector2.hpp"
 
 namespace frontier {
@@ -33,6 +35,10 @@ public:
     T h() const { return _dimensions.y(); }
     Vector2<T> position() const { return _position; }
     Vector2<T> dimensions() const { return _dimensions; }
+    std::array<Vector2<T>, 4> points() const
+    {
+        return {{{x(), y()}, {x() + w(), y()}, {x() + w(), y() + h()}, {x(), y() + h()}}};
+    }
 
     /// Setters
     void x(T x) { _position.x(std::move(x)); }
@@ -41,6 +47,12 @@ public:
     void h(T h) { _dimensions.y(std::move(h)); }
     void position(Vector2<T> position) { _position = std::move(position); }
     void dimensions(Vector2<T> dimensions) { _dimensions = std::move(dimensions); }
+
+    /// Determine if a point lies within.
+    bool contains(const Vector2f& point) const
+    {
+        return (point.x() > x() && point.x() < x() + w()) && (point.y() > y() && point.y() < y() + h());
+    }
 
 private:
     Vector2<T> _position;
