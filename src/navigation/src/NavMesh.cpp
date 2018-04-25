@@ -59,6 +59,32 @@ bool isNeighbour(const NavPoly& polyA, const NavPoly& polyB, Edge& edge)
     return false;
 }
 
+std::vector<Vector2f> createPointPath(const Vector2f& initial,
+                                      const Vector2f& target,
+                                      const std::vector<const NavPoly*>& navPolyPath)
+{
+    // TODO(Karel) perform funnel algorithm
+    auto pointPath = std::vector<Vector2f>{};
+    pointPath.reserve(navPolyPath.size() + 1);
+
+    pointPath.emplace_back(initial);
+    for (auto I = cbegin(navPolyPath); I != cend(navPolyPath);) {
+        auto nextI = I + 1;
+        if (nextI == cend(navPolyPath)) {
+            break;
+        }
+        if (I == nextI) {
+            continue;
+        }
+        const auto edge = (*I)->_neighbours.at(*nextI);
+        pointPath.emplace_back(edge.mid);
+        I = nextI;
+    }
+    pointPath.emplace_back(target);
+
+    return pointPath;
+}
+
 } // namespace
 
 namespace frontier {
@@ -86,10 +112,10 @@ void NavMesh::addPoly(ConvexShape<float> poly)
 {
     StateLock lock{_stateMutex};
     _mesh.emplace_back(std::move(poly));
-    regenerate(lock);
+    regenerateNavMesh(lock);
 }
 
-void NavMesh::regenerate(const StateLock& /*unused*/)
+void NavMesh::regenerateNavMesh(const StateLock& /*unused*/)
 {
     for (auto I = begin(_mesh); I != end(_mesh); ++I) {
         (*I)._neighbours.clear();
@@ -99,8 +125,8 @@ void NavMesh::regenerate(const StateLock& /*unused*/)
             auto edge = Edge{};
             auto neighbour = isNeighbour(*I, *J, edge);
             if (neighbour) {
-                (*I)._neighbours.emplace_back(&(*J), edge);
-                (*J)._neighbours.emplace_back(&(*I), edge);
+                (*I)._neighbours.emplace(&(*J), edge);
+                (*J)._neighbours.emplace(&(*I), edge);
             }
         }
     }
@@ -120,21 +146,15 @@ std::vector<Vector2f> NavMesh::findPath(const Vector2f& initial, const Vector2f&
 {
     StateLock lock{_stateMutex};
 
-    auto initialNavPoly = findNavPolyContaining(lock, initial);
-    auto targetNavPoly = findNavPolyContaining(lock, target);
+    const auto initialNavPoly = findNavPolyContaining(lock, initial);
+    const auto targetNavPoly = findNavPolyContaining(lock, target);
 
     if (!initialNavPoly || !targetNavPoly) {
         return {initial, target};
     }
 
-    auto navPolyPath = _navAlgorithm->findNavPolyPath(*initialNavPoly, *targetNavPoly);
-
-    /// TODO apply funnel algorithm instead of taking the center of NavPolys
-    auto pointPath = std::vector<Vector2f>{initial};
-    std::transform(begin(navPolyPath), end(navPolyPath), back_inserter(pointPath),
-                   [](const NavPoly* poly) { return poly->_shape.center(); });
-    pointPath.emplace_back(target);
-    return pointPath;
+    const auto navPolyPath = _navAlgorithm->findNavPolyPath(*initialNavPoly, *targetNavPoly);
+    return createPointPath(initial, target, navPolyPath);
 }
 
 } // namespace frontier

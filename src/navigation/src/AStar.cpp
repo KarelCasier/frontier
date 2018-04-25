@@ -8,7 +8,7 @@ namespace {
 
 using namespace frontier;
 
-const auto infeasablePathCost = 99999u;
+constexpr auto infeasablePathCost = 99999u;
 
 template <typename T, typename Priority = uint32_t>
 struct PriorityQueue {
@@ -33,7 +33,7 @@ float heuristic(const NavPoly& a, const NavPoly& b)
     return Vector2f{a._shape.center() - b._shape.center()}.lengthSquared();
 }
 
-std::vector<const NavPoly*> backtracePath(std::unordered_map<const NavPoly*, const NavPoly*> trace,
+std::vector<const NavPoly*> backtraceNavPolyPath(std::unordered_map<const NavPoly*, const NavPoly*> trace,
                                           const NavPoly* target)
 {
     auto path = std::vector<const NavPoly*>{target};
@@ -69,7 +69,7 @@ std::vector<const NavPoly*> AStar::findNavPolyPath(const NavPoly* initial, const
         openSet.erase(current);
 
         if (current == target) {
-            return backtracePath(trace, target);
+            return backtraceNavPolyPath(trace, target);
         }
 
         closedSet.insert(current);

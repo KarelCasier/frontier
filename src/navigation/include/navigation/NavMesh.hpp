@@ -34,7 +34,7 @@ public:
 private:
     using StateLock = std::lock_guard<std::mutex>;
 
-    void regenerate(const StateLock&);
+    void regenerateNavMesh(const StateLock&);
     std::optional<const NavPoly*> findNavPolyContaining(const StateLock&, const Vector2f& point);
 
     std::unique_ptr<INavAlgorithm> _navAlgorithm;

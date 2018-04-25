@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <map>
 
 #include <math/Vector2.hpp>
@@ -20,7 +19,7 @@ struct NavPoly {
     {
     }
 
-    std::vector<std::pair<const NavPoly*, Edge>> _neighbours;
+    std::map<const NavPoly*, Edge> _neighbours;
 
     ConvexShape<float> _shape;
 };
