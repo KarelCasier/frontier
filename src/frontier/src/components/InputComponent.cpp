@@ -4,7 +4,7 @@
 
 namespace frontier {
 
-InputComponent::InputComponent() {}
+InputComponent::InputComponent() = default;
 
 void InputComponent::bindActionCallback(const std::string& action, ActionCallback callback)
 {

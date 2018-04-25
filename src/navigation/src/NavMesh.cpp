@@ -3,8 +3,8 @@
 #include <SDL2/SDL.h>
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
-#include <math.h>
 
 #include <log/log.hpp>
 #include <math/Collision.hpp>
@@ -49,7 +49,8 @@ bool isNeighbour(const NavPoly& polyA, const NavPoly& polyB, Edge& edge)
         edge.end = connectedPoints[1];
         edge.mid = (edge.start + edge.end) / 2.0;
         return true;
-    } else if (connectedPoints.size() > 2) {
+    }
+    if (connectedPoints.size() > 2) {
         for (const auto& pt : connectedPoints) {
             LOGI << "[" << pt.x() << "," << pt.y() << "]";
         }
@@ -88,7 +89,7 @@ void NavMesh::addPoly(ConvexShape<float> poly)
     regenerate(lock);
 }
 
-void NavMesh::regenerate(const StateLock&)
+void NavMesh::regenerate(const StateLock& /*unused*/)
 {
     for (auto I = begin(_mesh); I != end(_mesh); ++I) {
         (*I)._neighbours.clear();
@@ -105,7 +106,7 @@ void NavMesh::regenerate(const StateLock&)
     }
 }
 
-std::optional<const NavPoly*> NavMesh::findNavPolyContaining(const StateLock&, const Vector2f& point)
+std::optional<const NavPoly*> NavMesh::findNavPolyContaining(const StateLock& /*unused*/, const Vector2f& point)
 {
     for (const NavPoly& poly : _mesh) {
         if (poly._shape.contains(point)) {

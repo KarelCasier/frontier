@@ -1,7 +1,7 @@
 #include <graphics/Window.hpp>
 
-#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_render.h>
 
 #include <sstream>
 #include <stack>
@@ -23,7 +23,7 @@ SDL_Rect toSDLRect(const Recti& rect)
 
 class SDLRenderColorState {
 public:
-    SDLRenderColorState(SDL_Renderer* renderer);
+    explicit SDLRenderColorState(SDL_Renderer* renderer);
 
     void push();
     void pop();
@@ -43,7 +43,7 @@ void SDLRenderColorState::push()
 {
     auto color = Color{};
     SDL_GetRenderDrawColor(_renderer, &color.r, &color.g, &color.b, &color.a);
-    _colorState.emplace(std::move(color));
+    _colorState.emplace(color);
 }
 
 void SDLRenderColorState::pop()
@@ -87,10 +87,10 @@ Window::Window(const std::string& title, int32_t x, int32_t y, int32_t width, in
 
 Window::~Window()
 {
-    if (_renderer) {
+    if (_renderer != nullptr) {
         SDL_DestroyRenderer(_renderer);
     }
-    if (_window) {
+    if (_window != nullptr) {
         SDL_DestroyWindow(_window);
     }
 }
@@ -136,7 +136,7 @@ void Window::render(const Camera& camera,
     const auto sdlDestRect = toSDLRect(destRectOffset);
 
     SDL_RenderCopyEx(_renderer, texture->texture(), &sdlSrcRect, &sdlDestRect, toDegrees(rotation),
-                     origin ? &sdlOrigin : NULL, SDL_FLIP_NONE);
+                     origin ? &sdlOrigin : nullptr, SDL_FLIP_NONE);
 }
 
 void Window::render(const std::vector<Vector2f>& vertices, PrimativeType type, const Color& color)

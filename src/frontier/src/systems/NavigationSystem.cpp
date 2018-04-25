@@ -3,8 +3,8 @@
 #include <frontier/components/NavigationComponent.hpp>
 #include <frontier/components/TransformComponent.hpp>
 
-#include <graphics/Util.hpp>
 #include <frontier/LevelNavParser.hpp>
+#include <graphics/Util.hpp>
 
 namespace frontier {
 using namespace entityx;

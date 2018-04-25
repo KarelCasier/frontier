@@ -8,9 +8,9 @@ std::optional<ValT> findKey(const std::unordered_map<KeyT, ValT>& map, const Key
     const auto I = map.find(key);
     if (I != std::end(map)) {
         return I->second;
-    } else {
+    } 
         return {};
-    }
+    
 }
 
 } // namespace
@@ -29,19 +29,19 @@ bool BindingContext::toFile(const std::string& /*file*/)
 
 bool BindingContext::addKeyboardActionBinding(std::string action, KeyboardBindingData bindingData)
 {
-    auto [_, inserted] = _actionBindings.emplace(std::make_pair(std::move(bindingData), std::move(action)));
+    auto [_, inserted] = _actionBindings.emplace(std::make_pair(bindingData, std::move(action)));
     return inserted;
 }
 
 bool BindingContext::addMouseActionBinding(std::string action, MouseButtonBindingData bindingData)
 {
-    const auto [_, inserted] = _mouseButtonBindings.emplace(std::make_pair(std::move(bindingData), std::move(action)));
+    const auto [_, inserted] = _mouseButtonBindings.emplace(std::make_pair(bindingData, std::move(action)));
     return inserted;
 }
 
 bool BindingContext::addMouseMotionBinding(std::string action, MouseMotionBindingData bindingData)
 {
-    const auto [_, inserted] = _mouseMotionBindings.emplace(std::make_pair(std::move(bindingData), std::move(action)));
+    const auto [_, inserted] = _mouseMotionBindings.emplace(std::make_pair(bindingData, std::move(action)));
     return inserted;
 }
 

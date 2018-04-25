@@ -1,11 +1,11 @@
 #include <frontier/states/PlayState.hpp>
 
+#include <graphics/TextureManager.hpp>
+#include <graphics/Window.hpp>
 #include <input/BindingContext.hpp>
 #include <input/BindingData.hpp>
 #include <input/InputActions.hpp>
 #include <input/InputManager.hpp>
-#include <graphics/Window.hpp>
-#include <graphics/TextureManager.hpp>
 
 #include <log/log.hpp>
 
@@ -41,7 +41,7 @@ PlayState::PlayState(std::shared_ptr<Window> window,
     _bindingContext->addMouseMotionBinding(MouseMotionLeft, MouseMotionBindingData{MouseButtonBitset{}.set(MouseButton::LEFT)});
 }
 
-PlayState::~PlayState() {}
+PlayState::~PlayState() = default;
 
 void PlayState::onEnter()
 {

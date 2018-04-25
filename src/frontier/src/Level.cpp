@@ -1,16 +1,16 @@
 #include <frontier/Level.hpp>
 
-#include <graphics/TextureManager.hpp>
-#include <input/InputManager.hpp>
-#include <frontier/systems/InputSystem.hpp>
-#include <frontier/systems/NavigationSystem.hpp>
-#include <frontier/systems/PhysicsSystem.hpp>
-#include <frontier/systems/RenderSystem.hpp>
 #include <frontier/components/InputComponent.hpp>
 #include <frontier/components/NavigationComponent.hpp>
 #include <frontier/components/TransformComponent.hpp>
 #include <frontier/events/DebugDrawableEvent.hpp>
+#include <frontier/systems/InputSystem.hpp>
+#include <frontier/systems/NavigationSystem.hpp>
+#include <frontier/systems/PhysicsSystem.hpp>
+#include <frontier/systems/RenderSystem.hpp>
+#include <graphics/TextureManager.hpp>
 #include <input/InputActions.hpp>
+#include <input/InputManager.hpp>
 
 #include <graphics/Camera.hpp>
 #include <math/Printers.hpp>
@@ -21,7 +21,7 @@ namespace {
 
 using namespace frontier;
 
-void buildDebugPathingEntity(entityx::EntityManager& entityManager, std::weak_ptr<IRenderTarget> renderTarget)
+void buildDebugPathingEntity(entityx::EntityManager& entityManager, const std::weak_ptr<IRenderTarget>& renderTarget)
 {
     auto entity = entityManager.create();
     entity.assign<TransformComponent>(Vector2f{0, 0}, 0);

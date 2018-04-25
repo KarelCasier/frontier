@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 #include <math/Vector2.hpp>
 
@@ -35,7 +35,7 @@ TEST(Vector2, FloatToIntCast)
     Vector2<float> a{5.5, 2.2};
 
     /// Act
-    Vector2<int> b = static_cast<Vector2<int>>(a);
+    auto b = static_cast<Vector2<int>>(a);
 
     /// Assert
     ASSERT_EQ(b, Vector2<int>(5, 2));

@@ -1,9 +1,9 @@
 #include <frontier/systems/RenderSystem.hpp>
 
-#include <frontier/components/TransformComponent.hpp>
-#include <frontier/components/SpriteComponent.hpp>
-#include <frontier/components/ShapeComponent.hpp>
 #include <frontier/components/NavigationComponent.hpp>
+#include <frontier/components/ShapeComponent.hpp>
+#include <frontier/components/SpriteComponent.hpp>
+#include <frontier/components/TransformComponent.hpp>
 #include <frontier/components/Util.hpp>
 #include <log/log.hpp>
 #include <math/Misc.hpp>
@@ -13,7 +13,7 @@ namespace {
 /// Compare two weak_ptrs
 template <typename T>
 struct WeakPtrCompare {
-    WeakPtrCompare(const std::weak_ptr<T>& first)
+    explicit WeakPtrCompare(const std::weak_ptr<T>& first)
     : _first{first}
     {
     }
@@ -51,7 +51,7 @@ void RenderSystem::update(entityx::EntityManager& entities,
     ComponentHandle<ShapeComponent> shape;
     for (Entity entity __unused : entities.entities_with_components(transform, sprite, shape)) {
         const auto srcRect = static_cast<Recti>(sprite->_srcRect);
-        assert(shape->_type == ShapeComponent::Type::Rect); // TODO add support for other shapes
+        assert(shape->_type == ShapeComponent::Type::Rect); // TODO(Karel): add support for other shapes
         const auto destRect =
             Recti{static_cast<int>(transform->_position.x()), static_cast<int>(transform->_position.y()),
                   static_cast<int>(shape->_shape._rect.x()), static_cast<int>(shape->_shape._rect.y())};

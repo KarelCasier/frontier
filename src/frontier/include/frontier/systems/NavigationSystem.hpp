@@ -10,7 +10,7 @@ namespace frontier {
 
 class NavigationSystem : public entityx::System<NavigationSystem> {
 public:
-    NavigationSystem(const std::string& navMeshFile);
+    NavigationSystem(const std::string& file);
     ~NavigationSystem() override = default;
 
     const std::shared_ptr<NavMesh> getNavMesh() const;

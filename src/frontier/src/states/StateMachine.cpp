@@ -1,8 +1,9 @@
 #include <frontier/states/StateMachine.hpp>
 
 #include <cassert>
-#include <stack>
 #include <queue>
+#include <stack>
+#include <utility>
 
 namespace frontier {
 
@@ -14,7 +15,7 @@ enum class EventID {
 };
 
 struct Event {
-    Event(EventID id)
+    explicit Event(EventID id)
     : id{id}
     {
     }
@@ -71,7 +72,7 @@ std::shared_ptr<IState> StateMachine::Impl::pop()
 std::shared_ptr<IState> StateMachine::Impl::replace(std::shared_ptr<IState> state)
 {
     auto old = pop();
-    push(state);
+    push(std::move(state));
     return old;
 }
 
@@ -110,28 +111,28 @@ StateMachine::StateMachine()
 {
 }
 
-StateMachine::~StateMachine() {}
+StateMachine::~StateMachine() = default;
 
 void StateMachine::push(std::shared_ptr<IState> state, bool immediate)
 {
     assert(state);
-    _impl->pushEvent({EventID::PUSH, std::move(state)}, immediate);
+    _impl->pushEvent(Event{EventID::PUSH, std::move(state)}, immediate);
 }
 
 void StateMachine::pop(bool immediate)
 {
-    _impl->pushEvent({EventID::PUSH}, immediate);
+    _impl->pushEvent(Event{EventID::PUSH}, immediate);
 }
 
 void StateMachine::replace(std::shared_ptr<IState> state, bool immediate)
 {
     assert(state);
-    _impl->pushEvent({EventID::REPLACE, std::move(state)}, immediate);
+    _impl->pushEvent(Event{EventID::REPLACE, std::move(state)}, immediate);
 }
 
 void StateMachine::clear()
 {
-    _impl->pushEvent({EventID::CLEAR}, true);
+    _impl->pushEvent(Event{EventID::CLEAR}, true);
 }
 
 void StateMachine::update(std::chrono::milliseconds delta)

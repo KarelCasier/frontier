@@ -1,8 +1,8 @@
 #include <frontier/LevelNavParser.hpp>
 
-#include <navigation/AStar.hpp>
 #include <graphics/Util.hpp>
 #include <log/log.hpp>
+#include <navigation/AStar.hpp>
 #include <sstream>
 #include <sstream>
 
@@ -18,7 +18,7 @@ bool isEqual(const std::string_view& left, const std::string_view& right)
     std::transform(begin(left), end(left), std::back_inserter(lowerLeft), ::tolower);
     auto lowerRight = std::string{};
     std::transform(begin(right), end(right), std::back_inserter(lowerRight), ::tolower);
-    return lowerLeft.compare(lowerRight) == 0;
+    return lowerLeft == lowerRight;
 }
 
 /// Ensure that the element name is as expected.
@@ -41,10 +41,10 @@ std::vector<Vector2<float>> parsePoints(const std::string& pointList)
     std::istringstream stream{pointList};
     auto point = std::string{};
     while (std::getline(stream, point, ' ')) {
-        auto commaPos = point.find(",");
+        auto commaPos = point.find(',');
         auto x = std::stof(point.substr(0, commaPos));
         auto y = std::stof(point.substr(commaPos + 1));
-        points.push_back({x, y});
+        points.emplace_back(x, y);
     }
 
     return points;
@@ -72,7 +72,7 @@ ConvexShape<float> parseObject(const XMLElement* baseElement)
 
 namespace frontier {
 
-LevelNavParser::LevelNavParser() {}
+LevelNavParser::LevelNavParser() = default;
 
 std::shared_ptr<NavMesh> LevelNavParser::parse(const std::string& file)
 {

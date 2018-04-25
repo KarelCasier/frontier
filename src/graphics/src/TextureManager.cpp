@@ -6,8 +6,8 @@
 #include <graphics/Window.hpp>
 #include <log/log.hpp>
 
-#include <SDL2_image/SDL_image.h>
 #include <SDL2/SDL.h>
+#include <SDL2_image/SDL_image.h>
 
 namespace frontier {
 
@@ -53,7 +53,7 @@ TextureRef* TextureManager::loadTexture(const std::string& name)
     if (textureI == _textures.end()) {
         const auto assetLocation = std::string{getResourcePath() + name};
         auto surface = IMG_Load(assetLocation.c_str());
-        if (!surface) {
+        if (surface == nullptr) {
             throw std::runtime_error{"Failed to load asset from: " + assetLocation};
         }
         auto texture = SDL_CreateTextureFromSurface(_window->getSDLRenderer(), surface);

@@ -37,6 +37,9 @@ inline bool intersects(const Rect<T>& rect1, const Rect<T>& rect2, double tol = 
     return true;
 }
 
+/// The following routines are based off of:
+/// http://www.randygaul.net/2013/03/28/custom-physics-engine-part-2-manifold-generation/
+
 /// Get the furthest point in a given direction
 template <typename T>
 inline Vector2<T> supportPoint(const ConvexShape<T>& convexShape, const Vector2<T>& axis)
@@ -76,6 +79,24 @@ inline double findAxisLeastPenetration(std::size_t& faceIdx, const ConvexShape<T
     faceIdx = bestIndex;
     return greatestDistance;
 }
+
+// Compares two floats to see if a is greater than b by a slight margin of error. Small
+// samples from both a and b are used in the comparison to bias the result in one direction
+// in order to stray away from mixed results due to floating point error.
+inline bool biasGreaterThan(double a, double b)
+{
+    const auto k_biasRelative = 0.95;
+    const auto k_biasAbsolute = 0.01;
+
+    // >= instead of > for NaN comparison safety
+    return a >= b * k_biasRelative + a * k_biasAbsolute;
+}
+
+//template <typename T>
+//double distanceToLine(const Vector2<T>& point) const
+//{
+    //return Vec2::DotProduct(point, n) - c;
+//}
 
 template <typename T>
 inline std::optional<Manifest> intersects(const ConvexShape<T>& shapeA, const ConvexShape<T>& shapeB)

@@ -1,8 +1,8 @@
 #include <frontier/systems/PhysicsSystem.hpp>
 
+#include <frontier/components/PhysicsComponent.hpp>
 #include <frontier/components/ShapeComponent.hpp>
 #include <frontier/components/TransformComponent.hpp>
-#include <frontier/components/PhysicsComponent.hpp>
 #include <frontier/components/Util.hpp>
 
 #include <graphics/Transform.hpp>
@@ -22,7 +22,7 @@ namespace frontier {
 
 using namespace entityx;
 
-PhysicsSystem::PhysicsSystem() {}
+PhysicsSystem::PhysicsSystem() = default;
 
 void PhysicsSystem::update(entityx::EntityManager& entities, entityx::EventManager& /* events */, entityx::TimeDelta dt)
 {

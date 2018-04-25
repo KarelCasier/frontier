@@ -11,14 +11,14 @@ namespace {
 using namespace std::chrono;
 using namespace std::chrono_literals;
 
-static constexpr auto windowTitle{"Frontier"};
-static constexpr auto WINDOW_WIDTH{800};
-static constexpr auto WINDOW_HEIGHT{600};
-static constexpr auto timeStep{16ms};
-static constexpr auto framesPerSecond{60};
-static constexpr auto timePerFrame{1s / framesPerSecond};
+constexpr auto windowTitle{"Frontier"};
+constexpr auto WINDOW_WIDTH{800};
+constexpr auto WINDOW_HEIGHT{600};
+constexpr auto timeStep{16ms};
+constexpr auto framesPerSecond{60};
+constexpr auto timePerFrame{1s / framesPerSecond};
 // Used to determine if the application was paused externally (ie. breakpoint).
-static constexpr auto resetTimeDeltaThreshhold{1s};
+constexpr auto resetTimeDeltaThreshhold{1s};
 
 } // namespace
 

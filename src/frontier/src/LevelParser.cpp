@@ -26,7 +26,7 @@ bool isEqual(const std::string_view& left, const std::string_view& right)
     std::transform(begin(left), end(left), std::back_inserter(lowerLeft), ::tolower);
     auto lowerRight = std::string{};
     std::transform(begin(right), end(right), std::back_inserter(lowerRight), ::tolower);
-    return lowerLeft.compare(lowerRight) == 0;
+    return lowerLeft == lowerRight;
 }
 
 /// Ensure that the element name is as expected.

@@ -1,7 +1,7 @@
 #include <input/InputManager.hpp>
 
-#include <utility>
 #include <map>
+#include <utility>
 
 #include <input/BindingContext.hpp>
 #include <input/InputConsumer.hpp>
@@ -188,7 +188,7 @@ void InputManager::subscribe(InputConsumer* inputConsumer)
 {
     const auto I = std::find(begin(_inputConsumers), end(_inputConsumers), inputConsumer);
     if (I == end(_inputConsumers)) {
-        _inputConsumers.emplace_back(std::move(inputConsumer));
+        _inputConsumers.emplace_back(inputConsumer);
     } else {
         LOGW << "Unable to subscribe input consumer as it is already subscribed";
     }
@@ -206,15 +206,15 @@ void InputManager::unsubscribe(InputConsumer* inputConsumer)
 
 std::shared_ptr<BindingContext> InputManager::topContext()
 {
-    for (auto I = std::rbegin(_contexts); I != std::rend(_contexts); ++I) {
+    for (auto I = std::rbegin(_contexts); I != std::rend(_contexts);) {
         if (auto strongContext = I->lock()) {
             return strongContext;
-        } else {
+        } 
             /// Reverse iterators are offset 1 from forward iterators
             auto forwardI = _contexts.erase(std::next(I).base());
             I = std::reverse_iterator{forwardI};
             LOGW << "Removing binding context as it failed to promote to a shared_ptr";
-        }
+        
     }
     return nullptr;
 }

@@ -13,7 +13,7 @@ const auto infeasablePathCost = 99999u;
 template <typename T, typename Priority = uint32_t>
 struct PriorityQueue {
     typedef std::pair<Priority, T> PQElement;
-    std::priority_queue<PQElement, std::vector<PQElement>, std::greater<PQElement>> elements;
+    std::priority_queue<PQElement, std::vector<PQElement>, std::greater<>> elements;
 
     inline bool empty() { return elements.empty(); }
 
@@ -37,7 +37,7 @@ std::vector<const NavPoly*> backtracePath(std::unordered_map<const NavPoly*, con
                                           const NavPoly* target)
 {
     auto path = std::vector<const NavPoly*>{target};
-    while (trace[target]) {
+    while (trace[target] != nullptr) {
         target = trace[target];
         path.push_back(target);
     }
@@ -97,7 +97,7 @@ std::vector<const NavPoly*> AStar::findNavPolyPath(const NavPoly* initial, const
         }
     }
 
-    assert(true);
+    static_assert(true, "Should not reach this point.");
     return {};
 }
 

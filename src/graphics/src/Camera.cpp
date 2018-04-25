@@ -1,7 +1,7 @@
 #include <graphics/Camera.hpp>
 
-#include <stdexcept>
 #include <math/Misc.hpp>
+#include <stdexcept>
 
 namespace frontier {
 

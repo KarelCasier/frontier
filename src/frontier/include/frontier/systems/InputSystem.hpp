@@ -9,7 +9,7 @@ namespace frontier {
 
 class InputSystem : public entityx::System<InputSystem>, public InputConsumer {
 public:
-    InputSystem(std::shared_ptr<IInputProducer> inputManager);
+    InputSystem(std::shared_ptr<IInputProducer> inputProducer);
     ~InputSystem() override = default;
 
     /// @name System overrides

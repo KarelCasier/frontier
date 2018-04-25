@@ -12,7 +12,7 @@ Transform::Transform()
 }
 
 Transform::Transform(Matrix<float, 3, 3> matrix)
-: _matrix{std::move(matrix)}
+: _matrix{matrix}
 {
 }
 

@@ -1,5 +1,5 @@
-#include <input/InputConsumer.hpp>
 #include <input/IInputProducer.hpp>
+#include <input/InputConsumer.hpp>
 #include <log/log.hpp>
 
 namespace frontier {

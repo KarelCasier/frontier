@@ -19,7 +19,7 @@ public:
 
     /// Add a polygon to the mesh.
     /// @param shape The shape to add the mesh.
-    void addPoly(ConvexShape<float> shape);
+    void addPoly(ConvexShape<float> poly);
 
     /// @name INav overrides
     /// @{
