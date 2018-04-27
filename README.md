@@ -13,14 +13,24 @@
 
 #### macos
 
+## install dependencies
+
 ```sh
 brew install CMake Ninja sdl2 sdl2_image
 brew install llvm
 ```
 
+## clone
+
+```sh
+git clone git@github.com:KarelCasier/frontier.git
+git submodule update --remote
+```
+
 ## build
 
 ```sh
+cd frontier
 mkdir out/
 cd out/
 cmake ../src -G Ninja
